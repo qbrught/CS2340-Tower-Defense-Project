@@ -1,0 +1,29 @@
+SSDs
+- Heal Monument: Chris
+- Buy Tower: Joseph
+- Tower Attack Enemy: Richard
+- Spawn Enemy: Quincy
+
+
+Domain Model Noun: Quincy
+- Game Objects
+    - Tower
+    - Enemy
+    - Monument
+    - Player
+    - Map
+    - Path
+- Attributes
+    - Health
+    - Attack Damage
+    - Price
+    - Upgrades
+
+
+Project Stuff:
+
+Welcome Screen: Joseph
+
+Initial Configuration Screen: Chris
+
+Game Screen: Joseph, Richard
