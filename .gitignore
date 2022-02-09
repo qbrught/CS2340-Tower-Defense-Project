@@ -1,0 +1,11 @@
+# Ignore the Intellij IDE file.
+.idea/
+
+# Ignore compiled class files.
+*.class
+
+# Ignore the Intellij output files.
+/out/
+
+# Ignore package files.
+*.jar
