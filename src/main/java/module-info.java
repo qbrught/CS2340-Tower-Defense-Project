@@ -1,4 +1,4 @@
-module com.example.btd {
+module org.glizzygladiators.td {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -10,22 +10,9 @@ module com.example.btd {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
-    opens com.example.btd to javafx.fxml;
-    exports com.example.btd;
+    opens org.glizzygladiators.td to javafx.fxml;
+    exports org.glizzygladiators.td;
+
+    opens org.glizzygladiators.td.controllers to javafx.fxml;
+    exports org.glizzygladiators.td.controllers;
 }
-
-module org.glizzygladiators {
-        requires javafx.controls;
-        requires javafx.fxml;
-        requires javafx.web;
-
-        requires org.controlsfx.controls;
-        requires com.dlsc.formsfx;
-        requires validatorfx;
-        requires org.kordamp.ikonli.javafx;
-        requires org.kordamp.bootstrapfx.core;
-        requires eu.hansolo.tilesfx;
-
-        opens com.example.btd to javafx.fxml;
-        exports com.example.btd;
-        }
