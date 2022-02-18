@@ -5,12 +5,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import org.glizzygladiators.td.TDApp;
+import org.glizzygladiators.td.TDScenes;
 
 public class WelcomeScreen{
 
     @FXML
     public void StartClicked(MouseEvent mouseEvent) {
-        System.out.println("Start button clicked");
+        TDApp.navigateToScene(TDScenes.InitialConfig);
     }
 
     @FXML
