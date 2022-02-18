@@ -53,6 +53,9 @@ public class TDApp extends Application {
             case WelcomeScreen:
                 newScene = new Scene(getParent("scenes/WelcomeScreen.fxml"));
                 break;
+            case InitialConfig:
+                newScene = new Scene(getParent("scenes/InitialConfig.fxml"));
+                break;
         }
         newScene.getStylesheets().add(TDApp.class.getResource("styles/style.css").toExternalForm()); //Loads css which contains theming options
         mainStage.setScene(newScene);
