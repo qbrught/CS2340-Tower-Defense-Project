@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.glizzygladiators.td.controllers.GameScreen"
+           prefHeight="750" prefWidth="1250">
+
+    <HBox>
+
+        <Group fx:id="gamePane" GridPane.columnIndex="0">
+
+            <ImageView fitWidth="1000" fitHeight="750">
+                <Image url="@/org/glizzygladiators/td/images/map.png"/>
+            </ImageView>
+
+        </Group>
+
+        <VBox prefHeight="750" prefWidth="250" alignment="TOP_CENTER" style="-fx-padding: 15px;">
+
+            <GridPane hgap="12" vgap="12" alignment="CENTER" style="-fx-padding: 15px;">
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="Player Money: "/>
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Monument Health: "/>
+                <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="moneyLabel"/>
+                <Label GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="healthLabel"/>
+            </GridPane>
+
+        </VBox>
+    </HBox>
+
+</StackPane>

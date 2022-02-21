@@ -2,19 +2,16 @@ package org.glizzygladiators.td.controllers;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.glizzygladiators.td.game.GameConfig;
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.TDScenes;
-
-import java.util.Locale;
 
 public class InitialConfig {
 
@@ -40,7 +37,8 @@ public class InitialConfig {
             Stage stage = (Stage) myStackPane.getScene().getWindow();
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Error");
-            dialog.setContentText("You must select your difficulty and choose a valid name before proceeding!");
+            dialog.setContentText("You must select your difficulty and choose a valid name "
+                    + "before proceeding!");
             ButtonType closeDialog = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().add(closeDialog);
             dialog.showAndWait();
@@ -54,7 +52,8 @@ public class InitialConfig {
             dialog.showAndWait();
         } else {
             Label warning = new Label("You have selected the name \"" + playerName.getText()
-                    + "\" and will\nplay at difficulty " + difficulty.toUpperCase() + ". Do you wish to proceed?");
+                    + "\" and will\nplay at difficulty " + difficulty.toUpperCase()
+                    + ". Do you wish to proceed?");
             warning.setAlignment(Pos.CENTER);
             Button goBack = new Button("Go Back");
             Button confirm = new Button("Confirm");
@@ -75,7 +74,8 @@ public class InitialConfig {
             });
             confirm.setOnAction(e -> {
                 stage.close();
-                TDApp.navigateToScene(TDScenes.WelcomeScreen); // THIS IS FOR TESTING PURPOSES. THIS MUST BE CHANGED TO THE NEXT SCREEN.
+                TDApp.navigateToScene(TDScenes.GameScreen, new GameConfig(playerName.getText(),
+                        difficulty));
             });
             stage.show();
         }
