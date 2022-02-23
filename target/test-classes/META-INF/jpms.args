@@ -1,0 +1,4 @@
+--patch-module
+org.glizzygladiators.td=_
+--add-reads
+org.glizzygladiators.td=ALL-UNNAMED
