@@ -1,0 +1,42 @@
+Types of Possible Tower:
+• Basic Tower
+• Tank Tower
+• Freeze Tower
+• Super Tower
+• Tack Tower
+• Sniper Tower
+• Booster Tower (This tower powers up the towers close to it.)
+
+Test Case Ideas:
+• Sufficient Funds Test
+• Tower Placement Test
+• Null Name Test
+• Null Difficulty Test
+• Tower Cost Per Difficulty Test
+• Tower Differentiation Test
+• Buy Tower Test
+• Difficulty Set Varying Starting Money
+• Difficulty Set Varying Starting Lives
+
+Design Deliverables:
+• Domain Class Diagram
+  - Classes
+  - Relationships
+  - Etc.
+  
+• Sequence Diagrams Related to DCD, one per team member
+
+Who will work on what for this milestone?
+Richard:
+• Writing Test Cases
+• One Sequence Diagram
+
+Quincy and Christopher
+• Tower Placement
+• Tower Differentiation
+• One Sequence Diagram (Christopher)
+• One Sequence Diagram (Quincy)
+
+Joseph:
+• Towers Purchasing Menu
+• One Sequence Diagram
