@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.glizzygladiators.td.game.GameConfig;
+import org.glizzygladiators.td.game.GameInstance;
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.TDScenes;
 
@@ -74,7 +74,7 @@ public class InitialConfig {
             });
             confirm.setOnAction(e -> {
                 stage.close();
-                TDApp.navigateToScene(TDScenes.GameScreen, new GameConfig(playerName.getText(),
+                TDApp.navigateToScene(TDScenes.GameScreen, new GameInstance(playerName.getText(),
                         difficulty));
             });
             stage.show();

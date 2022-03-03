@@ -1,27 +1,36 @@
 package org.glizzygladiators.td.controllers;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import org.glizzygladiators.td.game.GameConfig;
-import org.glizzygladiators.td.game.Monument;
+import javafx.scene.layout.StackPane;
+import org.glizzygladiators.td.game.GameInstance;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameScreen implements ParameterController, Initializable {
 
+
+    @FXML
+    private StackPane sideBarPane;
+    @FXML
+    private Group gamePane;
+
     @FXML
     private Label moneyLabel;
     @FXML
     private Label healthLabel;
-    @FXML
-    private Group gamePane;
+
     private ObservableList<Node> gameObjects;
-    private GameConfig config;
+    private GameInstance game;
+
+
 
     /**
      * Runs code right after FXML objects are initialized
@@ -33,45 +42,23 @@ public class GameScreen implements ParameterController, Initializable {
         gameObjects = gamePane.getChildren();
         gamePane.prefWidth(1000);
         gamePane.prefHeight(750);
-        gameObjects.add(new Monument(700, 475, "images/monument.jpg"));
     }
 
     @Override
     public void setParams(Object params) {
-        config = (GameConfig) params;
-        setMoney(config.getStartingMoney());
-        setHealth(config.getStartingHealth());
+        game = (GameInstance) params;
+        gameObjects.add(game.getMonument());
+
+        moneyLabel.textProperty().bind(game.getMoneyProperty().asString());
+        healthLabel.textProperty().bind(game.getHealthProperty().asString());
     }
 
     /**
-     * Returns the amount of money the player has
-     * @return the amount of money the player has
+     * Returns the GameInstance object associated with this session
+     * @return the GameInstance object associated with this session
      */
-    public int getMoney() {
-        return Integer.parseInt(moneyLabel.getText());
+    public GameInstance getGame() {
+        return game;
     }
 
-    /**
-     * Sets the amount of money the user has
-     * @param money the amount of money the user has
-     */
-    public void setMoney(int money) {
-        moneyLabel.setText(money + "");
-    }
-
-    /**
-     * Returns the amount of health the monument has
-     * @return the amount of health the monument has
-     */
-    public int getHealth() {
-        return Integer.parseInt(healthLabel.getText());
-    }
-
-    /**
-     * Sets the amount of health the monument has
-     * @param health the amount of health the monument has
-     */
-    public void setHealth(int health) {
-        healthLabel.setText(health + "");
-    }
 }

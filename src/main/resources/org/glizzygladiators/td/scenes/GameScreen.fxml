@@ -15,7 +15,7 @@
 
     <HBox>
 
-        <Group fx:id="gamePane" GridPane.columnIndex="0">
+        <Group fx:id="gamePane" GridPane.columnIndex="0" >
 
             <ImageView fitWidth="1000" fitHeight="750">
                 <Image url="@/org/glizzygladiators/td/images/map.png"/>
@@ -31,6 +31,8 @@
                 <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="moneyLabel"/>
                 <Label GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="healthLabel"/>
             </GridPane>
+
+            <StackPane fx:id="sideBarPane" alignment="CENTER" style="-fx-padding: 15px" />
 
         </VBox>
     </HBox>
