@@ -11,6 +11,7 @@ import org.glizzygladiators.td.controllers.ParameterController;
 import java.io.IOException;
 import java.util.Objects;
 
+
 public class TDApp extends Application {
 
     private static TDApp app;
