@@ -6,14 +6,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.glizzygladiators.td.controllers.ParameterController;
 
 import java.io.IOException;
 import java.util.Objects;
 
+
 public class TDApp extends Application {
 
-    public static TDApp app;
-    public static Stage mainStage;
+    private static TDApp app;
+    private static Stage mainStage;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -27,12 +29,29 @@ public class TDApp extends Application {
         launch(args);
     }
 
+    public static TDApp getInstance() {
+        return app;
+    }
+
+    public static Stage getMainStage() {
+        return mainStage;
+    }
+
+    /**
+     * Gets the path to a resource
+     * @param path the path from the resources folder
+     * @return the string to the resource
+     */
+    public static String getResourcePath(String path) {
+        return TDApp.class.getResource(path).toExternalForm();
+    }
+
     /**
      * Gets a JFX Parent object from the scenes folder.
      * @param path The path to the fxml file
      * @return The parent object associated with the FXML file
      */
-    public static Parent getParent(String path) {
+    public static Parent getParent(String path) { // TODO should this be made private?
         try {
             return FXMLLoader.load(Objects.requireNonNull(TDApp.class.getResource(path)));
         } catch (IOException e) {
@@ -42,23 +61,60 @@ public class TDApp extends Application {
     }
 
     /**
-     * Navigates the current stage to a specified scene.
+     * Gets a JFX Parent object from the scenes folder and passes a parameter to its controller
+     * @param path The path to the fxml file
+     * @param param The parameter to pass to the controller
+     * @param <S> The type of the controller. It must implement ParameterController
+     * @return The parent object associated with the FXML file
+     */
+    public static <S extends ParameterController> Parent
+        getParentPassParams(String path, Object param) { // TODO should this be made private?
+        try {
+            var loader = new FXMLLoader(TDApp.class.getResource(path));
+            Parent root = loader.load();
+            loader.<S>getController().setParams(param);
+            return root;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new AnchorPane();
+    }
+
+    /**
+     * Navigation method to use if data is not being passed to the target scene
      * @param name the name of the scene specified in TDScenes
      * @return The previous scene in the stage
      */
     public static Scene navigateToScene(TDScenes name) {
+        return navigateToScene(name, null);
+    }
+
+    /**
+     * Navigates the current stage to a specified scene.
+     * @param name the name of the scene specified in TDScenes
+     * @param param the parameter to pass to the scene controller if applicable
+     * @return The previous scene in the stage
+     */
+    public static Scene navigateToScene(TDScenes name, Object param) {
         Scene cScene = mainStage.getScene();
-        Scene newScene = null;
+        Parent root;
         switch (name) {
-            case WelcomeScreen:
-                newScene = new Scene(getParent("scenes/WelcomeScreen.fxml"));
-                break;
-            case InitialConfig:
-                newScene = new Scene(getParent("scenes/InitialConfig.fxml"));
-                break;
+        case WelcomeScreen:
+            root = getParent("scenes/WelcomeScreen.fxml");
+            break;
+        case InitialConfig:
+            root =  getParent("scenes/InitialConfig.fxml");
+            break;
+        case GameScreen:
+            root = getParentPassParams("scenes/GameScreen.fxml", param);
+            break;
+        default:
+            root = new AnchorPane();
         }
-        newScene.getStylesheets().add(TDApp.class.getResource("styles/style.css").toExternalForm()); //Loads css which contains theming options
-        mainStage.setScene(newScene);
-        return cScene;
+        Scene newScene = new Scene(root);
+        newScene.getStylesheets().add(TDApp.class.getResource("styles/style.css")
+                .toExternalForm()); //Loads css which contains theming options
+        TDApp.mainStage.setScene(newScene);
+        return cScene; // TODO Decide whether to add a navigation stack to TDApp
     }
 }
