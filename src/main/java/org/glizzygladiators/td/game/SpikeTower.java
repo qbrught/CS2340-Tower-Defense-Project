@@ -10,10 +10,17 @@ public class SpikeTower extends Tower {
     private static final int INIT_ATTACK_SPEED = 0; // TODO: Add the initial attack speed.
     private static final int INIT_ATTACK_DAMAGE = 0; // TODO: Add the initial attack damage.
 
+    /**
+     * Creates a spike tower instance.
+     *
+     * @param locationX X coordinate of the instantiated tower
+     * @param locationY Y coordinate of the instantiated tower
+     */
     public SpikeTower(int locationX, int locationY) {
-        super(locationX, locationY, INIT_ATTACK_SPEED, INIT_ATTACK_DAMAGE);
+        super(locationX, locationY, INIT_ATTACK_SPEED, INIT_ATTACK_DAMAGE, SPIKE_TOWER_IMAGE);
     }
 
+    @Override
     public int getPrice(GameDifficulty difficulty) {
         switch (difficulty) {
             case EASY:
