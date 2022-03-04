@@ -20,21 +20,9 @@ public class GameInstance {
      * @param inputName The name of the player
      * @param inputDifficulty the difficulty of the game
      */
-    public GameInstance(String inputName, String inputDifficulty) {
+    public GameInstance(String inputName, GameDifficulty inputDifficulty) {
         name = inputName;
-        switch (inputDifficulty) {
-        case "easy":
-            difficulty = GameDifficulty.EASY;
-            break;
-        case "medium":
-            difficulty = GameDifficulty.MEDIUM;
-            break;
-        case "hard":
-            difficulty = GameDifficulty.HARD;
-            break;
-        default:
-            difficulty = GameDifficulty.EASY;
-        }
+        difficulty = inputDifficulty;
         money = new SimpleIntegerProperty(getStartingMoney());
         health = new SimpleIntegerProperty(getStartingHealth());
         towers = FXCollections.emptyObservableList();

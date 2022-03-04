@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.glizzygladiators.td.game.GameDifficulty;
 import org.glizzygladiators.td.game.GameInstance;
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.TDScenes;
@@ -17,42 +18,43 @@ public class InitialConfig {
 
     @FXML private TextField playerName;
     @FXML private StackPane myStackPane;
-    private String difficulty; // I AM UNSURE IF THESE VARIABLES NEED TO BE CHANGED ANYTIME SOON.
+    private GameDifficulty difficulty; // I AM UNSURE IF THESE VARIABLES NEED TO BE CHANGED ANYTIME SOON.
 
     @FXML
     public void setDifficulty(MouseEvent mouseEvent) {
-        if (((Button) mouseEvent.getSource()).getText().equals("Easy")) {
-            difficulty = "easy";
-        } else if (((Button) mouseEvent.getSource()).getText().equals("Medium")) {
-            difficulty = "medium";
-        } else if (((Button) mouseEvent.getSource()).getText().equals("Hard")) {
-            difficulty = "hard";
+        switch (((Button) mouseEvent.getSource()).getText()) {
+            case "Easy":
+                difficulty = GameDifficulty.EASY;
+                break;
+            case "Medium":
+                difficulty = GameDifficulty.MEDIUM;
+                break;
+            case "Hard":
+                difficulty = GameDifficulty.HARD;
+                break;
         }
     }
 
     @FXML
     public void finishInit() {
         if (difficulty == null || playerName.getText() == null
-                || playerName.getText().equals("") || playerName.getText().isBlank()) {
+                || playerName.getText().equals("") || playerName.getText().isBlank()
+                || playerName.getText().length() > 20) {
             Stage stage = (Stage) myStackPane.getScene().getWindow();
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Error");
-            dialog.setContentText("You must select your difficulty and choose a valid name "
-                    + "before proceeding!");
-            ButtonType closeDialog = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().add(closeDialog);
-            dialog.showAndWait();
-        } else if (playerName.getText().length() > 20) {
-            Stage stage = (Stage) myStackPane.getScene().getWindow();
-            Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Error");
-            dialog.setContentText("The character limit for names is 20!");
+            if (playerName != null && playerName.getText().length() > 20) {
+                dialog.setContentText("The character limit for names is 20!");
+            } else {
+                dialog.setContentText("You must select your difficulty and choose a valid name "
+                        + "before proceeding!");
+            }
             ButtonType closeDialog = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().add(closeDialog);
             dialog.showAndWait();
         } else {
             Label warning = new Label("You have selected the name \"" + playerName.getText()
-                    + "\" and will\nplay at difficulty " + difficulty.toUpperCase()
+                    + "\" and will\nplay at difficulty " + difficulty.toString().toUpperCase()
                     + ". Do you wish to proceed?");
             warning.setAlignment(Pos.CENTER);
             Button goBack = new Button("Go Back");
