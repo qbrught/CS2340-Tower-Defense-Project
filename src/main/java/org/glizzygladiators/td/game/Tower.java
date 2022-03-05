@@ -6,7 +6,7 @@ import org.glizzygladiators.td.TDApp;
 
 public abstract class Tower extends javafx.scene.shape.Rectangle {
 
-    public static final int SIZE = 100; // TODO: Change this if needed.
+    public static final int SIZE = 100; // TODO: Change this to a smaller value to fit smaller on the screen.
     protected int attackSpeed;
     protected int attackDamage;
     protected int locationX;
@@ -37,7 +37,7 @@ public abstract class Tower extends javafx.scene.shape.Rectangle {
 
     /**
      * Gets the price of the tower based on the difficulty
-     * @param difficulty The difficulty of the game // TODO Make this an enum
+     * @param difficulty The difficulty of the game
      * @return the price of the tower
      */
     public abstract int getPrice(GameDifficulty difficulty);
