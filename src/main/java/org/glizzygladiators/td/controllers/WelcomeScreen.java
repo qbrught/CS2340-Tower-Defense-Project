@@ -24,13 +24,19 @@ public class WelcomeScreen implements Initializable {
                 + "-fx-background-position: center;");
     }
 
+    /**
+     * Starts the game and takes the user to the initial configuration screen.
+     */
     @FXML
-    public void startClicked(MouseEvent mouseEvent) {
+    public void startClicked() {
         TDApp.navigateToScene(TDScenes.InitialConfig);
     }
 
+    /**
+     * Exits the game.
+     */
     @FXML
-    public void quitClicked(MouseEvent mouseEvent) {
+    public void quitClicked() {
         // TODO maybe add a dialog to ask if the user is sure they want to quit
         System.exit(0);
     }

@@ -14,27 +14,37 @@ import org.glizzygladiators.td.game.GameInstance;
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.TDScenes;
 
+import static org.glizzygladiators.td.game.GameDifficulty.*;
+
 public class InitialConfig {
 
     @FXML private TextField playerName;
     @FXML private StackPane myStackPane;
-    private GameDifficulty difficulty; // I AM UNSURE IF THESE VARIABLES NEED TO BE CHANGED ANYTIME SOON.
+    private GameDifficulty difficulty;
 
+    /**
+     * Handler to set the difficulty of the game.
+     * @param mouseEvent
+     */
     @FXML
     public void setDifficulty(MouseEvent mouseEvent) {
         switch (((Button) mouseEvent.getSource()).getText()) {
             case "Easy":
-                difficulty = GameDifficulty.EASY;
+                difficulty = EASY;
                 break;
             case "Medium":
-                difficulty = GameDifficulty.MEDIUM;
+                difficulty = MEDIUM;
                 break;
             case "Hard":
-                difficulty = GameDifficulty.HARD;
+                difficulty = HARD;
                 break;
         }
     }
 
+    /**
+     * Completes the initialization of the game if the player has a valid
+     * difficulty, name, and confirms the information before starting.
+     */
     @FXML
     public void finishInit() {
         if (difficulty == null || playerName.getText() == null
@@ -83,8 +93,11 @@ public class InitialConfig {
         }
     }
 
+    /**
+     * Navigates back to the welcome screen.
+     */
     @FXML
-    public void backButtonClicked(MouseEvent mouseEvent) {
+    public void backButtonClicked() {
         TDApp.navigateToScene(TDScenes.WelcomeScreen);
     }
 }

@@ -32,6 +32,7 @@
                 <Label GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="healthLabel"/>
             </GridPane>
 
+            <Button id="basicTower" onMouseClicked="#buyTower"/>
             <StackPane fx:id="sideBarPane" alignment="CENTER" style="-fx-padding: 15px" />
 
         </VBox>
