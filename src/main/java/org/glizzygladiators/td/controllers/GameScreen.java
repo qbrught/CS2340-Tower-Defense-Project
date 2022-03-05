@@ -90,16 +90,19 @@ public class GameScreen implements ParameterController, Initializable {
                             BasicTower basicTower = new BasicTower(x, y);
                             game.getTowers().add(basicTower);
                             gameObjects.add(basicTower);
+                            game.setMoney(game.getMoney() - basicTower.getPrice(game.getDifficulty()));
                             break;
                         case "cannonTower":
                             CannonTower cannonTower = new CannonTower(x, y);
                             game.getTowers().add(cannonTower);
                             gameObjects.add(cannonTower);
+                            game.setMoney(game.getMoney() - cannonTower.getPrice(game.getDifficulty()));
                             break;
                         case "spikeTower":
                             SpikeTower spikeTower = new SpikeTower(x, y);
                             game.getTowers().add(spikeTower);
                             gameObjects.add(spikeTower);
+                            game.setMoney(game.getMoney() - spikeTower.getPrice(game.getDifficulty()));
                             break;
                     }
                     scene.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
