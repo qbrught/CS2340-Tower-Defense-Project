@@ -3,6 +3,7 @@ package org.glizzygladiators.td.controllers;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -50,8 +51,9 @@ public class InitialConfig {
         if (difficulty == null || playerName.getText() == null
                 || playerName.getText().equals("") || playerName.getText().isBlank()
                 || playerName.getText().length() > 20) {
-            Stage stage = (Stage) myStackPane.getScene().getWindow();
-            Dialog<String> dialog = new Dialog<>(); // TODO Change this to use TDApp ShowErrorMsg()
+
+            Dialog<String> dialog = new Dialog<>();
+
             dialog.setTitle("Error");
             if (playerName != null && playerName.getText().length() > 20) {
                 dialog.setContentText("The character limit for names is 20!");
@@ -86,8 +88,9 @@ public class InitialConfig {
             });
             confirm.setOnAction(e -> {
                 stage.close();
-                TDApp.navigateToScene(TDScenes.GameScreen, new GameInstance(playerName.getText(),
-                        difficulty));
+                Parent root = TDApp.getParentPassParams("scenes/GameScreen.fxml", new GameInstance(playerName.getText(),
+                difficulty));
+                TDApp.navigateToRoot(myStackPane.getScene(), root);
             });
             stage.show();
         }
@@ -97,7 +100,8 @@ public class InitialConfig {
      * Navigates back to the welcome screen.
      */
     @FXML
-    public void backButtonClicked() {
-        TDApp.navigateToScene(TDScenes.WelcomeScreen);
+    public void backButtonClicked(MouseEvent mouseEvent) {
+        Parent root = TDApp.getParent("scenes/WelcomeScreen.fxml");
+        TDApp.navigateToRoot(myStackPane.getScene(), root);
     }
 }

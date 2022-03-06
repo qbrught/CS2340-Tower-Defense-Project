@@ -3,9 +3,10 @@ package org.glizzygladiators.td.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import org.glizzygladiators.td.TDApp;
-import org.glizzygladiators.td.TDScenes;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +18,8 @@ public class WelcomeScreen implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println(root.getScene());
+        
         root.setStyle("-fx-background-image: url('" + TDApp.getResourcePath("images/home.jpg")
                 + "');"
                 + "-fx-background-repeat: stretch; "
@@ -28,8 +31,10 @@ public class WelcomeScreen implements Initializable {
      * Starts the game and takes the user to the initial configuration screen.
      */
     @FXML
-    public void startClicked() {
-        TDApp.navigateToScene(TDScenes.InitialConfig);
+    public void startClicked(MouseEvent mouseEvent) {
+        Scene scene = root.getScene();
+        Parent root = TDApp.getParent("scenes/InitialConfig.fxml");
+        TDApp.navigateToRoot(scene, root);
     }
 
     /**
