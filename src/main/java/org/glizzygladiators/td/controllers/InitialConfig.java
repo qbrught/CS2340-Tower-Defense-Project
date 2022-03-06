@@ -51,7 +51,7 @@ public class InitialConfig {
                 || playerName.getText().equals("") || playerName.getText().isBlank()
                 || playerName.getText().length() > 20) {
             Stage stage = (Stage) myStackPane.getScene().getWindow();
-            Dialog<String> dialog = new Dialog<>();
+            Dialog<String> dialog = new Dialog<>(); // TODO Change this to use TDApp ShowErrorMsg()
             dialog.setTitle("Error");
             if (playerName != null && playerName.getText().length() > 20) {
                 dialog.setContentText("The character limit for names is 20!");

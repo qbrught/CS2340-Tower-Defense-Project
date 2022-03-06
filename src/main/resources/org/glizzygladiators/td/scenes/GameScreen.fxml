@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<StackPane xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml"
-           fx:controller="org.glizzygladiators.td.controllers.GameScreen"
-           prefHeight="750" prefWidth="1250">
+<StackPane prefHeight="750" prefWidth="1250" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.glizzygladiators.td.controllers.GameScreen">
 
     <HBox>
 
-        <Group fx:id="gamePane" GridPane.columnIndex="0" >
+        <Group fx:id="gamePane" GridPane.columnIndex="0">
 
-            <ImageView fitWidth="1000" fitHeight="750">
-                <Image url="@/org/glizzygladiators/td/images/map.png"/>
+            <ImageView fitHeight="750" fitWidth="1000">
+                <Image url="@/org/glizzygladiators/td/images/map.png" />
             </ImageView>
 
         </Group>
 
-        <VBox prefHeight="750" prefWidth="250" alignment="TOP_CENTER" style="-fx-padding: 15px;">
+        <VBox alignment="TOP_CENTER" prefHeight="750" prefWidth="250" style="-fx-padding: 15px;">
 
-            <GridPane hgap="12" vgap="12" alignment="CENTER" style="-fx-padding: 15px;">
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="Player Money: "/>
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Monument Health: "/>
-                <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="moneyLabel"/>
-                <Label GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="healthLabel"/>
+            <GridPane alignment="CENTER" hgap="12" style="-fx-padding: 15px;" vgap="12">
+                <Label text="Player Money: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label text="Monument Health: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Label fx:id="moneyLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label fx:id="healthLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </GridPane>
 
-            <Button id="basicTower" onMouseClicked="#buyTower"/>
-            <StackPane fx:id="sideBarPane" alignment="CENTER" style="-fx-padding: 15px" />
+            <Button id="basicTower" onMouseClicked="#buyTower" />
+            <StackPane fx:id="sideBarPane" alignment="CENTER" style="-fx-padding: 15px">
+
+                <GridPane hgap="12" vgap="12">
+
+                    <columnConstraints>
+                        <ColumnConstraints fillWidth="true" hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <Button text="Buy Towers" maxWidth="Infinity" GridPane.rowIndex="0"
+                            onMouseClicked="#buyTower"/>
+                    <Button text="Buy Towers" maxWidth="Infinity" GridPane.rowIndex="1" />
+                    <Button text="Buy Towers" maxWidth="Infinity" GridPane.rowIndex="2" />
+                </GridPane>
+
+
+            </StackPane>
 
         </VBox>
     </HBox>
