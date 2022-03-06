@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<ScrollPane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:id="root"
+      fx:controller="org.glizzygladiators.td.controllers.BuyMenu"
+      prefHeight="400.0" prefWidth="600.0" maxWidth="Infinity">
+
+    <GridPane style="-fx-padding: 12px" alignment="CENTER" hgap="12" vgap="12" maxWidth="Infinity">
+
+        <VBox style="-fx-padding: 12px" spacing="12" GridPane.rowIndex="0" GridPane.columnIndex="0">
+            <ImageView fitWidth="100" fitHeight="100">
+                <Image url="/org/glizzygladiators/td/images/obamaBasic.png" />
+            </ImageView>
+            <Label text="Basic Tower" maxWidth="Infinity" alignment="CENTER" textAlignment="CENTER"
+                   style="-fx-font-size: 14"/>
+            <Button text="Buy" maxWidth="Infinity" onMouseClicked="#buyBasicTower"/>
+        </VBox>
+
+        <VBox style="-fx-padding: 12px" spacing="12" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <ImageView fitWidth="100" fitHeight="100">
+                <Image url="/org/glizzygladiators/td/images/obamaCanon.png" />
+            </ImageView>
+            <Label text="Cannon Tower" maxWidth="Infinity" alignment="CENTER" textAlignment="CENTER"
+                   style="-fx-font-size: 14"/>
+            <Button text="Buy" maxWidth="Infinity" onMouseClicked="#buyCannonTower"/>
+        </VBox>
+
+        <VBox style="-fx-padding: 12px" spacing="12" GridPane.rowIndex="0" GridPane.columnIndex="2">
+            <ImageView fitWidth="100" fitHeight="100">
+                <Image url="/org/glizzygladiators/td/images/obamaSpike.png" />
+            </ImageView>
+            <Label text="Spike Tower" maxWidth="Infinity" alignment="CENTER" textAlignment="CENTER"
+                   style="-fx-font-size: 14"/>
+            <Button text="Buy" maxWidth="Infinity" onMouseClicked="#buySpikeTower"/>
+        </VBox>
+
+    </GridPane>
+
+</ScrollPane>

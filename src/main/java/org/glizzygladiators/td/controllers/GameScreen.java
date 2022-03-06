@@ -1,7 +1,5 @@
 package org.glizzygladiators.td.controllers;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -9,14 +7,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import org.glizzygladiators.td.game.BasicTower;
-import org.glizzygladiators.td.game.CannonTower;
-import org.glizzygladiators.td.game.GameInstance;
-import org.glizzygladiators.td.game.SpikeTower;
+import javafx.stage.Stage;
+import org.glizzygladiators.td.TDApp;
+import org.glizzygladiators.td.game.*;
+import org.glizzygladiators.td.game.TowerEnum;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +33,7 @@ public class GameScreen implements ParameterController, Initializable {
 
     private ObservableList<Node> gameObjects;
     private GameInstance game;
+    private EventHandler<MouseEvent> buyModeHandler = null;
 
 
     /**
@@ -73,41 +71,58 @@ public class GameScreen implements ParameterController, Initializable {
      * @param mouseEvent The mouse event that activates the buy tower process.
      */
     public void buyTower(MouseEvent mouseEvent) {
-        String s = ((Button) mouseEvent.getSource()).getId();
+        var scene = new Scene(TDApp.getParentPassParams("scenes/BuyMenu.fxml", this));
+        scene.getStylesheets().add(TDApp.class.getResource("styles/style.css")
+                .toExternalForm());
+        var stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+    }
 
-        // TODO: Check to see if the player has sufficient funds for the tower type. If not, return this method.
+    public void enterTowerPlacementMode(TowerEnum tower) {
+        Scene scene = TDApp.getMainStage().getScene();
 
-        Scene scene = ((Button) mouseEvent.getSource()).getScene();
-        scene.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+        buyModeHandler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 int x = (int) mouseEvent.getSceneX();
                 int y = (int) mouseEvent.getSceneY();
+                x -= Tower.SIZE / 2; // This is so that where you click is the center of where
+                y -= Tower.SIZE / 2; // the tower is placed
 
+                // TODO put the following into a loop and show a popup if invalid location
                 if (true) { // TODO: Change this from "true" to the "not overlapping" condition.
-                    switch (s) {
-                        case "basicTower":
+                    switch (tower) {
+                        case BASIC:
                             BasicTower basicTower = new BasicTower(x, y);
                             game.getTowers().add(basicTower);
                             gameObjects.add(basicTower);
                             game.setMoney(game.getMoney() - basicTower.getPrice(game.getDifficulty()));
                             break;
-                        case "cannonTower":
+                        case CANNON:
                             CannonTower cannonTower = new CannonTower(x, y);
                             game.getTowers().add(cannonTower);
                             gameObjects.add(cannonTower);
                             game.setMoney(game.getMoney() - cannonTower.getPrice(game.getDifficulty()));
                             break;
-                        case "spikeTower":
+                        case SPIKE:
                             SpikeTower spikeTower = new SpikeTower(x, y);
                             game.getTowers().add(spikeTower);
                             gameObjects.add(spikeTower);
                             game.setMoney(game.getMoney() - spikeTower.getPrice(game.getDifficulty()));
                             break;
                     }
-                    scene.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
+                    exitTowerPlacementMode();
                 }
             }
-        });
+        };
+        scene.addEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
+    }
+
+    public void exitTowerPlacementMode() {
+        if (buyModeHandler == null) return;
+        TDApp.getMainStage().getScene()
+                .removeEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
+        buyModeHandler = null;
     }
 }
