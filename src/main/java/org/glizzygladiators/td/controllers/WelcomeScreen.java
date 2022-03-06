@@ -17,9 +17,7 @@ public class WelcomeScreen implements Initializable {
     private StackPane root;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(root.getScene());
-        
+    public void initialize(URL url, ResourceBundle resourceBundle) {        
         root.setStyle("-fx-background-image: url('" + TDApp.getResourcePath("images/home.jpg")
                 + "');"
                 + "-fx-background-repeat: stretch; "
