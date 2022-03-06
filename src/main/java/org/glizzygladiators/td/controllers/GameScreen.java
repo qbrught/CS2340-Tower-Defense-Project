@@ -91,7 +91,7 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public void enterTowerPlacementMode(TowerEnum tower) {
-        Scene scene = TDApp.getMainStage().getScene();
+        Scene scene = gamePane.getScene();
 
         buyModeHandler = new EventHandler<MouseEvent>() {
             @Override
@@ -143,7 +143,7 @@ public class GameScreen implements ParameterController, Initializable {
 
     public void exitTowerPlacementMode() {
         if (buyModeHandler == null) return;
-        TDApp.getMainStage().getScene()
+        gamePane.getScene()
                 .removeEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
         buyModeHandler = null;
     }
