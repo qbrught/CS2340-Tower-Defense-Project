@@ -101,9 +101,16 @@ public class GameScreen implements ParameterController, Initializable {
                 x -= Tower.SIZE / 2; // This is so that where you click is the center of where
                 y -= Tower.SIZE / 2; // the tower is placed
 
-                System.out.println("Rectangle: " + x + " " + y);
+                boolean checkOverlap = false;
+                for (Rectangle part : path) {
+                    checkOverlap = overlaps(new Rectangle(x, y, Tower.SIZE, Tower.SIZE), part);
+                    if (checkOverlap) {
+                        break;
+                    }
+                }
+
                 // TODO put the following into a loop and show a popup if invalid location
-                if (!overlapsPath(x + 25, y + 25, path)) { // TODO: Change this from "true" to the "not overlapping" condition.
+                if (!checkOverlap) {
                     switch (tower) {
                         case BASIC:
                             BasicTower basicTower = new BasicTower(x, y);
@@ -141,13 +148,8 @@ public class GameScreen implements ParameterController, Initializable {
         buyModeHandler = null;
     }
 
-    public boolean overlapsPath(int x, int y, List<Rectangle> path) {
-        for (Rectangle part : path) {
-            if (x <= part.getX() + part.getWidth() && x + Tower.SIZE >= part.getX() &&
-                y <= part.getY() + part.getHeight() && y + Tower.SIZE >= part.getY()) {
-                return true;
-            }
-        }
-        return false;
+    public boolean overlaps(Rectangle r1, Rectangle r2) {
+        return r1.getX() <= r2.getX() + r2.getWidth() && r1.getX() + r1.getWidth() >= r2.getX() &&
+                r1.getY() <= r2.getY() + r2.getHeight() && r1.getY() + r1.getHeight() >= r2.getY();
     }
 }
