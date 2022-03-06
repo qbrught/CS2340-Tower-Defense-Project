@@ -136,9 +136,6 @@ public class GameScreen implements ParameterController, Initializable {
             }
         };
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
-        for (Rectangle part : path) {
-            System.out.println(part.getX() + " " + part.getY());
-        }
     }
 
     public void exitTowerPlacementMode() {
