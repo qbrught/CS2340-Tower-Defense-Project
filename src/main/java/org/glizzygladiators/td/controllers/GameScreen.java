@@ -1,5 +1,6 @@
 package org.glizzygladiators.td.controllers;
 
+import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,12 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.game.*;
 import org.glizzygladiators.td.game.TowerEnum;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GameScreen implements ParameterController, Initializable {
@@ -31,6 +35,7 @@ public class GameScreen implements ParameterController, Initializable {
     @FXML
     private Label healthLabel;
 
+    private List<Rectangle> path;
     private ObservableList<Node> gameObjects;
     private GameInstance game;
     private EventHandler<MouseEvent> buyModeHandler = null;
@@ -52,8 +57,14 @@ public class GameScreen implements ParameterController, Initializable {
     @Override
     public void setParams(Object params) {
         game = (GameInstance) params;
-        gameObjects.add(game.getMonument());
 
+        path = new ArrayList<>();
+        path.add(new Rectangle(0, 119, 843, 168 - 119));
+        path.add(new Rectangle(795, 169, 843 - 795, 334 - 169));
+        path.add(new Rectangle(134, 319, 794 - 134, 364 - 319));
+        path.add(new Rectangle(125, 364, 169 - 125, 572 - 364));
+        path.add(new Rectangle(170, 552, 747 - 170, 602 - 552));
+        gameObjects.add(game.getMonument());
         moneyLabel.textProperty().bind(game.getMoneyProperty().asString());
         healthLabel.textProperty().bind(game.getHealthProperty().asString());
     }
@@ -90,8 +101,9 @@ public class GameScreen implements ParameterController, Initializable {
                 x -= Tower.SIZE / 2; // This is so that where you click is the center of where
                 y -= Tower.SIZE / 2; // the tower is placed
 
+                System.out.println("Rectangle: " + x + " " + y);
                 // TODO put the following into a loop and show a popup if invalid location
-                if (true) { // TODO: Change this from "true" to the "not overlapping" condition.
+                if (!overlapsPath(x + 25, y + 25, path)) { // TODO: Change this from "true" to the "not overlapping" condition.
                     switch (tower) {
                         case BASIC:
                             BasicTower basicTower = new BasicTower(x, y);
@@ -117,6 +129,9 @@ public class GameScreen implements ParameterController, Initializable {
             }
         };
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
+        for (Rectangle part : path) {
+            System.out.println(part.getX() + " " + part.getY());
+        }
     }
 
     public void exitTowerPlacementMode() {
@@ -124,5 +139,15 @@ public class GameScreen implements ParameterController, Initializable {
         TDApp.getMainStage().getScene()
                 .removeEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
         buyModeHandler = null;
+    }
+
+    public boolean overlapsPath(int x, int y, List<Rectangle> path) {
+        for (Rectangle part : path) {
+            if (x <= part.getX() + part.getWidth() && x + Tower.SIZE >= part.getX() &&
+                y <= part.getY() + part.getHeight() && y + Tower.SIZE >= part.getY()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
