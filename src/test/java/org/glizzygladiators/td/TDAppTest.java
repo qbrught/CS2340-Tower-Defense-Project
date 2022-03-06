@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
 
@@ -17,8 +18,7 @@ import javafx.stage.Stage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(ApplicationExtension.class)
-class TDAppTest {
+class TDAppTest extends ApplicationTest {
 
     private Button button;
 
@@ -28,11 +28,12 @@ class TDAppTest {
      * @param stage - Will be injected by the test runner.
      */
     @Start
-    private void start(Stage stage) {
+    public void start(Stage stage) {
         button = new Button("click me!");
         button.setId("myButton");
         button.setOnAction(actionEvent -> button.setText("clicked!"));
-        stage.setScene(new Scene(new StackPane(button), 100, 100));
+        Scene scene = new Scene(new StackPane(button), 100, 100);
+        stage.setScene(scene);
         stage.show();
     }
 
@@ -40,7 +41,7 @@ class TDAppTest {
      * @param robot - Will be injected by the test runner.
      */
     @Test
-    void should_contain_button_with_text(FxRobot robot) {
+    void should_contain_button_with_text() {
         FxAssert.verifyThat(button, LabeledMatchers.hasText("click me!"));
         // or (lookup by css id):
         FxAssert.verifyThat("#myButton", LabeledMatchers.hasText("click me!"));
@@ -52,9 +53,9 @@ class TDAppTest {
      * @param robot - Will be injected by the test runner.
      */
     @Test
-    void when_button_is_clicked_text_changes(FxRobot robot) {
+    void when_button_is_clicked_text_changes() {
         // when:
-        robot.clickOn(".button");
+        clickOn("#myButton");
 
         // then:
         FxAssert.verifyThat(button, LabeledMatchers.hasText("clicked!"));

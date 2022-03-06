@@ -22,6 +22,8 @@ public class TDApp extends Application {
         app = this;
         mainStage = stage;
         navigateToScene(TDScenes.WelcomeScreen);
+        stage.getScene().getStylesheets().add(TDApp.class.getResource("styles/style.css")
+                .toExternalForm());
         stage.show();
     }
 
@@ -111,10 +113,13 @@ public class TDApp extends Application {
         default:
             root = new AnchorPane();
         }
-        Scene newScene = new Scene(root);
-        newScene.getStylesheets().add(TDApp.class.getResource("styles/style.css")
-                .toExternalForm()); //Loads css which contains theming options
-        TDApp.mainStage.setScene(newScene);
+        if (name == TDScenes.WelcomeScreen) {
+            Scene newScene = new Scene(root);
+            mainStage.setScene(newScene);
+        } else {
+            TDApp.mainStage.getScene().setRoot(root);
+        }
+        //Loads css which contains theming options
         return cScene; // TODO Decide whether to add a navigation stack to TDApp
     }
 }
