@@ -6,7 +6,7 @@ import org.glizzygladiators.td.TDApp;
 
 public abstract class Tower extends javafx.scene.shape.Rectangle {
 
-    public static final int SIZE = 100; // TODO: Change this if needed.
+    public static final int SIZE = 50; // TODO: Change this to a smaller value to fit smaller on the screen.
     protected int attackSpeed;
     protected int attackDamage;
     protected int locationX;
@@ -37,10 +37,29 @@ public abstract class Tower extends javafx.scene.shape.Rectangle {
 
     /**
      * Gets the price of the tower based on the difficulty
-     * @param difficulty The difficulty of the game // TODO Make this an enum
+     * @param difficulty The difficulty of the game
      * @return the price of the tower
      */
     public abstract int getPrice(GameDifficulty difficulty);
+
+    /**
+     * Gets the price of a tower based on the difficulty
+     * @param tower the tower in question
+     * @param difficulty the difficulty of the game
+     * @return the price of the tower
+     */
+    public static int getPrice(TowerEnum tower, GameDifficulty difficulty) {
+        switch (tower) {
+            case BASIC:
+                return (new BasicTower(0, 0)).getPrice(difficulty);
+            case CANNON:
+                return (new CannonTower(0, 0)).getPrice(difficulty);
+            case SPIKE:
+                return (new SpikeTower(0, 0)).getPrice(difficulty);
+            default:
+                return -1; // This should never happen
+        }
+    }
 
     /**
      * Gets the attack speed of the tower in (insert unit here based on the Javafx Timer hahahahaha)

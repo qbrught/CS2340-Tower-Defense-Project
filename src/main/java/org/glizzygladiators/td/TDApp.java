@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.glizzygladiators.td.controllers.ParameterController;
@@ -82,4 +85,14 @@ public class TDApp extends Application {
        scene.setRoot(newRoot);
        return oldParent;
     }
+
+    public static void ShowErrorMsg(String title, String content) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+        ButtonType closeDialog = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(closeDialog);
+        dialog.showAndWait();
+    }
+
 }

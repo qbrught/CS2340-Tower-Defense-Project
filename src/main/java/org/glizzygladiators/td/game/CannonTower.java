@@ -2,8 +2,7 @@ package org.glizzygladiators.td.game;
 
 public class CannonTower extends Tower {
 
-    public static final String CANNON_TOWER_IMAGE = ""; // TODO: Create an image for this.
-
+    public static final String CANNON_TOWER_IMAGE = "images/obamaCanon.png";
     public static final int CANNON_EASY_PRICE = 0; // TODO: Add the right price.
     public static final int CANNON_MEDIUM_PRICE = 0; // TODO: Add the right price.
     public static final int CANNON_HARD_PRICE = 0; // TODO: Add the right price.

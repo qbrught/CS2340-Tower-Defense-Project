@@ -27,6 +27,9 @@ public class WelcomeScreen implements Initializable {
                 + "-fx-background-position: center;");
     }
 
+    /**
+     * Starts the game and takes the user to the initial configuration screen.
+     */
     @FXML
     public void startClicked(MouseEvent mouseEvent) {
         Scene scene = root.getScene();
@@ -34,8 +37,11 @@ public class WelcomeScreen implements Initializable {
         TDApp.navigateToRoot(scene, root);
     }
 
+    /**
+     * Exits the game.
+     */
     @FXML
-    public void quitClicked(MouseEvent mouseEvent) {
+    public void quitClicked() {
         // TODO maybe add a dialog to ask if the user is sure they want to quit
         System.exit(0);
     }
