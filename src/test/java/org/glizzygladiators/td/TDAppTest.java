@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TDAppTest extends ApplicationTest {
 
-    private Button button;
-
     /**
      * Will be called with {@code @Before} semantics, i. e. before each test method.
      *
@@ -29,39 +27,23 @@ class TDAppTest extends ApplicationTest {
      */
     @Start
     public void start(Stage stage) {
-        button = new Button("click me!");
-        button.setId("myButton");
-        button.setOnAction(actionEvent -> button.setText("clicked!"));
-        Scene scene = new Scene(new StackPane(button), 100, 100);
+        Scene scene = new Scene(TDApp.getParent("scenes/WelcomeScreen.fxml"));
         stage.setScene(scene);
         stage.show();
     }
 
-    /**
-     * @param robot - Will be injected by the test runner.
-     */
     @Test
     void should_contain_button_with_text() {
-        FxAssert.verifyThat(button, LabeledMatchers.hasText("click me!"));
-        // or (lookup by css id):
-        FxAssert.verifyThat("#myButton", LabeledMatchers.hasText("click me!"));
-        // or (lookup by css class):
-        FxAssert.verifyThat(".button", LabeledMatchers.hasText("click me!"));
+        FxAssert.verifyThat("#startButton", LabeledMatchers.hasText("Start"));
+        FxAssert.verifyThat("#quitButton", LabeledMatchers.hasText("Quit"));
     }
 
-    /**
-     * @param robot - Will be injected by the test runner.
-     */
     @Test
     void when_button_is_clicked_text_changes() {
-        // when:
-        clickOn("#myButton");
+        clickOn("#startButton");
 
-        // then:
-        FxAssert.verifyThat(button, LabeledMatchers.hasText("clicked!"));
-        // or (lookup by css id):
-        FxAssert.verifyThat("#myButton", LabeledMatchers.hasText("clicked!"));
-        // or (lookup by css class):
-        FxAssert.verifyThat(".button", LabeledMatchers.hasText("clicked!"));
+        FxAssert.verifyThat("#EasyButton", LabeledMatchers.hasText("Easy"));
+        FxAssert.verifyThat("#MediumButton", LabeledMatchers.hasText("Medium"));
+        FxAssert.verifyThat("#HardButton", LabeledMatchers.hasText("Hard"));
     }
 }

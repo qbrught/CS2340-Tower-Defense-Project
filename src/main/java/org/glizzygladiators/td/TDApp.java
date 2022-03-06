@@ -14,14 +14,11 @@ import java.util.Objects;
 
 public class TDApp extends Application {
 
-    private static TDApp app;
-    private static Stage mainStage;
-
     @Override
     public void start(Stage stage) throws Exception {
-        app = this;
-        mainStage = stage;
-        navigateToScene(TDScenes.WelcomeScreen);
+        Parent root = TDApp.getParent("scenes/WelcomeScreen.fxml");
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         stage.getScene().getStylesheets().add(TDApp.class.getResource("styles/style.css")
                 .toExternalForm());
         stage.show();
@@ -29,14 +26,6 @@ public class TDApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public static TDApp getInstance() {
-        return app;
-    }
-
-    public static Stage getMainStage() {
-        return mainStage;
     }
 
     /**
@@ -83,43 +72,14 @@ public class TDApp extends Application {
     }
 
     /**
-     * Navigation method to use if data is not being passed to the target scene
-     * @param name the name of the scene specified in TDScenes
-     * @return The previous scene in the stage
-     */
-    public static Scene navigateToScene(TDScenes name) {
-        return navigateToScene(name, null);
-    }
-
-    /**
      * Navigates the current stage to a specified scene.
      * @param name the name of the scene specified in TDScenes
      * @param param the parameter to pass to the scene controller if applicable
      * @return The previous scene in the stage
      */
-    public static Scene navigateToScene(TDScenes name, Object param) {
-        Scene cScene = mainStage.getScene();
-        Parent root;
-        switch (name) {
-        case WelcomeScreen:
-            root = getParent("scenes/WelcomeScreen.fxml");
-            break;
-        case InitialConfig:
-            root =  getParent("scenes/InitialConfig.fxml");
-            break;
-        case GameScreen:
-            root = getParentPassParams("scenes/GameScreen.fxml", param);
-            break;
-        default:
-            root = new AnchorPane();
-        }
-        if (name == TDScenes.WelcomeScreen) {
-            Scene newScene = new Scene(root);
-            mainStage.setScene(newScene);
-        } else {
-            TDApp.mainStage.getScene().setRoot(root);
-        }
-        //Loads css which contains theming options
-        return cScene; // TODO Decide whether to add a navigation stack to TDApp
+    public static Parent navigateToRoot(Scene scene, Parent newRoot) {
+       Parent oldParent = scene.getRoot();
+       scene.setRoot(newRoot);
+       return oldParent;
     }
 }
