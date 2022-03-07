@@ -1,5 +1,6 @@
 package org.glizzygladiators.td.controllers;
 
+import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -36,7 +37,6 @@ public class GameScreen implements ParameterController, Initializable {
     private GameInstance game;
 
     private EventHandler<MouseEvent> buyModeHandler = null;
-
 
 
     /**

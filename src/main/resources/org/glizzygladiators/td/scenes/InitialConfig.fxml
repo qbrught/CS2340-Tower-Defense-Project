@@ -12,17 +12,17 @@
     <VBox alignment="CENTER" spacing="20">
         <HBox alignment="CENTER" spacing="25">
             <Label text="Enter your name:" style="-fx-font-size: 20; -fx-font-weight: bold;" />
-            <TextField fx:id="playerName" />
+            <TextField fx:id="playerName" id="playerNameInput"/>
         </HBox>
         <HBox alignment="CENTER" spacing="15">
             <Label text="Select your difficulty:" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-            <Button text="Easy" onMouseClicked="#setDifficulty"/>
-            <Button text="Medium" onMouseClicked="#setDifficulty"/>
-            <Button text="Hard" onMouseClicked="#setDifficulty"/>
+            <Button text="Easy" onMouseClicked="#setDifficulty" id="EasyButton"/>
+            <Button text="Medium" onMouseClicked="#setDifficulty" id="MediumButton"/>
+            <Button text="Hard" onMouseClicked="#setDifficulty" id="HardButton"/>
         </HBox>
         <HBox alignment="CENTER" spacing="20">
-            <Button text="Back" onMouseClicked="#backButtonClicked"/>
-            <Button text="Continue" onMouseClicked="#finishInit"/>
+            <Button text="Back" onMouseClicked="#backButtonClicked" id="BackButton"/>
+            <Button text="Continue" onMouseClicked="#finishInit" id="ContinueButton"/>
         </HBox>
     </VBox>
 </StackPane>

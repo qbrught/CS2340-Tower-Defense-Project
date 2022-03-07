@@ -2,7 +2,9 @@ package org.glizzygladiators.td.controllers;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -12,7 +14,6 @@ import javafx.stage.Stage;
 import org.glizzygladiators.td.game.GameDifficulty;
 import org.glizzygladiators.td.game.GameInstance;
 import org.glizzygladiators.td.TDApp;
-import org.glizzygladiators.td.TDScenes;
 
 import static org.glizzygladiators.td.game.GameDifficulty.*;
 
@@ -50,8 +51,9 @@ public class InitialConfig {
         if (difficulty == null || playerName.getText() == null
                 || playerName.getText().equals("") || playerName.getText().isBlank()
                 || playerName.getText().length() > 20) {
-            Stage stage = (Stage) myStackPane.getScene().getWindow();
-            Dialog<String> dialog = new Dialog<>(); // TODO Change this to use TDApp ShowErrorMsg()
+
+            Dialog<String> dialog = new Dialog<>();
+
             dialog.setTitle("Error");
             if (playerName != null && playerName.getText().length() > 20) {
                 dialog.setContentText("The character limit for names is 20!");
@@ -61,35 +63,28 @@ public class InitialConfig {
             }
             ButtonType closeDialog = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().add(closeDialog);
+            dialog.getDialogPane().lookupButton(closeDialog).setId("ExitImproperUserSettingsButton");
+            dialog.getDialogPane().lookup(".label").setId("UserSettingsWarningContent");
             dialog.showAndWait();
         } else {
-            Label warning = new Label("You have selected the name \"" + playerName.getText()
+            String contentText = "You have selected the name \"" + playerName.getText()
                     + "\" and will\nplay at difficulty " + difficulty.toString().toUpperCase()
-                    + ". Do you wish to proceed?");
-            warning.setAlignment(Pos.CENTER);
-            Button goBack = new Button("Go Back");
-            Button confirm = new Button("Confirm");
-            HBox horiBox = new HBox(goBack, confirm);
-            VBox verBox = new VBox(warning, horiBox);
-            horiBox.setAlignment(Pos.CENTER);
-            horiBox.setSpacing(25);
-            verBox.setAlignment(Pos.CENTER);
-            verBox.setSpacing(15);
-            StackPane stack = new StackPane();
-            stack.getChildren().add(verBox);
-            stack.setAlignment(Pos.CENTER);
-            Scene scene = new Scene(stack, 450, 170);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            goBack.setOnAction(e -> {
-                stage.close();
-            });
+                    + ". Do you wish to proceed?";
+            Dialog<String> dialog = new Dialog<>();
+            dialog.setTitle("Game Start");
+            dialog.setContentText(contentText);
+            ButtonType goBackType = new ButtonType("Go Back", ButtonBar.ButtonData.CANCEL_CLOSE);
+            ButtonType confirmType = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(confirmType, goBackType);
+            dialog.getDialogPane().lookupButton(goBackType).setId("GoBackButton");
+            Button confirm = (Button) dialog.getDialogPane().lookupButton(confirmType);
+            confirm.setId("ConfirmButton");
             confirm.setOnAction(e -> {
-                stage.close();
-                TDApp.navigateToScene(TDScenes.GameScreen, new GameInstance(playerName.getText(),
-                        difficulty));
+                Parent root = TDApp.getParentPassParams("scenes/GameScreen.fxml", new GameInstance(playerName.getText(),
+                difficulty));
+                TDApp.navigateToRoot(myStackPane.getScene(), root);
             });
-            stage.show();
+            dialog.showAndWait();
         }
     }
 
@@ -97,7 +92,8 @@ public class InitialConfig {
      * Navigates back to the welcome screen.
      */
     @FXML
-    public void backButtonClicked() {
-        TDApp.navigateToScene(TDScenes.WelcomeScreen);
+    public void backButtonClicked(MouseEvent mouseEvent) {
+        Parent root = TDApp.getParent("scenes/WelcomeScreen.fxml");
+        TDApp.navigateToRoot(myStackPane.getScene(), root);
     }
 }
