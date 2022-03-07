@@ -3,9 +3,9 @@ package org.glizzygladiators.td.game;
 public class BasicTower extends Tower {
 
     public static final String BASIC_TOWER_IMAGE = "images/obamaBasic.png";
-    public static final int BASIC_EASY_PRICE = 0; // TODO: Add the right price.
-    public static final int BASIC_MEDIUM_PRICE = 0; // TODO: Add the right price.
-    public static final int BASIC_HARD_PRICE = 0; // TODO: Add the right price.
+    public static final int BASIC_EASY_PRICE = 50; // TODO: Add the right price.
+    public static final int BASIC_MEDIUM_PRICE = 75; // TODO: Add the right price.
+    public static final int BASIC_HARD_PRICE = 100; // TODO: Add the right price.
     private static final int INIT_ATTACK_SPEED = 0; // TODO: Add the initial attack speed.
     private static final int INIT_ATTACK_DAMAGE = 0; // TODO: Add the initial attack damage.
 

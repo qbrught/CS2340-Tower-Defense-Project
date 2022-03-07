@@ -3,9 +3,9 @@ package org.glizzygladiators.td.game;
 public class SpikeTower extends Tower {
 
     public static final String SPIKE_TOWER_IMAGE = "images/obamaSpike.png";
-    public static final int SPIKE_EASY_PRICE = 0; // TODO: Add the right price.
-    public static final int SPIKE_MEDIUM_PRICE = 0; // TODO: Add the right price.
-    public static final int SPIKE_HARD_PRICE = 0; // TODO: Add the right price.
+    public static final int SPIKE_EASY_PRICE = 65; // TODO: Add the right price.
+    public static final int SPIKE_MEDIUM_PRICE = 100; // TODO: Add the right price.
+    public static final int SPIKE_HARD_PRICE = 130; // TODO: Add the right price.
     private static final int INIT_ATTACK_SPEED = 0; // TODO: Add the initial attack speed.
     private static final int INIT_ATTACK_DAMAGE = 0; // TODO: Add the initial attack damage.
 
