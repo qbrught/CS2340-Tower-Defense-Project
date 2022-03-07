@@ -1,6 +1,5 @@
 package org.glizzygladiators.td.controllers;
 
-import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -85,7 +84,7 @@ public class GameScreen implements ParameterController, Initializable {
         Scene scene = ((Stage) gamePane.getScene().getWindow()).getScene();
 
         if (buyModeHandler != null) {
-            TDApp.ShowErrorMsg("Invalid State", "You're already buying something else");
+            TDApp.showErrorMsg("Invalid State", "You're already buying something else");
             return;
         }
 
@@ -114,7 +113,7 @@ public class GameScreen implements ParameterController, Initializable {
                 }
 
                 if (isInvalidTowerLocation(newTower)) {
-                    TDApp.ShowErrorMsg("Invalid Location",
+                    TDApp.showErrorMsg("Invalid Location",
                             "You can't place a tower there");
                     return;
                 }
@@ -130,17 +129,17 @@ public class GameScreen implements ParameterController, Initializable {
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
         Image image;
         switch (tower) {
-            case BASIC:
-                image = new Image(TDApp.getResourcePath(BasicTower.BASIC_TOWER_IMAGE));
-                break;
-            case CANNON:
-                image = new Image(TDApp.getResourcePath(CannonTower.CANNON_TOWER_IMAGE));
-                break;
-            case SPIKE:
-                image = new Image(TDApp.getResourcePath(SpikeTower.SPIKE_TOWER_IMAGE));
-                break;
-            default:
-                image = null;
+        case BASIC:
+            image = new Image(TDApp.getResourcePath(BasicTower.BASIC_TOWER_IMAGE));
+            break;
+        case CANNON:
+            image = new Image(TDApp.getResourcePath(CannonTower.CANNON_TOWER_IMAGE));
+            break;
+        case SPIKE:
+            image = new Image(TDApp.getResourcePath(SpikeTower.SPIKE_TOWER_IMAGE));
+            break;
+        default:
+            image = null;
         }
         scene.setCursor(new ImageCursor(image));
 
@@ -156,22 +155,22 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public static boolean hasCollision(Rectangle r1, Rectangle r2) {
-        return r1.getX() <= r2.getX() + r2.getWidth() &&
-                r1.getX() + Tower.SIZE >= r2.getX() &&
-                r1.getY() <= r2.getY() + r2.getHeight() &&
-                r1.getY() + Tower.SIZE >= r2.getY();
+        return r1.getX() <= r2.getX() + r2.getWidth()
+                && r1.getX() + Tower.SIZE >= r2.getX()
+                && r1.getY() <= r2.getY() + r2.getHeight()
+                && r1.getY() + Tower.SIZE >= r2.getY();
     }
 
     private boolean isInvalidTowerLocation(Tower testTower) {
-        return towerPlacedOffMap((int) testTower.getX(), (int) testTower.getY()) ||
-                collidesWithPath(testTower) ||
-                collidesWithTower(testTower) ||
-                collidesWithMonument(testTower);
+        return towerPlacedOffMap((int) testTower.getX(), (int) testTower.getY())
+                || collidesWithPath(testTower)
+                || collidesWithTower(testTower)
+                || collidesWithMonument(testTower);
     }
 
     private boolean towerPlacedOffMap(int x, int y) {
-        return (x > 1000 - Tower.SIZE || x < 0) ||
-                (y > 750 - Tower.SIZE || y < 0);
+        return (x > 1000 - Tower.SIZE || x < 0)
+                || (y > 750 - Tower.SIZE || y < 0);
     }
 
     private boolean collidesWithPath(Rectangle gameObj) {
@@ -180,7 +179,9 @@ public class GameScreen implements ParameterController, Initializable {
 
     private boolean collidesWithTower(Rectangle gameObj) {
         for (Tower t : game.getTowers()) {
-            if (hasCollision(gameObj, t)) return true;
+            if (hasCollision(gameObj, t)) {
+                return true;
+            }
         }
         return false;
     }

@@ -1,16 +1,10 @@
 package org.glizzygladiators.td.controllers;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.glizzygladiators.td.game.GameDifficulty;
 import org.glizzygladiators.td.game.GameInstance;
 import org.glizzygladiators.td.TDApp;
@@ -25,20 +19,22 @@ public class InitialConfig {
 
     /**
      * Handler to set the difficulty of the game.
-     * @param mouseEvent
+     * @param mouseEvent mouse event to handle setting difficulty
      */
     @FXML
     public void setDifficulty(MouseEvent mouseEvent) {
         switch (((Button) mouseEvent.getSource()).getText()) {
-            case "Easy":
-                difficulty = EASY;
-                break;
-            case "Medium":
-                difficulty = MEDIUM;
-                break;
-            case "Hard":
-                difficulty = HARD;
-                break;
+        case "Easy":
+            difficulty = EASY;
+            break;
+        case "Medium":
+            difficulty = MEDIUM;
+            break;
+        case "Hard":
+            difficulty = HARD;
+            break;
+        default:
+            difficulty = EASY;
         }
     }
 
@@ -63,7 +59,8 @@ public class InitialConfig {
             }
             ButtonType closeDialog = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().add(closeDialog);
-            dialog.getDialogPane().lookupButton(closeDialog).setId("ExitImproperUserSettingsButton");
+            dialog.getDialogPane().lookupButton(closeDialog).setId(
+                    "ExitImproperUserSettingsButton");
             dialog.getDialogPane().lookup(".label").setId("UserSettingsWarningContent");
             dialog.showAndWait();
         } else {
@@ -80,8 +77,8 @@ public class InitialConfig {
             Button confirm = (Button) dialog.getDialogPane().lookupButton(confirmType);
             confirm.setId("ConfirmButton");
             confirm.setOnAction(e -> {
-                Parent root = TDApp.getParentPassParams("scenes/GameScreen.fxml", new GameInstance(playerName.getText(),
-                difficulty));
+                Parent root = TDApp.getParentPassParams("scenes/GameScreen.fxml",
+                        new GameInstance(playerName.getText(), difficulty));
                 TDApp.navigateToRoot(myStackPane.getScene(), root);
             });
             dialog.showAndWait();
@@ -90,6 +87,7 @@ public class InitialConfig {
 
     /**
      * Navigates back to the welcome screen.
+     * @param mouseEvent mouse event that handles back button
      */
     @FXML
     public void backButtonClicked(MouseEvent mouseEvent) {

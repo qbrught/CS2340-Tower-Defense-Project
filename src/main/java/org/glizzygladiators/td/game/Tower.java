@@ -6,7 +6,7 @@ import org.glizzygladiators.td.TDApp;
 
 public abstract class Tower extends javafx.scene.shape.Rectangle {
 
-    public static final int SIZE = 50; // TODO: Change this to a smaller value to fit smaller on the screen.
+    public static final int SIZE = 50;
     protected int attackSpeed;
     protected int attackDamage;
     protected int locationX;
@@ -50,14 +50,14 @@ public abstract class Tower extends javafx.scene.shape.Rectangle {
      */
     public static int getPrice(TowerEnum tower, GameDifficulty difficulty) {
         switch (tower) {
-            case BASIC:
-                return (new BasicTower(0, 0)).getPrice(difficulty);
-            case CANNON:
-                return (new CannonTower(0, 0)).getPrice(difficulty);
-            case SPIKE:
-                return (new SpikeTower(0, 0)).getPrice(difficulty);
-            default:
-                return -1; // This should never happen
+        case BASIC:
+            return (new BasicTower(0, 0)).getPrice(difficulty);
+        case CANNON:
+            return (new CannonTower(0, 0)).getPrice(difficulty);
+        case SPIKE:
+            return (new SpikeTower(0, 0)).getPrice(difficulty);
+        default:
+            return -1; // This should never happen
         }
     }
 

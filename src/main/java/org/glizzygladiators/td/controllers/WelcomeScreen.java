@@ -2,7 +2,6 @@ package org.glizzygladiators.td.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -29,7 +28,7 @@ public class WelcomeScreen implements Initializable {
      * Starts the game and takes the user to the initial configuration screen.
      */
     @FXML
-    public void startClicked(MouseEvent mouseEvent) {
+    public void startClicked() {
         Scene scene = root.getScene();
         Parent root = TDApp.getParent("scenes/InitialConfig.fxml");
         TDApp.navigateToRoot(scene, root);

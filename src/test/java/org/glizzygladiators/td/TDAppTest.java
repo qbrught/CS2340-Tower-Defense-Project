@@ -1,33 +1,16 @@
 package org.glizzygladiators.td;
-  
 import org.junit.jupiter.api.Test;
-
-
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxAssert;
-import org.testfx.api.FxRobot;
-import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
 
 import javafx.scene.Scene;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.assertj.core.internal.IntArrays;
 
 class TDAppTest extends ApplicationTest {
 
-    Scene scene;
+    private Scene scene;
 
     /**
      * Will be called with {@code @Before} semantics, i. e. before each test method.
@@ -61,7 +44,9 @@ class TDAppTest extends ApplicationTest {
         clickOn("#startButton");
 
         clickOn("#playerNameInput").write(name);
-        if (!nullDifficulty) clickOn("#EasyButton");
+        if (!nullDifficulty) {
+            clickOn("#EasyButton");
+        }
         clickOn("#ContinueButton");
 
         FxAssert.verifyThat("#ExitImproperUserSettingsButton", LabeledMatchers.hasText("OK"));
@@ -91,7 +76,8 @@ class TDAppTest extends ApplicationTest {
         testUserSettingsWarningMessage(name, warning, true);
     }
 
-    void testChangingAmountsPerDifficulty(String difficulty, int expectedMoney, int expectedHealth) {
+    void testChangingAmountsPerDifficulty(String difficulty, int expectedMoney,
+                                          int expectedHealth) {
         clickOn("#startButton");
 
         clickOn("#playerNameInput").write("BadGameDesign");
