@@ -18,8 +18,6 @@ import org.glizzygladiators.td.game.*;
 import org.glizzygladiators.td.game.TowerEnum;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class GameScreen implements ParameterController, Initializable {
@@ -35,9 +33,9 @@ public class GameScreen implements ParameterController, Initializable {
     @FXML
     private Label healthLabel;
 
-    private List<Rectangle> path;
     private ObservableList<Node> gameObjects;
     private GameInstance game;
+
     private EventHandler<MouseEvent> buyModeHandler = null;
 
 
@@ -58,12 +56,6 @@ public class GameScreen implements ParameterController, Initializable {
     public void setParams(Object params) {
         game = (GameInstance) params;
 
-        path = new ArrayList<>();
-        path.add(new Rectangle(0, 119, 843, 168 - 119));
-        path.add(new Rectangle(795, 169, 843 - 795, 334 - 169));
-        path.add(new Rectangle(134, 319, 794 - 134, 364 - 319));
-        path.add(new Rectangle(125, 364, 169 - 125, 572 - 364));
-        path.add(new Rectangle(170, 552, 747 - 170, 602 - 552));
         gameObjects.add(game.getMonument());
         moneyLabel.textProperty().bind(game.getMoneyProperty().asString());
         healthLabel.textProperty().bind(game.getHealthProperty().asString());
@@ -91,7 +83,13 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public void enterTowerPlacementMode(TowerEnum tower) {
-        Scene scene = gamePane.getScene();
+        Scene scene = ((Stage) gamePane.getScene().getWindow()).getScene();
+
+        if (buyModeHandler != null) {
+            TDApp.ShowErrorMsg("Invalid State", "You're already buying something else");
+            return;
+        }
+
 
         buyModeHandler = new EventHandler<MouseEvent>() {
             @Override
@@ -101,52 +99,79 @@ public class GameScreen implements ParameterController, Initializable {
                 x -= Tower.SIZE / 2; // This is so that where you click is the center of where
                 y -= Tower.SIZE / 2; // the tower is placed
 
-                boolean checkOverlap = false;
-                for (Rectangle part : path) {
-                    checkOverlap = overlaps(new Rectangle(x, y, Tower.SIZE, Tower.SIZE), part);
-                    if (checkOverlap) {
-                        break;
-                    }
+                if (isInvalidTowerLocation(x, y)) {
+                    TDApp.ShowErrorMsg("Invalid Location",
+                            "You can't place a tower there");
+                    return;
                 }
 
-                // TODO put the following into a loop and show a popup if invalid location
-                if (!checkOverlap) {
-                    switch (tower) {
-                        case BASIC:
-                            BasicTower basicTower = new BasicTower(x, y);
-                            game.getTowers().add(basicTower);
-                            gameObjects.add(basicTower);
-                            game.setMoney(game.getMoney() - basicTower.getPrice(game.getDifficulty()));
-                            break;
-                        case CANNON:
-                            CannonTower cannonTower = new CannonTower(x, y);
-                            game.getTowers().add(cannonTower);
-                            gameObjects.add(cannonTower);
-                            game.setMoney(game.getMoney() - cannonTower.getPrice(game.getDifficulty()));
-                            break;
-                        case SPIKE:
-                            SpikeTower spikeTower = new SpikeTower(x, y);
-                            game.getTowers().add(spikeTower);
-                            gameObjects.add(spikeTower);
-                            game.setMoney(game.getMoney() - spikeTower.getPrice(game.getDifficulty()));
-                            break;
-                    }
-                    exitTowerPlacementMode();
+                Tower newTower;
+                switch (tower) {
+                    case BASIC:
+                        newTower = new BasicTower(x, y);
+                        break;
+                    case CANNON:
+                        newTower = new CannonTower(x, y);
+                        break;
+                    case SPIKE:
+                        newTower = new SpikeTower(x, y);
+                        break;
+                    default:
+                        newTower = null;
                 }
+                game.getTowers().add(newTower);
+                gameObjects.add(newTower);
+                game.setMoney(game.getMoney() - newTower.getPrice(game.getDifficulty()));
+                scene.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
+                buyModeHandler = null;
+                exitTowerPlacementMode();
             }
         };
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
+
     }
 
     public void exitTowerPlacementMode() {
-        if (buyModeHandler == null) return;
-        gamePane.getScene()
-                .removeEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
-        buyModeHandler = null;
+        if (buyModeHandler != null) {
+            ((Stage) gamePane.getScene().getWindow())
+                    .removeEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
+            buyModeHandler = null;
+        }
+
     }
 
-    public boolean overlaps(Rectangle r1, Rectangle r2) {
-        return r1.getX() <= r2.getX() + r2.getWidth() && r1.getX() + r1.getWidth() >= r2.getX() &&
-                r1.getY() <= r2.getY() + r2.getHeight() && r1.getY() + r1.getHeight() >= r2.getY();
+    public static boolean hasCollision(Rectangle r1, Rectangle r2) {
+        return r1.getX() <= r2.getX() + r2.getWidth() &&
+                r1.getX() + Tower.SIZE >= r2.getX() &&
+                r1.getY() <= r2.getY() + r2.getHeight() &&
+                r1.getY() + Tower.SIZE >= r2.getY();
+    }
+
+    private boolean isInvalidTowerLocation(int x, int y) {
+        var testTower = new BasicTower(x, y);
+        return towerPlacedOffMap(x, y) ||
+                collidesWithPath(testTower) ||
+                collidesWithTower(testTower) ||
+                collidesWithMonument(testTower);
+    }
+
+    private boolean towerPlacedOffMap(int x, int y) {
+        return (x > 1000 - Tower.SIZE || x < 0) ||
+                (y > 750 - Tower.SIZE || y < 0);
+    }
+
+    private boolean collidesWithPath(Rectangle gameObj) {
+        return game.getMap().hasCollisionWithPath(gameObj);
+    }
+
+    private boolean collidesWithTower(Rectangle gameObj) {
+        for (Tower t : game.getTowers()) {
+            if (hasCollision(gameObj, t)) return true;
+        }
+        return false;
+    }
+
+    private boolean collidesWithMonument(Rectangle gameObj) {
+        return hasCollision(gameObj, game.getMonument());
     }
 }

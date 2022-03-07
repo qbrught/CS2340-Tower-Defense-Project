@@ -25,6 +25,7 @@ public class GameInstance {
     private ObservableList<Tower> towers;
     private ObservableList<Enemy> enemies;
     private Monument monument;
+    private Map map;
 
     /**
      * Initializes a GameInstance object
@@ -41,6 +42,7 @@ public class GameInstance {
         monument = new Monument(700, 475, "images/monument.jpg");
             // The constants for the monument object only apply to this map. This definition should
             // change if different maps and different monuments are added to the game
+        map = new Map();
     }
 
     /**
@@ -129,6 +131,14 @@ public class GameInstance {
      */
     public Monument getMonument() {
         return monument;
+    }
+
+    /**
+     * Returns the map that this GameInstance uses
+     * @return the map that this GameInstance uses
+     */
+    public Map getMap() {
+        return map;
     }
 
     /**

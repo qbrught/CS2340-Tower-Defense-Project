@@ -2,17 +2,24 @@ package org.glizzygladiators.td.game;
 
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import org.glizzygladiators.td.controllers.GameScreen;
 
 import java.util.ArrayList;
 
 public class Map {
 
-    private Shape[] collisionBound;
+    private Rectangle[] collisionBound;
     private Path path;
 
     public Map() {
-        // TODO yeah
+        collisionBound = new Rectangle[]{
+            new Rectangle(0, 119, 843, 168 - 119),
+            new Rectangle(795, 169, 843 - 795, 334 - 169),
+            new Rectangle(134, 319, 794 - 134, 364 - 319),
+            new Rectangle(125, 364, 169 - 125, 572 - 364),
+            new Rectangle(170, 552, 747 - 170, 602 - 552)
+        };
+
     }
 
 
@@ -20,7 +27,14 @@ public class Map {
         return path;
     }
 
-    public boolean hasCollision(Shape shape) {
+    public boolean hasCollisionWithPath(Rectangle input) {
+        for (var rect: collisionBound) {
+            if (hasCollision(input, rect)) return true;
+        }
         return false;
+    }
+
+    private static boolean hasCollision(Rectangle r1, Rectangle r2) {
+        return GameScreen.hasCollision(r1, r2);
     }
 }
