@@ -83,7 +83,7 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public void enterTowerPlacementMode(TowerEnum tower) {
-        Scene scene = TDApp.getMainStage().getScene();
+        Scene scene = ((Stage) gamePane.getScene().getWindow()).getScene();
 
         if (buyModeHandler != null) {
             TDApp.ShowErrorMsg("Invalid State", "You're already buying something else");
@@ -133,7 +133,7 @@ public class GameScreen implements ParameterController, Initializable {
 
     public void exitTowerPlacementMode() {
         if (buyModeHandler != null) {
-            TDApp.getMainStage().getScene()
+            ((Stage) gamePane.getScene().getWindow())
                     .removeEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
             buyModeHandler = null;
         }
