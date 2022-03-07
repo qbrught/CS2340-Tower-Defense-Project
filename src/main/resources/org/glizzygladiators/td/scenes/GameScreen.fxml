@@ -26,7 +26,6 @@
                 <Label fx:id="healthLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" id="MonumentHealthLAbel"/>
             </GridPane>
 
-            <Button id="basicTower" onMouseClicked="#buyTower" />
             <StackPane fx:id="sideBarPane" alignment="CENTER" style="-fx-padding: 15px">
 
                 <GridPane hgap="12" vgap="12">

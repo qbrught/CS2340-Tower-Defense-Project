@@ -5,10 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -99,12 +98,6 @@ public class GameScreen implements ParameterController, Initializable {
                 x -= Tower.SIZE / 2; // This is so that where you click is the center of where
                 y -= Tower.SIZE / 2; // the tower is placed
 
-                if (isInvalidTowerLocation(x, y)) {
-                    TDApp.ShowErrorMsg("Invalid Location",
-                            "You can't place a tower there");
-                    return;
-                }
-
                 Tower newTower;
                 switch (tower) {
                     case BASIC:
@@ -119,6 +112,13 @@ public class GameScreen implements ParameterController, Initializable {
                     default:
                         newTower = null;
                 }
+
+                if (isInvalidTowerLocation(newTower)) {
+                    TDApp.ShowErrorMsg("Invalid Location",
+                            "You can't place a tower there");
+                    return;
+                }
+
                 game.getTowers().add(newTower);
                 gameObjects.add(newTower);
                 game.setMoney(game.getMoney() - newTower.getPrice(game.getDifficulty()));
@@ -128,6 +128,21 @@ public class GameScreen implements ParameterController, Initializable {
             }
         };
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
+        Image image;
+        switch (tower) {
+            case BASIC:
+                image = new Image(TDApp.getResourcePath(BasicTower.BASIC_TOWER_IMAGE));
+                break;
+            case CANNON:
+                image = new Image(TDApp.getResourcePath(CannonTower.CANNON_TOWER_IMAGE));
+                break;
+            case SPIKE:
+                image = new Image(TDApp.getResourcePath(SpikeTower.SPIKE_TOWER_IMAGE));
+                break;
+            default:
+                image = null;
+        }
+        scene.setCursor(new ImageCursor(image));
 
     }
 
@@ -137,7 +152,7 @@ public class GameScreen implements ParameterController, Initializable {
                     .removeEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
             buyModeHandler = null;
         }
-
+        gamePane.getScene().setCursor(Cursor.DEFAULT);
     }
 
     public static boolean hasCollision(Rectangle r1, Rectangle r2) {
@@ -147,9 +162,8 @@ public class GameScreen implements ParameterController, Initializable {
                 r1.getY() + Tower.SIZE >= r2.getY();
     }
 
-    private boolean isInvalidTowerLocation(int x, int y) {
-        var testTower = new BasicTower(x, y);
-        return towerPlacedOffMap(x, y) ||
+    private boolean isInvalidTowerLocation(Tower testTower) {
+        return towerPlacedOffMap((int) testTower.getX(), (int) testTower.getY()) ||
                 collidesWithPath(testTower) ||
                 collidesWithTower(testTower) ||
                 collidesWithMonument(testTower);
