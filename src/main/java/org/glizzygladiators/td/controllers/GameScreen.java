@@ -162,16 +162,20 @@ public class GameScreen implements ParameterController, Initializable {
                 r1.getY() + Tower.SIZE >= r2.getY();
     }
 
+    public static boolean towerPlacedOffMap(int x, int y) {
+        return (x > 1000 - Tower.SIZE || x < 0) ||
+                (y > 750 - Tower.SIZE || y < 0);
+    }
+
+    public static boolean collidesWithMonument(Rectangle gameObj, Monument monument) {
+        return hasCollision(gameObj, monument);
+    }
+
     private boolean isInvalidTowerLocation(Tower testTower) {
         return towerPlacedOffMap((int) testTower.getX(), (int) testTower.getY()) ||
                 collidesWithPath(testTower) ||
                 collidesWithTower(testTower) ||
-                collidesWithMonument(testTower);
-    }
-
-    private boolean towerPlacedOffMap(int x, int y) {
-        return (x > 1000 - Tower.SIZE || x < 0) ||
-                (y > 750 - Tower.SIZE || y < 0);
+                collidesWithMonument(testTower, game.getMonument());
     }
 
     private boolean collidesWithPath(Rectangle gameObj) {
@@ -183,9 +187,5 @@ public class GameScreen implements ParameterController, Initializable {
             if (hasCollision(gameObj, t)) return true;
         }
         return false;
-    }
-
-    private boolean collidesWithMonument(Rectangle gameObj) {
-        return hasCollision(gameObj, game.getMonument());
     }
 }

@@ -17,6 +17,8 @@ import org.glizzygladiators.td.TDApp;
 
 import static org.glizzygladiators.td.game.GameDifficulty.*;
 
+import java.util.ArrayList;
+
 public class InitialConfig {
 
     @FXML private TextField playerName;
@@ -42,25 +44,37 @@ public class InitialConfig {
         }
     }
 
+    public static String determineMessage(GameDifficulty difficulty,
+                                          String playerName) {
+        ArrayList<String> warnings = new ArrayList<String>();
+        if (difficulty == null) {
+            warnings.add("Choose difficulty");
+        } 
+        if (playerName == null || playerName == "" || playerName.isBlank()) {
+            warnings.add("Enter name with non-space characters");
+        }
+        if (playerName.length() > 20) {
+            warnings.add("Enter name less than 20 characters");
+        }
+        if (warnings.isEmpty()) return null;
+        String message = "Please do the following:\n";
+        for (String warning : warnings) {
+            message += warning + "\n";
+        }
+        return message;
+    }
     /**
      * Completes the initialization of the game if the player has a valid
      * difficulty, name, and confirms the information before starting.
      */
     @FXML
     public void finishInit() {
-        if (difficulty == null || playerName.getText() == null
-                || playerName.getText().equals("") || playerName.getText().isBlank()
-                || playerName.getText().length() > 20) {
-
+        String message = determineMessage(difficulty, playerName.getText());
+        if (message != null) {
             Dialog<String> dialog = new Dialog<>();
 
             dialog.setTitle("Error");
-            if (playerName != null && playerName.getText().length() > 20) {
-                dialog.setContentText("The character limit for names is 20!");
-            } else {
-                dialog.setContentText("You must select your difficulty and choose a valid name "
-                        + "before proceeding!");
-            }
+            dialog.setContentText(message);
             ButtonType closeDialog = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().add(closeDialog);
             dialog.getDialogPane().lookupButton(closeDialog).setId("ExitImproperUserSettingsButton");

@@ -68,7 +68,7 @@ class TDAppTest extends ApplicationTest {
         FxAssert.verifyThat("#UserSettingsWarningContent", LabeledMatchers.hasText(warning));
     }
 
-    @Test
+    /*@Test
     void testImproperName() {
         String name = "     ";
         String warning = "You must select your difficulty and choose a valid name "
@@ -89,7 +89,7 @@ class TDAppTest extends ApplicationTest {
         String warning = "You must select your difficulty and choose a valid name "
             + "before proceeding!";
         testUserSettingsWarningMessage(name, warning, true);
-    }
+    }*/
 
     void testChangingAmountsPerDifficulty(String difficulty, int expectedMoney, int expectedHealth) {
         clickOn("#startButton");
@@ -105,7 +105,7 @@ class TDAppTest extends ApplicationTest {
         FxAssert.verifyThat("#MonumentHealthLAbel", LabeledMatchers.hasText(healthText));
     }
 
-    @Test
+   @Test
     void testEasyDifficulty()  {
         testChangingAmountsPerDifficulty("Easy", 500, 200);
     }

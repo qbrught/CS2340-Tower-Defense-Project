@@ -4,8 +4,6 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import org.glizzygladiators.td.controllers.GameScreen;
 
-import java.util.ArrayList;
-
 public class Map {
 
     private Rectangle[] collisionBound;
@@ -21,7 +19,6 @@ public class Map {
         };
 
     }
-
 
     public Path getPath() {
         return path;
