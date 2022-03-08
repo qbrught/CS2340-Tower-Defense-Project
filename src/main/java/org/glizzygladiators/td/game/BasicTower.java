@@ -3,11 +3,11 @@ package org.glizzygladiators.td.game;
 public class BasicTower extends Tower {
 
     public static final String BASIC_TOWER_IMAGE = "images/obamaBasic.png";
-    public static final int BASIC_EASY_PRICE = 0; // TODO: Add the right price.
-    public static final int BASIC_MEDIUM_PRICE = 0; // TODO: Add the right price.
-    public static final int BASIC_HARD_PRICE = 0; // TODO: Add the right price.
-    private static final int INIT_ATTACK_SPEED = 0; // TODO: Add the initial attack speed.
-    private static final int INIT_ATTACK_DAMAGE = 0; // TODO: Add the initial attack damage.
+    public static final int BASIC_EASY_PRICE = 50;
+    public static final int BASIC_MEDIUM_PRICE = 75;
+    public static final int BASIC_HARD_PRICE = 100;
+    private static final int INIT_ATTACK_SPEED = 0;
+    private static final int INIT_ATTACK_DAMAGE = 0;
 
     /**
      * Creates a basic tower instance.
@@ -22,14 +22,14 @@ public class BasicTower extends Tower {
     @Override
     public int getPrice(GameDifficulty difficulty) {
         switch (difficulty) {
-            case EASY:
-                return BASIC_EASY_PRICE;
-            case MEDIUM:
-                return BASIC_MEDIUM_PRICE;
-            case HARD:
-                return BASIC_HARD_PRICE;
-            default:
-                return -1; // This shouldn't happen.
+        case EASY:
+            return BASIC_EASY_PRICE;
+        case MEDIUM:
+            return BASIC_MEDIUM_PRICE;
+        case HARD:
+            return BASIC_HARD_PRICE;
+        default:
+            return -1; // This shouldn't happen.
         }
     }
 }

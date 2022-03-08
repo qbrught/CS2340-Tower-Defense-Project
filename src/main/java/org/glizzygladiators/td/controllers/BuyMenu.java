@@ -5,7 +5,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.glizzygladiators.td.TDApp;
-import org.glizzygladiators.td.game.GameInstance;
 import org.glizzygladiators.td.game.Tower;
 import org.glizzygladiators.td.game.TowerEnum;
 
@@ -26,10 +25,10 @@ public class BuyMenu implements ParameterController {
         var playerMoney = gsController.getGame().getMoney();
         var towerCost = Tower.getPrice(tower, gsController.getGame().getDifficulty());
         if (playerMoney < towerCost) {
-            TDApp.ShowErrorMsg("Insufficient Funds!",
-                    "You do not have the money required to buy this tower\n" +
-                            "Your money: " + playerMoney + "\n" +
-                            "Tower cost: " + towerCost + "\n");
+            TDApp.showErrorMsg("Insufficient Funds!",
+                    "You do not have the money required to buy this tower\n"
+                            + "Your money: " + playerMoney + "\n"
+                            + "Tower cost: " + towerCost + "\n");
             return;
         }
 

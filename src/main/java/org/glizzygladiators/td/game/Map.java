@@ -1,5 +1,4 @@
 package org.glizzygladiators.td.game;
-
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import org.glizzygladiators.td.controllers.GameScreen;
@@ -26,7 +25,9 @@ public class Map {
 
     public boolean hasCollisionWithPath(Rectangle input) {
         for (var rect: collisionBound) {
-            if (hasCollision(input, rect)) return true;
+            if (hasCollision(input, rect)) {
+                return true;
+            }
         }
         return false;
     }

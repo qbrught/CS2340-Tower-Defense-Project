@@ -76,17 +76,17 @@ public class TDApp extends Application {
 
     /**
      * Navigates the current stage to a specified scene.
-     * @param name the name of the scene specified in TDScenes
-     * @param param the parameter to pass to the scene controller if applicable
+     * @param scene old parent scene
+     * @param newRoot new parent scene to navigate to
      * @return The previous scene in the stage
      */
     public static Parent navigateToRoot(Scene scene, Parent newRoot) {
-       Parent oldParent = scene.getRoot();
-       scene.setRoot(newRoot);
-       return oldParent;
+        Parent oldParent = scene.getRoot();
+        scene.setRoot(newRoot);
+        return oldParent;
     }
 
-    public static void ShowErrorMsg(String title, String content) {
+    public static void showErrorMsg(String title, String content) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle(title);
         dialog.setContentText(content);

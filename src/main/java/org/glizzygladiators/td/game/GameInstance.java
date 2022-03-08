@@ -4,15 +4,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -43,8 +34,8 @@ public class GameInstance {
         towers = FXCollections.observableList(new ArrayList<Tower>());
         enemies = FXCollections.observableList(new ArrayList<Enemy>());
         if (initializeMonument) monument = new Monument(700, 475, "images/monument.jpg");
-            // The constants for the monument object only apply to this map. This definition should
-            // change if different maps and different monuments are added to the game
+        // The constants for the monument object only apply to this map. This definition should
+        // change if different maps and different monuments are added to the game
         map = new Map();
     }
 
