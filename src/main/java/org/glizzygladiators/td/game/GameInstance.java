@@ -19,18 +19,33 @@ public class GameInstance {
     private Map map;
 
     /**
+     * Initialize GameInstance.
+     * 
+     * @param inputName User name
+     * @param difficulty User set difficulty
+     */
+    public GameInstance(String inputName, GameDifficulty difficulty) {
+        this(inputName, difficulty, true);
+    }
+
+    /**
      * Initializes a GameInstance object
      * @param inputName The name of the player
      * @param inputDifficulty the difficulty of the game
+     * @param initializeMonument initializes the Game with monument
      */
-    public GameInstance(String inputName, GameDifficulty inputDifficulty) {
+    public GameInstance(String inputName,
+                        GameDifficulty inputDifficulty,
+                        boolean initializeMonument) {
         name = inputName;
         difficulty = inputDifficulty;
         money = new SimpleIntegerProperty(getStartingMoney());
         health = new SimpleIntegerProperty(getStartingHealth());
         towers = FXCollections.observableList(new ArrayList<Tower>());
         enemies = FXCollections.observableList(new ArrayList<Enemy>());
-        monument = new Monument(700, 475, "images/monument.jpg");
+        if (initializeMonument) {
+            monument = new Monument(700, 475, "images/monument.jpg");
+        }
         // The constants for the monument object only apply to this map. This definition should
         // change if different maps and different monuments are added to the game
         map = new Map();

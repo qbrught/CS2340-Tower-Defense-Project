@@ -19,7 +19,6 @@ public class Map {
 
     }
 
-
     public Path getPath() {
         return path;
     }

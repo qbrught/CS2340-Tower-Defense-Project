@@ -19,8 +19,10 @@ public class Monument extends javafx.scene.shape.Rectangle {
         setY(posY);
         setWidth(SIZE);
         setHeight(SIZE);
-        var resourcePath = TDApp.class.getResource(resource).toExternalForm();
-        var pattern = new ImagePattern(new Image(resourcePath));
-        setFill(pattern);
+        if (resource != null) {
+            var resourcePath = TDApp.class.getResource(resource).toExternalForm();
+            var pattern = new ImagePattern(new Image(resourcePath));
+            setFill(pattern);
+        }
     }
 }
