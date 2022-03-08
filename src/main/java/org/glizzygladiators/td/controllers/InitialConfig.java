@@ -52,7 +52,9 @@ public class InitialConfig {
         if (playerName.length() > 20) {
             warnings.add("Enter name less than 20 characters");
         }
-        if (warnings.isEmpty()) return null;
+        if (warnings.isEmpty()) {
+            return null;
+        }
         String message = "Please do the following:\n";
         for (String warning : warnings) {
             message += warning + "\n";

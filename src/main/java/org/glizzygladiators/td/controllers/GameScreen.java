@@ -162,8 +162,8 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public static boolean towerPlacedOffMap(int x, int y) {
-        return (x > 1000 - Tower.SIZE || x < 0) ||
-                (y > 750 - Tower.SIZE || y < 0);
+        return (x > 1000 - Tower.SIZE || x < 0) 
+               || (y > 750 - Tower.SIZE || y < 0);
     }
 
     public static boolean collidesWithMonument(Rectangle gameObj, Monument monument) {
@@ -171,10 +171,10 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     private boolean isInvalidTowerLocation(Tower testTower) {
-        return towerPlacedOffMap((int) testTower.getX(), (int) testTower.getY()) ||
-                collidesWithPath(testTower) ||
-                collidesWithTower(testTower) ||
-                collidesWithMonument(testTower, game.getMonument());
+        return towerPlacedOffMap((int) testTower.getX(), (int) testTower.getY()) 
+               || collidesWithPath(testTower) 
+               || collidesWithTower(testTower) 
+               || collidesWithMonument(testTower, game.getMonument());
     }
 
     private boolean collidesWithPath(Rectangle gameObj) {

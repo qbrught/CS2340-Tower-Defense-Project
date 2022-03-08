@@ -91,7 +91,7 @@ class TDAppTest extends ApplicationTest {
         FxAssert.verifyThat("#MonumentHealthLAbel", LabeledMatchers.hasText(healthText));
     }
 
-   @Test
+    @Test
     void testEasyDifficulty()  {
         testChangingAmountsPerDifficulty("Easy", 500, 200);
     }

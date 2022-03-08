@@ -25,10 +25,10 @@ import java.util.TreeMap;
 
 public class TDGameScreenTest {
 
-    String difficultyNull = "Choose difficulty\n";
-    String emptyName = "Enter name with non-space characters\n";
-    String nameTooLong = "Enter name less than 20 characters\n";
-    String message = "Please do the following:\n";
+    private String difficultyNull = "Choose difficulty\n";
+    private String emptyName = "Enter name with non-space characters\n";
+    private String nameTooLong = "Enter name less than 20 characters\n";
+    private String message = "Please do the following:\n";
 
     @Test
     public void testGameInstance() {
@@ -90,14 +90,14 @@ public class TDGameScreenTest {
 
     int getCorrectPrice(TowerEnum tower, GameDifficulty difficulty) {
         switch (tower) {
-            case BASIC:
-                return new BasicTower(0, 0).getPrice(difficulty);
-            case CANNON:
-                return new CannonTower(0, 0).getPrice(difficulty);
-            case SPIKE:
-                return new SpikeTower(0, 0).getPrice(difficulty);
-            default:
-                return -1;
+        case BASIC:
+            return new BasicTower(0, 0).getPrice(difficulty);
+        case CANNON:
+            return new CannonTower(0, 0).getPrice(difficulty);
+        case SPIKE:
+            return new SpikeTower(0, 0).getPrice(difficulty);
+        default:
+            return -1;
         }
     }
 

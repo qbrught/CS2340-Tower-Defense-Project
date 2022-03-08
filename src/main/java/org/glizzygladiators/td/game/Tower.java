@@ -30,7 +30,7 @@ public abstract class Tower extends javafx.scene.shape.Rectangle {
             var resourcePath = TDApp.class.getResource(resource).toExternalForm();
             var pattern = new ImagePattern(new Image(resourcePath));
             setFill(pattern);
-        } catch (RuntimeException exc) {} 
+        } catch (RuntimeException exc) { } 
         this.attackSpeed = attackSpeed;
         this.attackDamage = attackDamage;
         this.locationX = locationX;
