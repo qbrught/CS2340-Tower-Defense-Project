@@ -7,13 +7,15 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
+import org.glizzygladiators.td.visualizers.TowerUI;
+
 public class GameInstance {
 
     private String name;
     private GameDifficulty difficulty;
     private IntegerProperty money;
     private IntegerProperty health;
-    private ObservableList<Tower> towers;
+    private ObservableList<TowerUI> towers;
     private ObservableList<Enemy> enemies;
     private Monument monument;
     private Map map;
@@ -41,7 +43,7 @@ public class GameInstance {
         difficulty = inputDifficulty;
         money = new SimpleIntegerProperty(getStartingMoney());
         health = new SimpleIntegerProperty(getStartingHealth());
-        towers = FXCollections.observableList(new ArrayList<Tower>());
+        towers = FXCollections.observableList(new ArrayList<TowerUI>());
         enemies = FXCollections.observableList(new ArrayList<Enemy>());
         if (initializeMonument) {
             monument = new Monument(700, 475, "images/monument.jpg");
@@ -119,7 +121,7 @@ public class GameInstance {
      * Returns an Observable list of towers
      * @return an Observable list of towers
      */
-    public ObservableList<Tower> getTowers() {
+    public ObservableList<TowerUI> getTowers() {
         return towers;
     }
 

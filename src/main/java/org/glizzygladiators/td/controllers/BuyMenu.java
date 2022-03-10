@@ -5,7 +5,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.glizzygladiators.td.TDApp;
-import org.glizzygladiators.td.game.Tower;
+import org.glizzygladiators.td.entities.towers.BasicTower;
+import org.glizzygladiators.td.entities.towers.CannonTower;
+import org.glizzygladiators.td.entities.towers.SpikeTower;
+import org.glizzygladiators.td.entities.towers.Tower;
 import org.glizzygladiators.td.game.TowerEnum;
 
 public class BuyMenu implements ParameterController {
@@ -20,10 +23,10 @@ public class BuyMenu implements ParameterController {
         gsController = (GameScreen) params;
     }
 
-    public void buyTower(TowerEnum tower) {
+    public void buyTower(Tower tower) {
         // check if tower can be purchased
         var playerMoney = gsController.getGame().getMoney();
-        var towerCost = Tower.getPrice(tower, gsController.getGame().getDifficulty());
+        var towerCost = tower.getPrice(gsController.getGame().getDifficulty());
         if (playerMoney < towerCost) {
             TDApp.showErrorMsg("Insufficient Funds!",
                     "You do not have the money required to buy this tower\n"
@@ -37,14 +40,14 @@ public class BuyMenu implements ParameterController {
     }
 
     public void buyBasicTower(MouseEvent mouseEvent) {
-        buyTower(TowerEnum.BASIC);
+        buyTower(new BasicTower(0, 0));
     }
 
     public void buyCannonTower(MouseEvent mouseEvent) {
-        buyTower(TowerEnum.CANNON);
+        buyTower(new CannonTower(0, 0));
     }
 
     public void buySpikeTower(MouseEvent mouseEvent) {
-        buyTower(TowerEnum.SPIKE);
+        buyTower(new SpikeTower(0, 0));
     }
 }
