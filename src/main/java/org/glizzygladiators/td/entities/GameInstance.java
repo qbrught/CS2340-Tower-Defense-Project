@@ -1,4 +1,4 @@
-package org.glizzygladiators.td.game;
+package org.glizzygladiators.td.entities;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -7,16 +7,19 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-import org.glizzygladiators.td.visualizers.TowerUI;
+import org.glizzygladiators.td.entities.towers.Tower;
+import org.glizzygladiators.td.game.Enemy;
+import org.glizzygladiators.td.game.GameDifficulty;
+import org.glizzygladiators.td.visualizers.ui.TowerUI;
 
 public class GameInstance {
 
     private String name;
     private GameDifficulty difficulty;
-    private IntegerProperty money;
-    private IntegerProperty health;
-    private ObservableList<TowerUI> towers;
-    private ObservableList<Enemy> enemies;
+    private Integer money;
+    private Integer health;
+    private ArrayList<Tower> towers;
+    private ArrayList<Enemy> enemies;
     private Monument monument;
     private Map map;
 
@@ -41,15 +44,11 @@ public class GameInstance {
                         boolean initializeMonument) {
         name = inputName;
         difficulty = inputDifficulty;
-        money = new SimpleIntegerProperty(getStartingMoney());
-        health = new SimpleIntegerProperty(getStartingHealth());
-        towers = FXCollections.observableList(new ArrayList<TowerUI>());
-        enemies = FXCollections.observableList(new ArrayList<Enemy>());
-        if (initializeMonument) {
-            monument = new Monument(700, 475, "images/monument.jpg");
-        }
-        // The constants for the monument object only apply to this map. This definition should
-        // change if different maps and different monuments are added to the game
+        money = getStartingMoney();
+        health = getStartingHealth();
+        towers = new ArrayList<Tower>();
+        enemies = new ArrayList<Enemy>();
+        monument = new Monument(700, 475);
         map = new Map();
     }
 
@@ -73,16 +72,8 @@ public class GameInstance {
      * Returns IntegerProperty object containing the player's money
      * @return IntegerProperty object containing the player's money
      */
-    public IntegerProperty getMoneyProperty() {
+    public Integer getMoney() {
         return money;
-    }
-
-    /**
-     * Returns the player's money
-     * @return the player's money
-     */
-    public int getMoney() {
-        return money.get();
     }
 
     /**
@@ -90,23 +81,17 @@ public class GameInstance {
      * @param newMoney the player's money
      */
     public void setMoney(int newMoney) {
-        money.set(newMoney);
+        System.out.println("newMoney: " + newMoney);
+        this.money = newMoney;
+        System.out.println("Updated: " + this.money);
     }
 
     /**
      * Returns IntegerProperty object containing the monument's health
      * @return IntegerProperty object containing the monument's health
      */
-    public IntegerProperty getHealthProperty() {
+    public Integer getHealth() {
         return health;
-    }
-
-    /**
-     * Returns the monument's health
-     * @return the monument's health
-     */
-    public int getHealth() {
-        return health.get();
     }
 
     /**
@@ -114,22 +99,39 @@ public class GameInstance {
      * @param newHealth the monument's health
      */
     public void setHealth(int newHealth) {
-        health.set(newHealth);
+        this.health = newHealth;
     }
 
     /**
      * Returns an Observable list of towers
      * @return an Observable list of towers
      */
-    public ObservableList<TowerUI> getTowers() {
+    public ArrayList<Tower> getTowers() {
+        System.out.println("Retrieving towers");
         return towers;
+    }
+
+    public boolean isInvalidTowerLocation(Tower tower) {
+        return tower.isOutOfBounds() 
+               || map.hasCollisionWithPath(tower)
+               || collidesWithTower(tower) 
+               || monument.collidesWithMonument(tower);
+    }
+
+    private boolean collidesWithTower(Tower gameObj) {
+        for (Tower t : towers) {
+            if (t.hasCollision(gameObj)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * Returns an Observable list of enemies
      * @return an Observable list of enemies
      */
-    public ObservableList<Enemy> getEnemies() {
+    public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 

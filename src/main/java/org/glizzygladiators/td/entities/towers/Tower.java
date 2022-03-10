@@ -3,12 +3,12 @@ package org.glizzygladiators.td.entities.towers;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.glizzygladiators.td.entities.Rectangle;
 import org.glizzygladiators.td.game.GameDifficulty;
 
-public abstract class Tower {
+public abstract class Tower extends Rectangle {
 
     public static final int SIZE = 50;
-    protected final String resourceLocation;
     protected int attackSpeed;
     protected int attackDamage;
     protected int locationX;
@@ -28,18 +28,10 @@ public abstract class Tower {
      */
     public Tower(int locationX, int locationY, int attackSpeed, int attackDamage, 
                  String resourceLocation) {
+        super(locationX, locationY, SIZE, SIZE, resourceLocation);
         this.attackSpeed = attackSpeed;
         this.attackDamage = attackDamage;
-        this.locationX = locationX;
-        this.locationY = locationY;
-        this.width = SIZE;
-        this.height = SIZE;
         this.statsPerDifficulty = new HashMap<>();
-        this.resourceLocation = resourceLocation;
-    }
-
-    public String getResourceLocation() {
-        return resourceLocation;
     }
 
     /**
@@ -67,35 +59,20 @@ public abstract class Tower {
         return attackDamage;
     }
 
-    /**
-     * Gets the X location of the tower
-     * @return X location of the tower
-     */
-    public int getLocationX() {
-        return locationX;
+    @Override
+    public int hashCode() {
+        int hash = x;
+        hash = hash * 53 + y;
+        hash = hash * 53 + width;
+        hash = hash * 53 + height;
+        return hash;
     }
 
-    public void setLocationX(int locationX) {
-        this.locationX = locationX;
-    }
-
-    /**
-     * Gets the Y location of the tower
-     * @return Y location of the tower
-     */
-    public int getLocationY() {
-        return locationY;
-    }
-
-    public void setLocationY(int locationY) {
-        this.locationY = locationY;
-    } 
-
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return height;
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Tower)) return false;
+        Tower t = (Tower) obj;
+        return x == t.getX() && y == t.getY()
+               && width == t.getWidth() && height == t.getHeight(); 
     }
 }

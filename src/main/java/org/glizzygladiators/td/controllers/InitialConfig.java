@@ -6,8 +6,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import org.glizzygladiators.td.game.GameDifficulty;
-import org.glizzygladiators.td.game.GameInstance;
 import org.glizzygladiators.td.TDApp;
+import org.glizzygladiators.td.entities.GameInstance;
 
 import static org.glizzygladiators.td.game.GameDifficulty.*;
 

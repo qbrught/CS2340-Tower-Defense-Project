@@ -1,4 +1,4 @@
-package org.glizzygladiators.td;
+/*package org.glizzygladiators.td;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -12,11 +12,6 @@ class TDAppTest extends ApplicationTest {
 
     private Scene scene;
 
-    /**
-     * Will be called with {@code @Before} semantics, i. e. before each test method.
-     *
-     * @param stage - Will be injected by the test runner.
-     */
     @Start
     public void start(Stage stage) {
         Scene scene = new Scene(TDApp.getParent("scenes/WelcomeScreen.fxml"));
@@ -53,7 +48,7 @@ class TDAppTest extends ApplicationTest {
         FxAssert.verifyThat("#UserSettingsWarningContent", LabeledMatchers.hasText(warning));
     }
 
-    /*@Test
+    @Test
     void testImproperName() {
         String name = "     ";
         String warning = "You must select your difficulty and choose a valid name "
@@ -74,7 +69,7 @@ class TDAppTest extends ApplicationTest {
         String warning = "You must select your difficulty and choose a valid name "
             + "before proceeding!";
         testUserSettingsWarningMessage(name, warning, true);
-    }*/
+    }
 
     void testChangingAmountsPerDifficulty(String difficulty, int expectedMoney,
                                           int expectedHealth) {
@@ -106,3 +101,4 @@ class TDAppTest extends ApplicationTest {
         testChangingAmountsPerDifficulty("Hard", 250, 100);
     }
 }
+*/
