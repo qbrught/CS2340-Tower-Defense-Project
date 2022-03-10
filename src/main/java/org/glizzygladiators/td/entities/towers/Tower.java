@@ -1,16 +1,21 @@
-package org.glizzygladiators.td.game;
+package org.glizzygladiators.td.entities.towers;
 
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
-import org.glizzygladiators.td.TDApp;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class Tower extends javafx.scene.shape.Rectangle {
+import org.glizzygladiators.td.game.GameDifficulty;
+
+public abstract class Tower {
 
     public static final int SIZE = 50;
+    protected final String resourceLocation;
     protected int attackSpeed;
     protected int attackDamage;
     protected int locationX;
     protected int locationY;
+    protected int width;
+    protected int height;
+    protected Map<GameDifficulty, Integer> statsPerDifficulty;
 
     /**
      * Constructor for a tower
@@ -21,20 +26,20 @@ public abstract class Tower extends javafx.scene.shape.Rectangle {
      * @param attackDamage Attack damage of the tower
      * @param resource Path towards the tower's image
      */
-    public Tower(int locationX, int locationY, int attackSpeed, int attackDamage, String resource) {
-        setX(locationX);
-        setY(locationY);
-        setWidth(SIZE);
-        setHeight(SIZE);
-        try {
-            var resourcePath = TDApp.class.getResource(resource).toExternalForm();
-            var pattern = new ImagePattern(new Image(resourcePath));
-            setFill(pattern);
-        } catch (RuntimeException exc) { } 
+    public Tower(int locationX, int locationY, int attackSpeed, int attackDamage, 
+                 String resourceLocation) {
         this.attackSpeed = attackSpeed;
         this.attackDamage = attackDamage;
         this.locationX = locationX;
         this.locationY = locationY;
+        this.width = SIZE;
+        this.height = SIZE;
+        this.statsPerDifficulty = new HashMap<>();
+        this.resourceLocation = resourceLocation;
+    }
+
+    public String getResourceLocation() {
+        return resourceLocation;
     }
 
     /**
@@ -42,25 +47,8 @@ public abstract class Tower extends javafx.scene.shape.Rectangle {
      * @param difficulty The difficulty of the game
      * @return the price of the tower
      */
-    public abstract int getPrice(GameDifficulty difficulty);
-
-    /**
-     * Gets the price of a tower based on the difficulty
-     * @param tower the tower in question
-     * @param difficulty the difficulty of the game
-     * @return the price of the tower
-     */
-    public static int getPrice(TowerEnum tower, GameDifficulty difficulty) {
-        switch (tower) {
-        case BASIC:
-            return (new BasicTower(0, 0)).getPrice(difficulty);
-        case CANNON:
-            return (new CannonTower(0, 0)).getPrice(difficulty);
-        case SPIKE:
-            return (new SpikeTower(0, 0)).getPrice(difficulty);
-        default:
-            return -1; // This should never happen
-        }
+    public int getPrice(GameDifficulty difficulty) {
+        return statsPerDifficulty.get(difficulty);
     }
 
     /**
@@ -87,11 +75,27 @@ public abstract class Tower extends javafx.scene.shape.Rectangle {
         return locationX;
     }
 
+    public void setLocationX(int locationX) {
+        this.locationX = locationX;
+    }
+
     /**
      * Gets the Y location of the tower
      * @return Y location of the tower
      */
     public int getLocationY() {
         return locationY;
+    }
+
+    public void setLocationY(int locationY) {
+        this.locationY = locationY;
+    } 
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
     }
 }

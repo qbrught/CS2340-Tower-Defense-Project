@@ -1,4 +1,6 @@
-package org.glizzygladiators.td.game;
+package org.glizzygladiators.td.entities.towers;
+
+import org.glizzygladiators.td.game.GameDifficulty;
 
 public class BasicTower extends Tower {
 
@@ -17,19 +19,8 @@ public class BasicTower extends Tower {
      */
     public BasicTower(int locationX, int locationY) {
         super(locationX, locationY, INIT_ATTACK_SPEED, INIT_ATTACK_DAMAGE, BASIC_TOWER_IMAGE);
-    }
-
-    @Override
-    public int getPrice(GameDifficulty difficulty) {
-        switch (difficulty) {
-        case EASY:
-            return BASIC_EASY_PRICE;
-        case MEDIUM:
-            return BASIC_MEDIUM_PRICE;
-        case HARD:
-            return BASIC_HARD_PRICE;
-        default:
-            return -1; // This shouldn't happen.
-        }
+        statsPerDifficulty.put(GameDifficulty.EASY, BASIC_EASY_PRICE);
+        statsPerDifficulty.put(GameDifficulty.MEDIUM, BASIC_MEDIUM_PRICE);
+        statsPerDifficulty.put(GameDifficulty.HARD, BASIC_HARD_PRICE);
     }
 }

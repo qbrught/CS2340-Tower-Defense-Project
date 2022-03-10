@@ -2,6 +2,7 @@ package org.glizzygladiators.td.game;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import org.glizzygladiators.td.controllers.GameScreen;
+import org.glizzygladiators.td.entities.towers.Tower;
 
 public class Map {
 
@@ -23,7 +24,7 @@ public class Map {
         return path;
     }
 
-    public boolean hasCollisionWithPath(Rectangle input) {
+    public boolean hasCollisionWithPath(Tower input) {
         for (var rect: collisionBound) {
             if (hasCollision(input, rect)) {
                 return true;
@@ -32,7 +33,7 @@ public class Map {
         return false;
     }
 
-    private static boolean hasCollision(Rectangle r1, Rectangle r2) {
+    private static boolean hasCollision(Tower r1, Rectangle r2) {
         return GameScreen.hasCollision(r1, r2);
     }
 }

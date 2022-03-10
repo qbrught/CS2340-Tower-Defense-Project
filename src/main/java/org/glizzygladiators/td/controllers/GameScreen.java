@@ -12,6 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.glizzygladiators.td.TDApp;
+import org.glizzygladiators.td.entities.towers.*;
+import org.glizzygladiators.td.visualizers.TowerUI;
 import org.glizzygladiators.td.game.*;
 import org.glizzygladiators.td.game.TowerEnum;
 
@@ -80,7 +82,7 @@ public class GameScreen implements ParameterController, Initializable {
         stage.show();
     }
 
-    public void enterTowerPlacementMode(TowerEnum tower) {
+    public void enterTowerPlacementMode(Tower tower) {
         Scene scene = ((Stage) gamePane.getScene().getWindow()).getScene();
 
         if (buyModeHandler != null) {
@@ -97,52 +99,27 @@ public class GameScreen implements ParameterController, Initializable {
                 x -= Tower.SIZE / 2; // This is so that where you click is the center of where
                 y -= Tower.SIZE / 2; // the tower is placed
 
-                Tower newTower;
-                switch (tower) {
-                    case BASIC:
-                        newTower = new BasicTower(x, y);
-                        break;
-                    case CANNON:
-                        newTower = new CannonTower(x, y);
-                        break;
-                    case SPIKE:
-                        newTower = new SpikeTower(x, y);
-                        break;
-                    default:
-                        newTower = null;
-                }
+                tower.setLocationX(x);
+                tower.setLocationY(y);
 
-                if (isInvalidTowerLocation(newTower)) {
+                if (isInvalidTowerLocation(tower)) {
                     TDApp.showErrorMsg("Invalid Location",
                             "You can't place a tower there");
                     return;
                 }
 
-                game.getTowers().add(newTower);
-                gameObjects.add(newTower);
-                game.setMoney(game.getMoney() - newTower.getPrice(game.getDifficulty()));
+                TowerUI towerUI = new TowerUI(tower, tower.getResourceLocation());
+                game.getTowers().add(towerUI);
+                gameObjects.add(towerUI);
+                game.setMoney(game.getMoney() - tower.getPrice(game.getDifficulty()));
                 scene.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
                 buyModeHandler = null;
                 exitTowerPlacementMode();
             }
         };
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
-        Image image;
-        switch (tower) {
-        case BASIC:
-            image = new Image(TDApp.getResourcePath(BasicTower.BASIC_TOWER_IMAGE));
-            break;
-        case CANNON:
-            image = new Image(TDApp.getResourcePath(CannonTower.CANNON_TOWER_IMAGE));
-            break;
-        case SPIKE:
-            image = new Image(TDApp.getResourcePath(SpikeTower.SPIKE_TOWER_IMAGE));
-            break;
-        default:
-            image = null;
-        }
+        Image image = new Image(TDApp.getResourcePath(BasicTower.BASIC_TOWER_IMAGE));
         scene.setCursor(new ImageCursor(image));
-
     }
 
     public void exitTowerPlacementMode() {
@@ -154,11 +131,11 @@ public class GameScreen implements ParameterController, Initializable {
         gamePane.getScene().setCursor(Cursor.DEFAULT);
     }
 
-    public static boolean hasCollision(Rectangle r1, Rectangle r2) {
-        return r1.getX() <= r2.getX() + r2.getWidth()
-                && r1.getX() + Tower.SIZE >= r2.getX()
-                && r1.getY() <= r2.getY() + r2.getHeight()
-                && r1.getY() + Tower.SIZE >= r2.getY();
+    public static boolean hasCollision(Tower r1, Rectangle r2) {
+        return r1.getLocationX() <= r2.getX() + r2.getWidth()
+                && r1.getLocationX() + Tower.SIZE >= r2.getX()
+                && r1.getLocationY() <= r2.getY() + r2.getHeight()
+                && r1.getLocationY() + Tower.SIZE >= r2.getY();
     }
 
     public static boolean towerPlacedOffMap(int x, int y) {
@@ -166,23 +143,23 @@ public class GameScreen implements ParameterController, Initializable {
                || (y > 750 - Tower.SIZE || y < 0);
     }
 
-    public static boolean collidesWithMonument(Rectangle gameObj, Monument monument) {
+    public static boolean collidesWithMonument(Tower gameObj, Monument monument) {
         return hasCollision(gameObj, monument);
     }
 
     private boolean isInvalidTowerLocation(Tower testTower) {
-        return towerPlacedOffMap((int) testTower.getX(), (int) testTower.getY()) 
+        return towerPlacedOffMap((int) testTower.getLocationX(), (int) testTower.getLocationY()) 
                || collidesWithPath(testTower) 
                || collidesWithTower(testTower) 
                || collidesWithMonument(testTower, game.getMonument());
     }
 
-    private boolean collidesWithPath(Rectangle gameObj) {
+    private boolean collidesWithPath(Tower gameObj) {
         return game.getMap().hasCollisionWithPath(gameObj);
     }
 
-    private boolean collidesWithTower(Rectangle gameObj) {
-        for (Tower t : game.getTowers()) {
+    private boolean collidesWithTower(Tower gameObj) {
+        for (TowerUI t : game.getTowers()) {
             if (hasCollision(gameObj, t)) {
                 return true;
             }
