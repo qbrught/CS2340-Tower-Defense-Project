@@ -9,14 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.glizzygladiators.td.TDApp;
+import org.glizzygladiators.td.entities.GameInstance;
 import org.glizzygladiators.td.entities.towers.*;
-import org.glizzygladiators.td.visualizers.TowerUI;
-import org.glizzygladiators.td.game.*;
-import org.glizzygladiators.td.game.TowerEnum;
+import org.glizzygladiators.td.visualizers.GameInstanceDriver;
+import org.glizzygladiators.td.visualizers.ui.TowerUI;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,7 +35,7 @@ public class GameScreen implements ParameterController, Initializable {
     private Label healthLabel;
 
     private ObservableList<Node> gameObjects;
-    private GameInstance game;
+    private GameInstanceDriver game;
 
     private EventHandler<MouseEvent> buyModeHandler = null;
 
@@ -54,18 +55,52 @@ public class GameScreen implements ParameterController, Initializable {
 
     @Override
     public void setParams(Object params) {
-        game = (GameInstance) params;
+        GameInstanceDriver.setInstance((GameInstance) params);
+        game = GameInstanceDriver.getDriver();
 
         gameObjects.add(game.getMonument());
-        moneyLabel.textProperty().bind(game.getMoneyProperty().asString());
-        healthLabel.textProperty().bind(game.getHealthProperty().asString());
+        moneyLabel.setText(game.getGame().getMoney().toString());
+        healthLabel.setText(game.getGame().getHealth().toString());
+        PropertyChangeListener moneyListener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName() == GameInstanceDriver.MONEY_ACTION) {
+                    moneyLabel.setText(Integer.toString((Integer) evt.getNewValue()));
+                }                
+            } 
+        };
+        game.addPropertyChangeListener(moneyListener);
+        PropertyChangeListener healthListener = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName() == GameInstanceDriver.HEALTH_ACTION) {
+                    healthLabel.setText(Integer.toString((Integer) evt.getNewValue()));
+                }                
+            } 
+        };
+        game.addPropertyChangeListener(healthListener);
+        PropertyChangeListener towerListener = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName() == GameInstanceDriver.TOWER_ACTION) {
+                    if (evt.getOldValue() != "") {
+                        gameObjects.remove((TowerUI) evt.getOldValue());
+                    } else {
+                        gameObjects.add((TowerUI) evt.getNewValue());
+                    }
+                }
+            }
+        };
+        game.addPropertyChangeListener(towerListener);
     }
 
     /**
      * Returns the GameInstance object associated with this session
      * @return the GameInstance object associated with this session
      */
-    public GameInstance getGame() {
+    public GameInstanceDriver getGameDriver() {
         return game;
     }
 
@@ -99,19 +134,17 @@ public class GameScreen implements ParameterController, Initializable {
                 x -= Tower.SIZE / 2; // This is so that where you click is the center of where
                 y -= Tower.SIZE / 2; // the tower is placed
 
-                tower.setLocationX(x);
-                tower.setLocationY(y);
+                tower.setX(x);
+                tower.setY(y);
 
-                if (isInvalidTowerLocation(tower)) {
+                if (game.getGame().isInvalidTowerLocation(tower)) {
                     TDApp.showErrorMsg("Invalid Location",
                             "You can't place a tower there");
                     return;
                 }
-
-                TowerUI towerUI = new TowerUI(tower, tower.getResourceLocation());
-                game.getTowers().add(towerUI);
-                gameObjects.add(towerUI);
-                game.setMoney(game.getMoney() - tower.getPrice(game.getDifficulty()));
+                game.addTower(tower);
+                game.setMoney(game.getGame().getMoney() 
+                              - tower.getPrice(game.getGame().getDifficulty()));
                 scene.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
                 buyModeHandler = null;
                 exitTowerPlacementMode();
@@ -129,41 +162,5 @@ public class GameScreen implements ParameterController, Initializable {
             buyModeHandler = null;
         }
         gamePane.getScene().setCursor(Cursor.DEFAULT);
-    }
-
-    public static boolean hasCollision(Tower r1, Rectangle r2) {
-        return r1.getLocationX() <= r2.getX() + r2.getWidth()
-                && r1.getLocationX() + Tower.SIZE >= r2.getX()
-                && r1.getLocationY() <= r2.getY() + r2.getHeight()
-                && r1.getLocationY() + Tower.SIZE >= r2.getY();
-    }
-
-    public static boolean towerPlacedOffMap(int x, int y) {
-        return (x > 1000 - Tower.SIZE || x < 0) 
-               || (y > 750 - Tower.SIZE || y < 0);
-    }
-
-    public static boolean collidesWithMonument(Tower gameObj, Monument monument) {
-        return hasCollision(gameObj, monument);
-    }
-
-    private boolean isInvalidTowerLocation(Tower testTower) {
-        return towerPlacedOffMap((int) testTower.getLocationX(), (int) testTower.getLocationY()) 
-               || collidesWithPath(testTower) 
-               || collidesWithTower(testTower) 
-               || collidesWithMonument(testTower, game.getMonument());
-    }
-
-    private boolean collidesWithPath(Tower gameObj) {
-        return game.getMap().hasCollisionWithPath(gameObj);
-    }
-
-    private boolean collidesWithTower(Tower gameObj) {
-        for (TowerUI t : game.getTowers()) {
-            if (hasCollision(gameObj, t)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -9,7 +9,6 @@ import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.CannonTower;
 import org.glizzygladiators.td.entities.towers.SpikeTower;
 import org.glizzygladiators.td.entities.towers.Tower;
-import org.glizzygladiators.td.game.TowerEnum;
 
 public class BuyMenu implements ParameterController {
 
@@ -25,8 +24,8 @@ public class BuyMenu implements ParameterController {
 
     public void buyTower(Tower tower) {
         // check if tower can be purchased
-        var playerMoney = gsController.getGame().getMoney();
-        var towerCost = tower.getPrice(gsController.getGame().getDifficulty());
+        var playerMoney = gsController.getGameDriver().getGame().getMoney();
+        var towerCost = tower.getPrice(gsController.getGameDriver().getGame().getDifficulty());
         if (playerMoney < towerCost) {
             TDApp.showErrorMsg("Insufficient Funds!",
                     "You do not have the money required to buy this tower\n"
