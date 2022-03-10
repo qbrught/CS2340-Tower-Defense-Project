@@ -1,0 +1,30 @@
+Domain Class Diagram - Christopher
+
+Everyone does or re-does one SSD.
+
+Start Combat Prompt - Quincy
+Game Over Prompt - Quincy
+
+Enemy Actions - Richard
+
+Enemy Travelling - Joseph
+
+Everyone writes two tests:
+• Once health is 0, the game stops.
+• Game is able to reset.
+• Starting combat will begin spawning enemies.
+• Enemies do not travel off of path. / Enemies travel along path.
+• Enemies do different damage per enemy type.
+• Enemy instance "disappears" once it reaches the momument.
+• Ememy instance "disappears"
+• Enemy types travel at varying speeds.
+
+What Joseph had for tests:
+- Different enemies do different damage
+- Enemies travel along path
+- Test start combat
+- Test game over when health 0
+- Test when game over you can't do [anything]!!!!
+- Enemies travel at different speed
+- Enemy instance disappear
+- Enemy instance disappears when hitting the monument
