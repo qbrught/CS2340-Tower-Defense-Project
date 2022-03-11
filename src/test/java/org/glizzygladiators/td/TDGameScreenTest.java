@@ -1,22 +1,20 @@
 package org.glizzygladiators.td;
 
-/*import org.glizzygladiators.td.controllers.GameScreen;
 import org.glizzygladiators.td.controllers.InitialConfig;
 import org.glizzygladiators.td.entities.towers.BasicTower;
-import org.glizzygladiators.td.game.CannonTower;
+import org.glizzygladiators.td.entities.towers.CannonTower;
+import org.glizzygladiators.td.entities.towers.SpikeTower;
 import org.glizzygladiators.td.game.GameDifficulty;
 import org.junit.jupiter.api.Test;
 
-import javafx.scene.shape.Rectangle;
-
-import org.glizzygladiators.td.game.GameInstance;
-import org.glizzygladiators.td.game.Monument;
-import org.glizzygladiators.td.game.SpikeTower;
-import org.glizzygladiators.td.game.Tower;
-import org.glizzygladiators.td.game.TowerEnum;
+import org.glizzygladiators.td.entities.Rectangle;
+import org.glizzygladiators.td.entities.GameInstance;
+import org.glizzygladiators.td.entities.Monument;
+import org.glizzygladiators.td.entities.towers.Tower;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -64,60 +62,56 @@ public class TDGameScreenTest {
 
     @Test
     public void testBasicCollision() {
-        Rectangle r1 = new Rectangle(100, 50, 200, 30);
-        Rectangle r2 = new Rectangle(120, 70, 300, 40);
-        assertTrue(GameScreen.hasCollision(r1, r2));
-        r2 = new Rectangle(10, 10, 10, 10);
-        assertFalse(GameScreen.hasCollision(r1, r2));
+        Rectangle r1 = new Rectangle(100, 50, 200, 30, null);
+        Rectangle r2 = new Rectangle(120, 70, 300, 40, null);
+        assertTrue(r1.hasCollision(r2));
+        r2 = new Rectangle(10, 10, 10, 10, null);
+        assertFalse(r1.hasCollision(r2));
     }
 
     @Test
     public void testBorderCollision() {
-        assertFalse(GameScreen.towerPlacedOffMap(1000 - Tower.SIZE - 1, 350));
-        assertTrue(GameScreen.towerPlacedOffMap(2000, 1500));
-        assertFalse(GameScreen.towerPlacedOffMap(0, 0));
-        assertTrue(GameScreen.towerPlacedOffMap(1500, 750 - Tower.SIZE - 1));
+        CannonTower tower = new CannonTower(1000 - Tower.SIZE - 1, 350);
+        assertFalse(tower.isOutOfBounds());
+        tower.setX(2000);
+        tower.setY(2000);
+        assertTrue(tower.isOutOfBounds());
+        tower.setX(0);
+        tower.setY(0);
+        assertFalse(tower.isOutOfBounds());
+        tower.setX(1500);
+        tower.setY(750 - Tower.SIZE - 1);
+        assertTrue(tower.isOutOfBounds());
     }
 
     @Test
     public void testPathCollision() {
-        Rectangle r = new Rectangle(0, 0, Tower.SIZE, Tower.SIZE);
-        org.glizzygladiators.td.game.Map map = new org.glizzygladiators.td.game.Map();
+        CannonTower r = new CannonTower(0, 0);
+        org.glizzygladiators.td.entities.Map map = 
+            new org.glizzygladiators.td.entities.Map();
         assertFalse(map.hasCollisionWithPath(r));
-        r = new Rectangle(100, 100, 500, 500);
+        r = new CannonTower(100, 100);
         assertTrue(map.hasCollisionWithPath(r));
-    }
-
-    int getCorrectPrice(TowerEnum tower, GameDifficulty difficulty) {
-        switch (tower) {
-        case BASIC:
-            return new BasicTower(0, 0).getPrice(difficulty);
-        case CANNON:
-            return new CannonTower(0, 0).getPrice(difficulty);
-        case SPIKE:
-            return new SpikeTower(0, 0).getPrice(difficulty);
-        default:
-            return -1;
-        }
     }
 
     @Test
     public void testTowerPrice() {
-        for (TowerEnum tower : TowerEnum.values()) {
-            for (GameDifficulty difficulty : GameDifficulty.values()) {
-                assertEquals(Tower.getPrice(tower, difficulty), 
-                             getCorrectPrice(tower, difficulty));
+        Tower[] towers = {new BasicTower(0, 0), new CannonTower(0, 0), new SpikeTower(0, 0)};
+        for (int i = 0; i < 3; i++) {
+            for (int j = i+1; j < 3; j++) {
+                for (GameDifficulty difficulty : GameDifficulty.values()) {
+                    assertNotEquals(towers[i].getPrice(difficulty), towers[j].getPrice(difficulty));
+                }
             }
         }
     }
 
     @Test
     public void testMonumentCollision() {
-        Monument monument = new Monument(100, 100, null);
-        assertTrue(GameScreen.collidesWithMonument(new Rectangle(120, 120, 10, 10), monument));
-        assertFalse(GameScreen.collidesWithMonument(new Rectangle(400, 400, 10, 10), monument));
-        assertTrue(GameScreen.collidesWithMonument(new Rectangle(100, 150, 5, 5), monument));
-        assertFalse(GameScreen.collidesWithMonument(new Rectangle(100, 500, 1, 1), monument));
+        Monument monument = new Monument(100, 100);
+        assertTrue(monument.collidesWithMonument(new Rectangle(120, 120, 10, 10, null)));
+        assertFalse(monument.collidesWithMonument(new Rectangle(400, 400, 10, 10, null)));
+        assertTrue(monument.collidesWithMonument(new Rectangle(100, 150, 5, 5, null)));
+        assertFalse(monument.collidesWithMonument(new Rectangle(100, 500, 1, 1, null)));
     }
 }
-*/

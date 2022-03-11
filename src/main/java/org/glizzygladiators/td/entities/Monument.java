@@ -11,7 +11,7 @@ public class Monument extends Rectangle {
         super(x, y, SIZE, SIZE, resourceLocation);
     }
 
-    public boolean collidesWithMonument(Tower gameObj) {
+    public boolean collidesWithMonument(Rectangle gameObj) {
         return hasCollision(gameObj);
     }
 }
