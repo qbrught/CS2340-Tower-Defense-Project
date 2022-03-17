@@ -16,8 +16,8 @@ public class GameInstance {
 
     private String name;
     private GameDifficulty difficulty;
-    private Integer money;
-    private Integer health;
+    private IntegerProperty money;
+    private IntegerProperty health;
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
     private Monument monument;
@@ -44,8 +44,8 @@ public class GameInstance {
                         boolean initializeMonument) {
         name = inputName;
         difficulty = inputDifficulty;
-        money = getStartingMoney();
-        health = getStartingHealth();
+        money = new SimpleIntegerProperty(getStartingMoney());
+        health = new SimpleIntegerProperty(getStartingHealth());
         towers = new ArrayList<Tower>();
         enemies = new ArrayList<Enemy>();
         monument = new Monument(700, 475);
@@ -69,11 +69,11 @@ public class GameInstance {
     }
 
     /**
-     * Returns IntegerProperty object containing the player's money
-     * @return IntegerProperty object containing the player's money
+     * Returns the player's money
+     * @return the player's money
      */
-    public Integer getMoney() {
-        return money;
+    public int getMoney() {
+        return money.get();
     }
 
     /**
@@ -82,16 +82,25 @@ public class GameInstance {
      */
     public void setMoney(int newMoney) {
         System.out.println("newMoney: " + newMoney);
-        this.money = newMoney;
-        System.out.println("Updated: " + this.money);
+        money.set(newMoney);
+        System.out.println("Updated: " + this.money.get());
+    }
+
+
+    /**
+     * Returns the property containing the player's money
+     * @return the property containing the player's money
+     */
+    public IntegerProperty getMoneyProperty() {
+        return money;
     }
 
     /**
-     * Returns IntegerProperty object containing the monument's health
-     * @return IntegerProperty object containing the monument's health
+     * Returns the monument's health
+     * @return the monument's health
      */
-    public Integer getHealth() {
-        return health;
+    public int getHealth() {
+        return health.get();
     }
 
     /**
@@ -99,7 +108,15 @@ public class GameInstance {
      * @param newHealth the monument's health
      */
     public void setHealth(int newHealth) {
-        this.health = newHealth;
+        this.health.set(newHealth);
+    }
+
+    /**
+     * Returns the IntegerProperty containing the monument's health
+     * @return the IntegerProperty containing the monument's health
+     */
+    public IntegerProperty getHealthProperty() {
+        return health;
     }
 
     /**

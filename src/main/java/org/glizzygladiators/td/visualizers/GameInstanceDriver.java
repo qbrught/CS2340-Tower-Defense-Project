@@ -62,15 +62,17 @@ public class GameInstanceDriver {
     }
 
     public void setHealth(int health) {
-        int oldHealth = gameInstance.getHealth();
+//        int oldHealth = gameInstance.getHealth();
+//        gameInstance.setHealth(health);
+//        support.firePropertyChange(HEALTH_ACTION, oldHealth, health);
         gameInstance.setHealth(health);
-        support.firePropertyChange(HEALTH_ACTION, oldHealth, health);
     }
 
     public void setMoney(int money) {
-        int oldMoney = gameInstance.getMoney();
+//        int oldMoney = gameInstance.getMoney();
+//        gameInstance.setMoney(money);
+//        support.firePropertyChange(MONEY_ACTION, oldMoney, money);
         gameInstance.setMoney(money);
-        support.firePropertyChange(MONEY_ACTION, oldMoney, money);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {

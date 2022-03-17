@@ -59,28 +59,30 @@ public class GameScreen implements ParameterController, Initializable {
         game = GameInstanceDriver.getDriver();
 
         gameObjects.add(game.getMonument());
-        moneyLabel.setText(game.getGame().getMoney().toString());
-        healthLabel.setText(game.getGame().getHealth().toString());
-        PropertyChangeListener moneyListener = new PropertyChangeListener() {
 
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName() == GameInstanceDriver.MONEY_ACTION) {
-                    moneyLabel.setText(Integer.toString((Integer) evt.getNewValue()));
-                }                
-            } 
-        };
-        game.addPropertyChangeListener(moneyListener);
-        PropertyChangeListener healthListener = new PropertyChangeListener() {
+        moneyLabel.textProperty().bind(game.getGame().getMoneyProperty().asString());
+        healthLabel.textProperty().bind(game.getGame().getHealthProperty().asString());
 
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName() == GameInstanceDriver.HEALTH_ACTION) {
-                    healthLabel.setText(Integer.toString((Integer) evt.getNewValue()));
-                }                
-            } 
-        };
-        game.addPropertyChangeListener(healthListener);
+//        PropertyChangeListener moneyListener = new PropertyChangeListener() {
+//
+//            @Override
+//            public void propertyChange(PropertyChangeEvent evt) {
+//                if (evt.getPropertyName() == GameInstanceDriver.MONEY_ACTION) {
+//                    moneyLabel.setText(Integer.toString((Integer) evt.getNewValue()));
+//                }
+//            }
+//        };
+//        game.addPropertyChangeListener(moneyListener);
+//        PropertyChangeListener healthListener = new PropertyChangeListener() {
+//
+//            @Override
+//            public void propertyChange(PropertyChangeEvent evt) {
+//                if (evt.getPropertyName() == GameInstanceDriver.HEALTH_ACTION) {
+//                    healthLabel.setText(Integer.toString((Integer) evt.getNewValue()));
+//                }
+//            }
+//        };
+//        game.addPropertyChangeListener(healthListener);
         PropertyChangeListener towerListener = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
