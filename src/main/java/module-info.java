@@ -24,6 +24,7 @@ module org.glizzygladiators.td {
     exports org.glizzygladiators.td.controllers;
 
     opens org.glizzygladiators.td.images;
-    exports org.glizzygladiators.td.game;
-    opens org.glizzygladiators.td.game to javafx.fxml;
+
+    exports org.glizzygladiators.td.entities;
+    opens org.glizzygladiators.td.entities to javafx.fxml;
 }

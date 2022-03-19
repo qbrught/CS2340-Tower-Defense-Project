@@ -1,9 +1,9 @@
 package org.glizzygladiators.td.entities.enemies;
 
-import org.glizzygladiators.td.entities.Rectangle;
 import org.glizzygladiators.td.entities.GameMap;
+import org.glizzygladiators.td.entities.SymbolicGameObject;
 
-public class Enemy extends Rectangle {
+public class Enemy extends SymbolicGameObject {
     public static final int SIZE = 40;
 
     private int enemyId;

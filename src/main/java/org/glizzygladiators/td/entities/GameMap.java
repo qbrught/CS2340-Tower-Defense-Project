@@ -4,12 +4,12 @@ import org.glizzygladiators.td.entities.towers.Tower;
 
 public class GameMap {
 
-    private Rectangle[] collisionBound = new Rectangle[]{
-        new Rectangle(0, 119, 843, 168 - 119,  null),
-        new Rectangle(795, 169, 843 - 795, 334 - 169, null),
-        new Rectangle(134, 319, 794 - 134, 364 - 319, null),
-        new Rectangle(125, 364, 169 - 125, 572 - 364, null),
-        new Rectangle(170, 552, 747 - 170, 602 - 552, null)
+    private SymbolicGameObject[] collisionBound = new SymbolicGameObject[]{
+        new SymbolicGameObject(0, 119, 843, 168 - 119,  null),
+        new SymbolicGameObject(795, 169, 843 - 795, 334 - 169, null),
+        new SymbolicGameObject(134, 319, 794 - 134, 364 - 319, null),
+        new SymbolicGameObject(125, 364, 169 - 125, 572 - 364, null),
+        new SymbolicGameObject(170, 552, 747 - 170, 602 - 552, null)
     };;
     public int[][] path = {
         {0, collisionBound[0].y},
