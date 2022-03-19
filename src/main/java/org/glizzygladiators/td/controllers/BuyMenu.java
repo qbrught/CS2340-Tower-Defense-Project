@@ -25,7 +25,7 @@ public class BuyMenu implements ParameterController {
     public void buyTower(Tower tower) {
         // check if tower can be purchased
         var playerMoney = gsController.getGameDriver().getGame().getMoney();
-        var towerCost = tower.getPrice(gsController.getGameDriver().getGame().getDifficulty());
+        int towerCost = tower.getPrice(gsController.getGameDriver().getGame().getDifficulty());
         if (playerMoney < towerCost) {
             TDApp.showErrorMsg("Insufficient Funds!",
                     "You do not have the money required to buy this tower\n"

@@ -12,7 +12,10 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.entities.GameInstance;
+import org.glizzygladiators.td.entities.GameMap;
 import org.glizzygladiators.td.entities.towers.*;
+import org.glizzygladiators.td.game.GameDifficulty;
+import org.glizzygladiators.td.entities.enemies.*;
 import org.glizzygladiators.td.visualizers.GameInstanceDriver;
 import org.glizzygladiators.td.visualizers.ui.TowerUI;
 
@@ -96,6 +99,29 @@ public class GameScreen implements ParameterController, Initializable {
             }
         };
         game.addPropertyChangeListener(towerListener);
+        PropertyChangeListener enemyListener = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName() == GameInstanceDriver.SPAWN_ENEMY) {
+                    gameObjects.add((Node) evt.getNewValue());
+                }
+            }
+        };
+        game.addPropertyChangeListener(enemyListener);
+        Thread enemyDaemon = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        game.moveEnemies();
+                        Thread.sleep(50);
+                    } catch (Exception exc) {
+                        System.out.println(exc);
+                    }
+                }
+            }
+        };
+        enemyDaemon.start();
     }
 
     /**
@@ -104,6 +130,15 @@ public class GameScreen implements ParameterController, Initializable {
      */
     public GameInstanceDriver getGameDriver() {
         return game;
+    }
+
+    public void spawnEnemies(MouseEvent mouseEvent) throws Exception {
+        for (int i = 0; i < 3; i++) {
+            GameMap map = game.getGame().getMap();
+            System.out.println("Sleeping 2 seconds!");
+            Thread.sleep(2000);
+            game.addEnemy(new BasicEnemy(map.startX, map.startY, GameDifficulty.EASY));
+        }
     }
 
     /**

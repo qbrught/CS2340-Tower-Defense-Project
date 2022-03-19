@@ -1,27 +1,37 @@
 package org.glizzygladiators.td.visualizers;
 
 import org.glizzygladiators.td.entities.GameInstance;
+import org.glizzygladiators.td.entities.enemies.Enemy;
 import org.glizzygladiators.td.entities.towers.Tower;
 import org.glizzygladiators.td.visualizers.ui.MonumentUI;
 import org.glizzygladiators.td.visualizers.ui.TowerUI;
+import org.glizzygladiators.td.visualizers.ui.EnemyUI;
 
 import java.util.HashMap;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 
 public class GameInstanceDriver {
     
     public static final String TOWER_ACTION = "Towers";
     public static final String HEALTH_ACTION = "Health";
     public static final String MONEY_ACTION = "Money";
+    public static final String SPAWN_ENEMY = "Spawn_Enemy";
+    public static final String MOVE_ENEMY = "Move_Enemy";
+    public static final String DESPAWN_ENEMY = "Despawn_Enemy";
 
     private static GameInstanceDriver gameInstanceDriver;
     private PropertyChangeSupport support;
+    private Lock lock;
 
     private final GameInstance gameInstance;
 
     private final java.util.Map<Tower, TowerUI> towers;
+    private final java.util.Map<Integer, EnemyUI> enemies;
     private final MonumentUI monument;
     
     public static void setInstance(GameInstance instance) {
@@ -39,8 +49,10 @@ public class GameInstanceDriver {
      * @param gameInstance The Game instance we are wrapping.
      */
     private GameInstanceDriver(GameInstance gameInstance) {
+        this.lock = new ReentrantReadWriteLock().writeLock();
         this.gameInstance = gameInstance;
         this.towers = new HashMap<>();
+        this.enemies = new HashMap<>();
         this.monument = new MonumentUI(gameInstance.getMonument());
         this.support = new PropertyChangeSupport(this);
     }
@@ -59,6 +71,32 @@ public class GameInstanceDriver {
     public void removeTower(Tower tower) {
         gameInstance.getTowers().remove(tower);
         support.firePropertyChange(TOWER_ACTION, towers.remove(tower), "");
+    }
+
+    public void addEnemy(Enemy enemy) {
+        lock.lock();
+        gameInstance.addEnemy(enemy);
+        EnemyUI enemyUI = new EnemyUI(enemy);
+        enemies.put(enemy.getEnemyId(), enemyUI);
+        support.firePropertyChange(SPAWN_ENEMY, "", enemyUI);
+        lock.unlock();
+    }
+
+    public void moveEnemies() {
+        lock.lock();
+        for (var key : enemies.keySet()) {
+            Enemy enemy = enemies.get(key).getEnemy();
+            enemy.move();
+            enemies.get(key).move(enemy.getX(), enemy.getY());
+        }
+        lock.unlock();
+    }
+
+    public void destroyEnemy(Enemy enemy) {
+        lock.lock();
+        enemies.get(enemy.getEnemyId()).clear();
+        enemies.remove(enemy.getEnemyId());
+        lock.unlock();
     }
 
     public void setHealth(int health) {
