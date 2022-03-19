@@ -1,37 +1,27 @@
 package org.glizzygladiators.td.entities;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.concurrent.locks.Lock;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.glizzygladiators.td.entities.towers.Tower;
-import org.glizzygladiators.td.game.Enemy;
+import org.glizzygladiators.td.entities.enemies.*;
 import org.glizzygladiators.td.game.GameDifficulty;
-import org.glizzygladiators.td.visualizers.ui.TowerUI;
 
 public class GameInstance {
+
+    private static int enemyCounter = 0;
 
     private String name;
     private GameDifficulty difficulty;
     private Integer money;
     private Integer health;
     private ArrayList<Tower> towers;
-    private ArrayList<Enemy> enemies;
+    private Map<Integer, Enemy> enemies;
     private Monument monument;
-    private Map map;
-
-    /**
-     * Initialize GameInstance.
-     * 
-     * @param inputName User name
-     * @param difficulty User set difficulty
-     */
-    public GameInstance(String inputName, GameDifficulty difficulty) {
-        this(inputName, difficulty, true);
-    }
+    private GameMap map;
 
     /**
      * Initializes a GameInstance object
@@ -40,16 +30,15 @@ public class GameInstance {
      * @param initializeMonument initializes the Game with monument
      */
     public GameInstance(String inputName,
-                        GameDifficulty inputDifficulty,
-                        boolean initializeMonument) {
+                        GameDifficulty inputDifficulty) {
         name = inputName;
         difficulty = inputDifficulty;
         money = getStartingMoney();
         health = getStartingHealth();
         towers = new ArrayList<Tower>();
-        enemies = new ArrayList<Enemy>();
+        enemies = new HashMap<Integer, Enemy>();
         monument = new Monument(700, 475);
-        map = new Map();
+        map = new GameMap();
     }
 
     /**
@@ -81,9 +70,7 @@ public class GameInstance {
      * @param newMoney the player's money
      */
     public void setMoney(int newMoney) {
-        System.out.println("newMoney: " + newMoney);
         this.money = newMoney;
-        System.out.println("Updated: " + this.money);
     }
 
     /**
@@ -107,7 +94,6 @@ public class GameInstance {
      * @return an Observable list of towers
      */
     public ArrayList<Tower> getTowers() {
-        System.out.println("Retrieving towers");
         return towers;
     }
 
@@ -127,11 +113,24 @@ public class GameInstance {
         return false;
     }
 
+    public void addEnemy(org.glizzygladiators.td.entities.enemies.Enemy enemy) {
+        enemy.setEnemyId(enemyCounter++);
+        enemies.put(enemy.getEnemyId(), enemy);
+    }
+
+    public void removeEnemy(Enemy enemy) {
+        enemies.remove(enemy);
+    }
+
+    public void updateEnemyLocation(Enemy enemy, int x, int y) {
+        enemies.get(enemy.getEnemyId()).move();
+    }
+
     /**
      * Returns an Observable list of enemies
      * @return an Observable list of enemies
      */
-    public ArrayList<Enemy> getEnemies() {
+    public Map<Integer, Enemy> getEnemies() {
         return enemies;
     }
 
@@ -147,7 +146,7 @@ public class GameInstance {
      * Returns the map that this GameInstance uses
      * @return the map that this GameInstance uses
      */
-    public Map getMap() {
+    public GameMap getMap() {
         return map;
     }
 
