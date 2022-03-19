@@ -1,13 +1,13 @@
 package org.glizzygladiators.td;
 
 import org.glizzygladiators.td.controllers.InitialConfig;
+import org.glizzygladiators.td.entities.SymbolicGameObject;
 import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.CannonTower;
 import org.glizzygladiators.td.entities.towers.SpikeTower;
 import org.glizzygladiators.td.game.GameDifficulty;
 import org.junit.jupiter.api.Test;
 
-import org.glizzygladiators.td.entities.Rectangle;
 import org.glizzygladiators.td.entities.GameInstance;
 import org.glizzygladiators.td.entities.Monument;
 import org.glizzygladiators.td.entities.towers.Tower;
@@ -62,10 +62,10 @@ public class TDGameScreenTest {
 
     @Test
     public void testBasicCollision() {
-        Rectangle r1 = new Rectangle(100, 50, 200, 30, null);
-        Rectangle r2 = new Rectangle(120, 70, 300, 40, null);
+        SymbolicGameObject r1 = new SymbolicGameObject(100, 50, 200, 30, null);
+        SymbolicGameObject r2 = new SymbolicGameObject(120, 70, 300, 40, null);
         assertTrue(r1.hasCollision(r2));
-        r2 = new Rectangle(10, 10, 10, 10, null);
+        r2 = new SymbolicGameObject(10, 10, 10, 10, null);
         assertFalse(r1.hasCollision(r2));
     }
 
@@ -109,9 +109,9 @@ public class TDGameScreenTest {
     @Test
     public void testMonumentCollision() {
         Monument monument = new Monument(100, 100);
-        assertTrue(monument.collidesWithMonument(new Rectangle(120, 120, 10, 10, null)));
-        assertFalse(monument.collidesWithMonument(new Rectangle(400, 400, 10, 10, null)));
-        assertTrue(monument.collidesWithMonument(new Rectangle(100, 150, 5, 5, null)));
-        assertFalse(monument.collidesWithMonument(new Rectangle(100, 500, 1, 1, null)));
+        assertTrue(monument.collidesWithMonument(new SymbolicGameObject(120, 120, 10, 10, null)));
+        assertFalse(monument.collidesWithMonument(new SymbolicGameObject(400, 400, 10, 10, null)));
+        assertTrue(monument.collidesWithMonument(new SymbolicGameObject(100, 150, 5, 5, null)));
+        assertFalse(monument.collidesWithMonument(new SymbolicGameObject(100, 500, 1, 1, null)));
     }
 }

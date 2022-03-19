@@ -153,7 +153,7 @@ public class GameScreen implements ParameterController, Initializable {
             }
         };
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, buyModeHandler);
-        Image image = new Image(TDApp.getResourcePath(BasicTower.BASIC_TOWER_IMAGE));
+        Image image = new Image(TDApp.getResourcePath(tower.getImgPath()));
         scene.setCursor(new ImageCursor(image));
     }
 

@@ -3,19 +3,16 @@ package org.glizzygladiators.td.entities.towers;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.glizzygladiators.td.entities.Rectangle;
+import org.glizzygladiators.td.entities.SymbolicGameObject;
 import org.glizzygladiators.td.game.GameDifficulty;
 
-public abstract class Tower extends Rectangle {
+public abstract class Tower extends SymbolicGameObject {
 
     public static final int SIZE = 50;
     protected int attackSpeed;
     protected int attackDamage;
-    protected int locationX;
-    protected int locationY;
-    protected int width;
-    protected int height;
     protected Map<GameDifficulty, Integer> statsPerDifficulty;
+    protected String imgPath;
 
     /**
      * Constructor for a tower
@@ -24,11 +21,12 @@ public abstract class Tower extends Rectangle {
      * @param locationY Y coordinate of the tower
      * @param attackSpeed Attack speed of the tower
      * @param attackDamage Attack damage of the tower
-     * @param resource Path towards the tower's image
+     * @param imageLocation Path towards the tower's image
      */
     public Tower(int locationX, int locationY, int attackSpeed, int attackDamage, 
-                 String resourceLocation) {
-        super(locationX, locationY, SIZE, SIZE, resourceLocation);
+                 String imageLocation) {
+        super(locationX, locationY, SIZE, SIZE, imageLocation);
+        this.imgPath = imageLocation;
         this.attackSpeed = attackSpeed;
         this.attackDamage = attackDamage;
         this.statsPerDifficulty = new HashMap<>();
@@ -59,12 +57,20 @@ public abstract class Tower extends Rectangle {
         return attackDamage;
     }
 
+    /**
+     * Returns the path of the Image (don't forget to load with getResource)
+     * @return the path of the Image (don't forget to load with getResource)
+     */
+    public String getImgPath() {
+        return imgPath;
+    }
+
     @Override
     public int hashCode() {
-        int hash = x;
-        hash = hash * 53 + y;
-        hash = hash * 53 + width;
-        hash = hash * 53 + height;
+        int hash = (int) getX();
+        hash = hash * 53 + (int) getY();
+        hash = hash * 53 + (int) getWidth();
+        hash = hash * 53 + (int) getHeight();
         return hash;
     }
 
@@ -72,7 +78,7 @@ public abstract class Tower extends Rectangle {
     public boolean equals(Object obj) {
         if (!(obj instanceof Tower)) return false;
         Tower t = (Tower) obj;
-        return x == t.getX() && y == t.getY()
-               && width == t.getWidth() && height == t.getHeight(); 
+        return getX() == t.getX() && getY() == t.getY()
+               && getWidth() == t.getWidth() && getWidth() == t.getHeight();
     }
 }

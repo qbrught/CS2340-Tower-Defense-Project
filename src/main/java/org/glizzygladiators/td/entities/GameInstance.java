@@ -129,7 +129,7 @@ public class GameInstance {
     }
 
     public boolean isInvalidTowerLocation(Tower tower) {
-        return tower.isOutOfBounds() 
+        return tower.isOutOfBounds()
                || map.hasCollisionWithPath(tower)
                || collidesWithTower(tower) 
                || monument.collidesWithMonument(tower);
