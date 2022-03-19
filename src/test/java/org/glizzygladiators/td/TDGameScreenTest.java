@@ -5,7 +5,7 @@ import org.glizzygladiators.td.entities.SymbolicGameObject;
 import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.CannonTower;
 import org.glizzygladiators.td.entities.towers.SpikeTower;
-import org.glizzygladiators.td.game.GameDifficulty;
+import org.glizzygladiators.td.entities.GameDifficulty;
 import org.junit.jupiter.api.Test;
 
 import org.glizzygladiators.td.entities.GameInstance;
@@ -35,7 +35,7 @@ public class TDGameScreenTest {
         expectedOutputs.put(GameDifficulty.MEDIUM, new int[]{375, 150});
         expectedOutputs.put(GameDifficulty.HARD, new int[]{250, 100});
         for (GameDifficulty difficulty : GameDifficulty.values()) {
-            GameInstance instance = new GameInstance("Bob", difficulty, false);
+            GameInstance instance = new GameInstance("Bob", difficulty);
             int[] expectedOutput = expectedOutputs.get(difficulty);
             assertEquals(expectedOutput[0], instance.getMoney());
             assertEquals(expectedOutput[1], instance.getHealth());
@@ -87,8 +87,8 @@ public class TDGameScreenTest {
     @Test
     public void testPathCollision() {
         CannonTower r = new CannonTower(0, 0);
-        org.glizzygladiators.td.entities.Map map = 
-            new org.glizzygladiators.td.entities.Map();
+        org.glizzygladiators.td.entities.GameMap map =
+            new org.glizzygladiators.td.entities.GameMap();
         assertFalse(map.hasCollisionWithPath(r));
         r = new CannonTower(100, 100);
         assertTrue(map.hasCollisionWithPath(r));

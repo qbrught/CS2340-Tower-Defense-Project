@@ -14,7 +14,7 @@ import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.entities.GameInstance;
 import org.glizzygladiators.td.entities.GameMap;
 import org.glizzygladiators.td.entities.towers.*;
-import org.glizzygladiators.td.game.GameDifficulty;
+import org.glizzygladiators.td.entities.GameDifficulty;
 import org.glizzygladiators.td.entities.enemies.*;
 import org.glizzygladiators.td.visualizers.GameInstanceDriver;
 import org.glizzygladiators.td.visualizers.ui.TowerUI;

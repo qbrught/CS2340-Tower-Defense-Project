@@ -1,14 +1,13 @@
 package org.glizzygladiators.td.entities;
 
-import java.util.concurrent.locks.Lock;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import org.glizzygladiators.td.entities.towers.Tower;
 import org.glizzygladiators.td.entities.enemies.*;
-import org.glizzygladiators.td.game.GameDifficulty;
 
 public class GameInstance {
 
@@ -27,7 +26,6 @@ public class GameInstance {
      * Initializes a GameInstance object
      * @param inputName The name of the player
      * @param inputDifficulty the difficulty of the game
-     * @param initializeMonument initializes the Game with monument
      */
     public GameInstance(String inputName,
                         GameDifficulty inputDifficulty) {

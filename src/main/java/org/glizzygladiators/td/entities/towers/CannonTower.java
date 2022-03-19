@@ -1,6 +1,6 @@
 package org.glizzygladiators.td.entities.towers;
 
-import org.glizzygladiators.td.game.GameDifficulty;
+import org.glizzygladiators.td.entities.GameDifficulty;
 
 public class CannonTower extends Tower {
     public static final String CANNON_TOWER_IMAGE = "images/obamaCanon.png";

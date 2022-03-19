@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.glizzygladiators.td.entities.SymbolicGameObject;
-import org.glizzygladiators.td.game.GameDifficulty;
+import org.glizzygladiators.td.entities.GameDifficulty;
 
 public abstract class Tower extends SymbolicGameObject {
 

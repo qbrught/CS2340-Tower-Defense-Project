@@ -1,6 +1,6 @@
 package org.glizzygladiators.td.entities.enemies;
 
-import org.glizzygladiators.td.game.GameDifficulty;
+import org.glizzygladiators.td.entities.GameDifficulty;
 
 public class BasicEnemy extends Enemy {
     private static final String resourceLocation = "images/obamaTank.png";
