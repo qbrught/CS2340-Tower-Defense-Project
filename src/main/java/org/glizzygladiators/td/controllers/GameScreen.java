@@ -3,6 +3,7 @@ package org.glizzygladiators.td.controllers;
 import javafx.application.Platform;
 import javafx.animation.PathTransition;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,7 +49,6 @@ public class GameScreen implements ParameterController, Initializable {
     private GameInstanceDriver game;
 
     private EventHandler<MouseEvent> buyModeHandler = null;
-    private int tasksFired = 0;
 
     /**
      * Runs code right after FXML objects are initialized
@@ -114,7 +114,6 @@ public class GameScreen implements ParameterController, Initializable {
                 @Override
                 public void run() {
                     Platform.runLater(() -> {
-                        tasksFired++;
                         BasicEnemy basicEnemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
                         EnemyUI enemyUI = new EnemyUI(basicEnemy);
                         GameMap map = game.getGame().getMap();
@@ -122,6 +121,13 @@ public class GameScreen implements ParameterController, Initializable {
                         PathTransition transition = 
                             new PathTransition(Duration.millis(2000), map.getEnemyPath(), enemyUI);
                         transition.setCycleCount(1);
+                        transition.setOnFinished(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                game.getGame().setHealth(game.getGame().getHealth() - 5);
+                                gameObjects.remove(enemyUI);
+                            }
+                        });
                         transition.play();
                     });
                 }
