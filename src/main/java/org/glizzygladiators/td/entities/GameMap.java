@@ -21,41 +21,24 @@ public class GameMap {
         new SymbolicGameObject(170, 552, 747 - 170, 602 - 552, null)
     };;
 
+    public int startX;
+    public int startY;
     private Path enemyPath;
 
-//    public int[][] path = {
-//        {0, collisionBound[0].y},
-//        {795, collisionBound[0].y},
-//        {795, collisionBound[2].y},
-//        {collisionBound[2].x, collisionBound[2].height},
-//        {750, 750},
-//        {1000, 1000}
-//    };
-//    public int[][] offsets = {
-//        {1, 0},
-//        {0, 1},
-//        {-1, 0},
-//        {0, 1},
-//        {1, 0}
-//    };
-//    public final int startX;
-//    public final int startY;
-
     public GameMap() {
-
+        generatePath();
     }
 
     private void generatePath() {
-        var es = Enemy.SIZE / 2; // constant to subtract by to account for the center of a rect
         enemyPath = new Path();
         var stuff = enemyPath.getElements();
 
-        var p1 = new Pair<>(Enemy.SIZE / 2 - es, 145 - es);
-        var p2 = new Pair<>(810 - es, 145 - es);
-        var p3 = new Pair<>(810 - es, 346 - es);
-        var p4 = new Pair<>(160 - es, 346 - es);
-        var p5 = new Pair<>(160 - es, 576 - es);
-        var p6 = new Pair<>(747 - es, 576 - es);
+        var p1 = new Pair<>(Enemy.SIZE / 2, 145);
+        var p2 = new Pair<>(810, 145);
+        var p3 = new Pair<>(810, 346);
+        var p4 = new Pair<>(160, 346);
+        var p5 = new Pair<>(160, 576);
+        var p6 = new Pair<>(670, 576);
         var ps = new Pair[]{p2, p3, p4, p5, p6};
 
         stuff.add(new MoveTo(p1.getKey(), p1.getValue()));
