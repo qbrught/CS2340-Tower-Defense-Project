@@ -21,13 +21,6 @@ public class EnemyUI extends Rectangle {
     public Enemy getEnemy() {
         return enemy;
     }
-    
-    public void move(int x, int y) {
-        enemy.setX(x);
-        enemy.setY(y);
-        setX(x);
-        setY(y);
-    }
 
     public void clear() {
         

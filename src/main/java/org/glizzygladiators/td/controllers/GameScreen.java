@@ -1,5 +1,7 @@
 package org.glizzygladiators.td.controllers;
 
+import javafx.application.Platform;
+import javafx.animation.PathTransition;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.entities.GameInstance;
 import org.glizzygladiators.td.entities.GameMap;
@@ -18,11 +22,14 @@ import org.glizzygladiators.td.entities.GameDifficulty;
 import org.glizzygladiators.td.entities.enemies.*;
 import org.glizzygladiators.td.visualizers.GameInstanceDriver;
 import org.glizzygladiators.td.visualizers.ui.TowerUI;
+import org.glizzygladiators.td.visualizers.ui.EnemyUI;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameScreen implements ParameterController, Initializable {
 
@@ -41,7 +48,7 @@ public class GameScreen implements ParameterController, Initializable {
     private GameInstanceDriver game;
 
     private EventHandler<MouseEvent> buyModeHandler = null;
-
+    private int tasksFired = 0;
 
     /**
      * Runs code right after FXML objects are initialized
@@ -66,26 +73,6 @@ public class GameScreen implements ParameterController, Initializable {
         moneyLabel.textProperty().bind(game.getGame().getMoneyProperty().asString());
         healthLabel.textProperty().bind(game.getGame().getHealthProperty().asString());
 
-//        PropertyChangeListener moneyListener = new PropertyChangeListener() {
-//
-//            @Override
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                if (evt.getPropertyName() == GameInstanceDriver.MONEY_ACTION) {
-//                    moneyLabel.setText(Integer.toString((Integer) evt.getNewValue()));
-//                }
-//            }
-//        };
-//        game.addPropertyChangeListener(moneyListener);
-//        PropertyChangeListener healthListener = new PropertyChangeListener() {
-//
-//            @Override
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                if (evt.getPropertyName() == GameInstanceDriver.HEALTH_ACTION) {
-//                    healthLabel.setText(Integer.toString((Integer) evt.getNewValue()));
-//                }
-//            }
-//        };
-//        game.addPropertyChangeListener(healthListener);
         PropertyChangeListener towerListener = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -108,20 +95,6 @@ public class GameScreen implements ParameterController, Initializable {
             }
         };
         game.addPropertyChangeListener(enemyListener);
-        Thread enemyDaemon = new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        game.moveEnemies();
-                        Thread.sleep(50);
-                    } catch (Exception exc) {
-                        System.out.println(exc);
-                    }
-                }
-            }
-        };
-        enemyDaemon.start();
     }
 
     /**
@@ -132,12 +105,27 @@ public class GameScreen implements ParameterController, Initializable {
         return game;
     }
 
-    public void spawnEnemies(MouseEvent mouseEvent) throws Exception {
-        for (int i = 0; i < 3; i++) {
-            GameMap map = game.getGame().getMap();
-            System.out.println("Sleeping 2 seconds!");
-            Thread.sleep(2000);
-            game.addEnemy(new BasicEnemy(map.startX, map.startY, GameDifficulty.EASY));
+    public void spawnEnemies(MouseEvent mouseEvent) {
+        Timer timer = new Timer(false);
+        long spacing = 1000;
+        int numEnemies = 3;
+        for (int i = 0; i < numEnemies; i++) {
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> {
+                        tasksFired++;
+                        BasicEnemy basicEnemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
+                        EnemyUI enemyUI = new EnemyUI(basicEnemy);
+                        GameMap map = game.getGame().getMap();
+                        gameObjects.add(enemyUI);
+                        PathTransition transition = 
+                            new PathTransition(Duration.millis(2000), map.getEnemyPath(), enemyUI);
+                        transition.setCycleCount(1);
+                        transition.play();
+                    });
+                }
+            }, i * spacing);
         }
     }
 

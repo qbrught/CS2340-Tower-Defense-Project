@@ -73,32 +73,6 @@ public class GameInstanceDriver {
         support.firePropertyChange(TOWER_ACTION, towers.remove(tower), "");
     }
 
-    public void addEnemy(Enemy enemy) {
-        lock.lock();
-        gameInstance.addEnemy(enemy);
-        EnemyUI enemyUI = new EnemyUI(enemy);
-        enemies.put(enemy.getEnemyId(), enemyUI);
-        support.firePropertyChange(SPAWN_ENEMY, "", enemyUI);
-        lock.unlock();
-    }
-
-    public void moveEnemies() {
-        lock.lock();
-        for (var key : enemies.keySet()) {
-            Enemy enemy = enemies.get(key).getEnemy();
-            enemy.move();
-            enemies.get(key).move(enemy.getX(), enemy.getY());
-        }
-        lock.unlock();
-    }
-
-    public void destroyEnemy(Enemy enemy) {
-        lock.lock();
-        enemies.get(enemy.getEnemyId()).clear();
-        enemies.remove(enemy.getEnemyId());
-        lock.unlock();
-    }
-
     public void setHealth(int health) {
 //        int oldHealth = gameInstance.getHealth();
 //        gameInstance.setHealth(health);

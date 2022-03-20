@@ -138,10 +138,6 @@ public class GameInstance {
         enemies.remove(enemy);
     }
 
-    public void updateEnemyLocation(Enemy enemy, int x, int y) {
-        enemies.get(enemy.getEnemyId()).move();
-    }
-
     /**
      * Returns an Observable list of enemies
      * @return an Observable list of enemies
