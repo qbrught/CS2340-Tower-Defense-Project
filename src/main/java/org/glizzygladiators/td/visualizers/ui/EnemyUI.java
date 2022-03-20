@@ -22,6 +22,10 @@ public class EnemyUI extends Rectangle {
         return enemy;
     }
 
+    public int getHealth() {
+        return enemy.getEnemyHealth();
+    }
+
     public void clear() {
         
     }
