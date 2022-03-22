@@ -47,11 +47,10 @@ public class Module4Test {
             } else {
                 assertTrue(enemy.hasCollision(monument));
             }
+            if (enemy.hasCollision(monument)) {
+                enemy.setEnemyHealth(0);
+            }
         }
-        if (enemy.hasCollision(monument)) {
-            enemy.setEnemyHealth(0);
-        }
-
         assertEquals(0, enemy.getEnemyHealth());
     }
 }
