@@ -1,0 +1,7 @@
+1.) enemyCollisionTest:
+- Tests the enemies ability to collide with other objects.
+- Relevant to the current milestone because it allows us to know if the enemy is overlapping with something.
+
+2.) enemyDisappearAtMonumentTest
+- Tests the enemies health decreasing to 0 so that it may disappear once the monument has been reached.
+- Relevant to the current milestone because we must be able to decrease the decrease the health of the enemy once it has reached the monument.
