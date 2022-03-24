@@ -1,5 +1,6 @@
 package org.glizzygladiators.td.visualizers.ui;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -16,6 +17,8 @@ public class EnemyUI extends Rectangle {
               enemy.getHeight());
         setFill(new ImagePattern(new Image(TDApp.getResourcePath(enemy.getImgPath()))));
         this.enemy = enemy;
+        enemy.getXProperty().bind(super.xProperty());
+        enemy.getYProperty().bind(super.yProperty());
     }
 
     public Enemy getEnemy() {
@@ -24,6 +27,10 @@ public class EnemyUI extends Rectangle {
 
     public int getHealth() {
         return enemy.getEnemyHealth();
+    }
+
+    public IntegerProperty getHealthProperty() {
+        return enemy.getHealthProperty();
     }
 
     public void clear() {

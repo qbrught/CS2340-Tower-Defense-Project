@@ -50,6 +50,9 @@ public class GameScreen implements ParameterController, Initializable {
 
     private EventHandler<MouseEvent> buyModeHandler = null;
 
+    public static final int DEFAULT_DURATION_MS = 20000;
+    public static final int DEFAULT_SPACING = 500;
+
     /**
      * Runs code right after FXML objects are initialized
      *
@@ -109,22 +112,26 @@ public class GameScreen implements ParameterController, Initializable {
         Timer timer = new Timer(false);
         long spacing = 1000;
         int numEnemies = 3;
+        int defaultSpeed = 20000;
         for (int i = 0; i < numEnemies; i++) {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     Platform.runLater(() -> {
-                        BasicEnemy basicEnemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
-                        EnemyUI enemyUI = new EnemyUI(basicEnemy);
+                        Enemy enemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
+                        EnemyUI enemyUI = new EnemyUI(enemy);
                         GameMap map = game.getGame().getMap();
                         gameObjects.add(enemyUI);
                         PathTransition transition = 
-                            new PathTransition(Duration.millis(2000), map.getEnemyPath(), enemyUI);
+                            new PathTransition(
+                                Duration.millis(defaultSpeed / enemy.getSpeed()), 
+                                map.getEnemyPath(), 
+                                enemyUI);
                         transition.setCycleCount(1);
                         transition.setOnFinished(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                game.getGame().setHealth(game.getGame().getHealth() - 5);
+                                game.getGame().setHealth(game.getGame().getHealth() - enemy.getDamage());
                                 gameObjects.remove(enemyUI);
                             }
                         });
