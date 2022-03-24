@@ -129,23 +129,6 @@ public class GameInstance {
         return false;
     }
 
-    public void addEnemy(org.glizzygladiators.td.entities.enemies.Enemy enemy) {
-        enemy.setEnemyId(enemyCounter++);
-        enemies.put(enemy.getEnemyId(), enemy);
-    }
-
-    public void removeEnemy(Enemy enemy) {
-        enemies.remove(enemy);
-    }
-
-    /**
-     * Returns an Observable list of enemies
-     * @return an Observable list of enemies
-     */
-    public Map<Integer, Enemy> getEnemies() {
-        return enemies;
-    }
-
     /**
      * Returns the monument associated with this GameInstance
      * @return the monument associated with this GameInstance

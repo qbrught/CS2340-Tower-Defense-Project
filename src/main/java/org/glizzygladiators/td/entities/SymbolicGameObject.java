@@ -1,43 +1,51 @@
 package org.glizzygladiators.td.entities;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class SymbolicGameObject {
 
-    protected int x;
-    protected int y;
+    protected DoubleProperty x;
+    protected DoubleProperty y;
     protected int width;
     protected int height;
     protected String imgPath;
 
     public SymbolicGameObject(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
+        this.x = new SimpleDoubleProperty(x);
+        this.y = new SimpleDoubleProperty(y);
         this.width = width;
         this.height = height;
         this.imgPath = null;
     }
 
     public SymbolicGameObject(int x, int y, int width, int height, String imgPath) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this(x, y, width, height);
         this.imgPath = imgPath;
     }
 
-    public int getX() {
+    public DoubleProperty getXProperty() {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public int getX() {
+        return x.intValue();
     }
 
-    public int getY() {
+    public void setX(int x) {
+        this.x.setValue(x);
+    }
+
+    public DoubleProperty getYProperty() {
         return y;
     }
 
+    public int getY() {
+        return y.intValue();
+    }
+
     public void setY(int y) {
-        this.y = y;
+        this.y.setValue(y);
     }
 
     public int getWidth() {
@@ -65,13 +73,14 @@ public class SymbolicGameObject {
     }
 
     public boolean hasCollision(SymbolicGameObject go) {
-        return x <= go.getX() + go.getWidth()
-                && x + width >= go.getX()
-                && y <= go.getY() + go.getHeight()
-                && y + height >= go.getY();
+        return this.getX() <= go.getX() + go.getWidth()
+                && this.getX() + width >= go.getX()
+                && this.getY() <= go.getY() + go.getHeight()
+                && this.getY() + height >= go.getY();
     }
+
     public boolean isOutOfBounds() {
-        return (x > 1000 - width || x < 0)
-                || (y > 750 - height || y < 0);
+        return (getX() > 1000 - width || getX() < 0)
+                || (getY() > 750 - height || getY() < 0);
     }
 }
