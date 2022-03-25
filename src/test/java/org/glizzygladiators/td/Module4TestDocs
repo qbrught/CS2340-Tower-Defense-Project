@@ -5,3 +5,11 @@
 2.) enemyDisappearAtMonumentTest
 - Tests the enemies health decreasing to 0 so that it may disappear once the monument has been reached.
 - Relevant to the current milestone because we must be able to decrease the decrease the health of the enemy once it has reached the monument.
+
+3.) testEnemyDifferentSpeeds
+- Tests that the enemy would not have different speeds across multiple difficulties (that is a invariance)
+- Ensures that the enemy has the appropriate speed based on the subclass instance that was spawned
+
+4.) testGameMap
+- Tests that the map coordinates of the path aligns with the ones we expect it to generate
+- Fixed generation of map on default seed

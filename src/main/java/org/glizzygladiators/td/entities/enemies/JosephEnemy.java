@@ -8,7 +8,7 @@ import org.glizzygladiators.td.entities.GameDifficulty;
 
 public class JosephEnemy extends Enemy {
     private static final String resourceLocation = "images/joseph.png";
-    private static final int SPEED = 3;
+    public static final int SPEED = 3;
 
     private static final Map<GameDifficulty, int[]> difficulties;
     static {
