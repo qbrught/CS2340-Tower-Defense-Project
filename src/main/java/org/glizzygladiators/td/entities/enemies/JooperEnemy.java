@@ -8,7 +8,7 @@ import org.glizzygladiators.td.entities.GameDifficulty;
 
 public class JooperEnemy extends Enemy {
     private static final String resourceLocation = "images/Jooper.png";
-    private static final int SPEED = 2;
+    public static final int SPEED = 2;
 
     private static final Map<GameDifficulty, int[]> difficulties;
     static {

@@ -8,7 +8,7 @@ import org.glizzygladiators.td.entities.GameDifficulty;
 
 public class MemeEnemy extends Enemy {
     private static final String resourceLocation = "images/meme.png";
-    private static final int SPEED = 5;
+    public static final int SPEED = 5;
 
     private static final Map<GameDifficulty, int[]> difficulties;
     static {

@@ -1,9 +1,16 @@
 package org.glizzygladiators.td;
 
+import javafx.scene.Node;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Shape;
+import javafx.util.Pair;
+
 import javafx.scene.shape.Rectangle;
 import org.glizzygladiators.td.controllers.InitialConfig;
 import org.glizzygladiators.td.entities.SymbolicGameObject;
-import org.glizzygladiators.td.entities.enemies.Enemy;
+import org.glizzygladiators.td.entities.enemies.*;
 import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.CannonTower;
 import org.glizzygladiators.td.entities.towers.SpikeTower;
@@ -11,6 +18,7 @@ import org.glizzygladiators.td.entities.GameDifficulty;
 import org.junit.jupiter.api.Test;
 
 import org.glizzygladiators.td.entities.GameInstance;
+import org.glizzygladiators.td.entities.GameMap;
 import org.glizzygladiators.td.entities.Monument;
 import org.glizzygladiators.td.entities.towers.Tower;
 
@@ -27,7 +35,7 @@ public class Module4Test {
 
     @Test
     public void enemyCollisionTest() {
-        Enemy enemy = new Enemy(0, 0, 100, null, 1);
+        Enemy enemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
         SymbolicGameObject sgo = new SymbolicGameObject(100, 100, 40, 40);
         assertFalse(enemy.hasCollision(sgo));
         enemy.setX(100);
@@ -38,7 +46,7 @@ public class Module4Test {
     @Test
     public void enemyDisappearAtMonumentTest() {
         Monument monument = new Monument(700, 475);
-        Enemy enemy = new Enemy(0, 0, 100, null, 1);
+        Enemy enemy = new BasicEnemy(0, 0, GameDifficulty.MEDIUM);
         for (int i = 0; i < 7; i++) {
             enemy.setX(enemy.getX() + 100);
             enemy.setY(enemy.getY() + 67);
@@ -52,5 +60,48 @@ public class Module4Test {
             }
         }
         assertEquals(0, enemy.getEnemyHealth());
+    }
+
+    @Test
+    public void testEnemyDifferentSpeeds() {
+        Enemy enemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
+        assertEquals(enemy.getSpeed(), BasicEnemy.SPEED);
+        enemy = new MemeEnemy(0, 0, GameDifficulty.MEDIUM);
+        assertEquals(enemy.getSpeed(), MemeEnemy.SPEED);
+        enemy = new AusEnemy(0, 0, GameDifficulty.HARD);
+        assertEquals(enemy.getSpeed(), AusEnemy.SPEED);
+    }
+
+    @Test
+    public void testEnemyPath() {
+        GameMap map = new GameMap();
+        Path expectedPath = new Path();
+        var stuff = expectedPath.getElements();
+
+        var p1 = new Pair<>(Enemy.SIZE / 2, 145);
+        var p2 = new Pair<>(810, 145);
+        var p3 = new Pair<>(810, 346);
+        var p4 = new Pair<>(160, 346);
+        var p5 = new Pair<>(160, 576);
+        var p6 = new Pair<>(670, 576);
+        Pair[] ps = new Pair[]{p2, p3, p4, p5, p6};
+
+        stuff.add(new MoveTo(p1.getKey(), p1.getValue()));
+        for (var p : ps) stuff.add(new LineTo((Integer)p.getKey(), (Integer)p.getValue()));
+    
+        var enemyPath = map.getEnemyPath().getElements();
+        for (int i = 0; i < stuff.size(); i++) {
+            if (i == 0) {
+                MoveTo moveTo = (MoveTo) enemyPath.get(0);
+                MoveTo expectedMoveTo = (MoveTo) stuff.get(0);
+                assertEquals(moveTo.getX(), expectedMoveTo.getX());
+                assertEquals(moveTo.getY(), expectedMoveTo.getY());
+            } else {
+                LineTo lineTo = (LineTo) enemyPath.get(i);
+                LineTo expectedLineTo = (LineTo) stuff.get(i);
+                assertEquals(lineTo.getX(), expectedLineTo.getX());
+                assertEquals(lineTo.getY(), expectedLineTo.getY());
+            }
+        }
     }
 }
