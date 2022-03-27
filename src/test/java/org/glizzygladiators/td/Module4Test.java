@@ -1,8 +1,6 @@
 package org.glizzygladiators.td;
+
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -127,4 +125,34 @@ public class Module4Test {
         }
     }
 
+
+    @Test
+    public void testDifferentEnemiesDoDifferentDamage() {
+        Enemy ae = new AusEnemy(0, 0, GameDifficulty.EASY);
+        Enemy be = new BasicEnemy(0, 0, GameDifficulty.EASY);
+        Enemy je1 = new JooperEnemy(0, 0, GameDifficulty.EASY);
+        Enemy je2 = new JosephEnemy(0, 0, GameDifficulty.EASY);
+        Enemy me = new MemeEnemy(0, 0, GameDifficulty.EASY);
+        boolean allEqual = ae.getDamage() == be.getDamage() &&
+                ae.getDamage() == je1.getDamage() &&
+                ae.getDamage() == je2.getDamage() &&
+                ae.getDamage() == me.getDamage() &&
+                be.getDamage() == je1.getDamage() &&
+                be.getDamage() == je2.getDamage() &&
+                be.getDamage() == me.getDamage() &&
+                je1.getDamage() == je2.getDamage() &&
+                je1.getDamage() == me.getDamage() &&
+                je2.getDamage() == me.getDamage();
+        assertFalse(allEqual);
+    }
+
+    @Test
+    public void testEnemiesDoDifferentDamageOnDifferentDifficulty() {
+        Enemy aee = new AusEnemy(0, 0, GameDifficulty.EASY);
+        Enemy aem = new AusEnemy(0, 0, GameDifficulty.MEDIUM);
+        Enemy aeh = new AusEnemy(0, 0, GameDifficulty.HARD);
+        assertNotEquals(aee.getDamage(), aem.getDamage());
+        assertNotEquals(aee.getDamage(), aeh.getDamage());
+        assertNotEquals(aem.getDamage(), aeh.getDamage());
+    }
 }
