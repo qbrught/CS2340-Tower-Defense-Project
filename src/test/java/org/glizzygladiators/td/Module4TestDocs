@@ -15,15 +15,13 @@
 - Fixed generation of map on default seed
 
 5.) testGameOverHealth
--Tests that the GameOver portion of the begins execution when health hits 0 for all difficulties
--Demonstrates relevancy to the current milestone because the game over screen is supposed to appear when monument health is gone.
+- Tests that the GameOver portion of the begins execution when health hits 0 for all difficulties
+- Demonstrates relevancy to the current milestone because the game over screen is supposed to appear when monument health is gone.
 
-
-
-5.) testDifferentEnemiesDoDifferentDamage
+6.) testDifferentEnemiesDoDifferentDamage
 - Tests whether different enemies do different damage to the monument
 - Relevant to the current milestone because it allows us to vary the difficulty of waves by spawning more powerful enemies
 
-6.) testEnemiesDoDifferentDamageOnDifferentDifficulty
+7.) testEnemiesDoDifferentDamageOnDifferentDifficulty
 - Tests whether enemies do different amounts of damage to the monument based on the difficulty level
 - Relevant to the current milestone because it shows us that the risk of allowing enemies to reach the monument varies on different difficulties
