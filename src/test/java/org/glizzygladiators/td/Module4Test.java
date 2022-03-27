@@ -8,6 +8,9 @@ import javafx.scene.shape.Shape;
 import javafx.util.Pair;
 
 import javafx.scene.shape.Rectangle;
+import org.assertj.core.internal.bytebuddy.dynamic.scaffold.TypeInitializer;
+import org.glizzygladiators.td.controllers.GameOverScreen;
+import org.glizzygladiators.td.controllers.GameScreen;
 import org.glizzygladiators.td.controllers.InitialConfig;
 import org.glizzygladiators.td.entities.SymbolicGameObject;
 import org.glizzygladiators.td.entities.enemies.*;
@@ -28,8 +31,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.event.MouseEvent;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 public class Module4Test {
 
@@ -88,7 +93,7 @@ public class Module4Test {
 
         stuff.add(new MoveTo(p1.getKey(), p1.getValue()));
         for (var p : ps) stuff.add(new LineTo((Integer)p.getKey(), (Integer)p.getValue()));
-
+    
         var enemyPath = map.getEnemyPath().getElements();
         for (int i = 0; i < stuff.size(); i++) {
             if (i == 0) {
@@ -104,6 +109,22 @@ public class Module4Test {
             }
         }
     }
+    @Test
+    public void testGameOverHealth() {
+        GameInstance easy = new GameInstance("test", GameDifficulty.EASY);
+        GameInstance med = new GameInstance("test", GameDifficulty.MEDIUM);
+        GameInstance hard = new GameInstance("test", GameDifficulty.HARD);
+        GameInstance[] games = new GameInstance[]{easy,med,hard};
+        for (GameInstance game: games) {
+            game.setHealth(0);
+            assertEquals(game.GameOver(), true);
+            for (int i = game.getHealth();i > 0; i--) {
+                game.setHealth(i);
+                assertEquals(game.GameOver(),false);
+            }
+        }
+    }
+
 
     @Test
     public void testDifferentEnemiesDoDifferentDamage() {

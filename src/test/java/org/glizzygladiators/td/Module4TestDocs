@@ -14,6 +14,12 @@
 - Tests that the map coordinates of the path aligns with the ones we expect it to generate
 - Fixed generation of map on default seed
 
+5.) testGameOverHealth
+-Tests that the GameOver portion of the begins execution when health hits 0 for all difficulties
+-Demonstrates relevancy to the current milestone because the game over screen is supposed to appear when monument health is gone.
+
+
+
 5.) testDifferentEnemiesDoDifferentDamage
 - Tests whether different enemies do different damage to the monument
 - Relevant to the current milestone because it allows us to vary the difficulty of waves by spawning more powerful enemies

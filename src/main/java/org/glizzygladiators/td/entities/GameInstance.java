@@ -1,8 +1,6 @@
 package org.glizzygladiators.td.entities;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -94,7 +92,11 @@ public class GameInstance {
      * @param newHealth the monument's health
      */
     public void setHealth(int newHealth) {
-        this.health.set(newHealth);
+        if (newHealth >= 0) {
+            this.health.set(newHealth);}
+        else {
+            this.health.set(0);
+        }
     }
 
     /**
@@ -113,6 +115,7 @@ public class GameInstance {
         return towers;
     }
 
+
     public boolean isInvalidTowerLocation(Tower tower) {
         return tower.isOutOfBounds()
                || map.hasCollisionWithPath(tower)
@@ -127,6 +130,20 @@ public class GameInstance {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns false if the monument/health is gone
+     * @return
+     */
+    public boolean GameOver() {
+        if (health.get() > 0) {
+            return false;
+        }
+        else {
+            towers = null;
+            return true;
+        }
     }
 
     /**
