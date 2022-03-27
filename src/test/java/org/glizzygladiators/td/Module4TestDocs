@@ -13,3 +13,11 @@
 4.) testGameMap
 - Tests that the map coordinates of the path aligns with the ones we expect it to generate
 - Fixed generation of map on default seed
+
+5.) testDifferentEnemiesDoDifferentDamage
+- Tests whether different enemies do different damage to the monument
+- Relevant to the current milestone because it allows us to vary the difficulty of waves by spawning more powerful enemies
+
+6.) testEnemiesDoDifferentDamageOnDifferentDifficulty
+- Tests whether enemies do different amounts of damage to the monument based on the difficulty level
+- Relevant to the current milestone because it shows us that the risk of allowing enemies to reach the monument varies on different difficulties

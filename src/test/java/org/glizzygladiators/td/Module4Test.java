@@ -88,7 +88,7 @@ public class Module4Test {
 
         stuff.add(new MoveTo(p1.getKey(), p1.getValue()));
         for (var p : ps) stuff.add(new LineTo((Integer)p.getKey(), (Integer)p.getValue()));
-    
+
         var enemyPath = map.getEnemyPath().getElements();
         for (int i = 0; i < stuff.size(); i++) {
             if (i == 0) {
@@ -103,5 +103,35 @@ public class Module4Test {
                 assertEquals(lineTo.getY(), expectedLineTo.getY());
             }
         }
+    }
+
+    @Test
+    public void testDifferentEnemiesDoDifferentDamage() {
+        Enemy ae = new AusEnemy(0, 0, GameDifficulty.EASY);
+        Enemy be = new BasicEnemy(0, 0, GameDifficulty.EASY);
+        Enemy je1 = new JooperEnemy(0, 0, GameDifficulty.EASY);
+        Enemy je2 = new JosephEnemy(0, 0, GameDifficulty.EASY);
+        Enemy me = new MemeEnemy(0, 0, GameDifficulty.EASY);
+        boolean allEqual = ae.getDamage() == be.getDamage() &&
+                ae.getDamage() == je1.getDamage() &&
+                ae.getDamage() == je2.getDamage() &&
+                ae.getDamage() == me.getDamage() &&
+                be.getDamage() == je1.getDamage() &&
+                be.getDamage() == je2.getDamage() &&
+                be.getDamage() == me.getDamage() &&
+                je1.getDamage() == je2.getDamage() &&
+                je1.getDamage() == me.getDamage() &&
+                je2.getDamage() == me.getDamage();
+        assertFalse(allEqual);
+    }
+
+    @Test
+    public void testEnemiesDoDifferentDamageOnDifferentDifficulty() {
+        Enemy aee = new AusEnemy(0, 0, GameDifficulty.EASY);
+        Enemy aem = new AusEnemy(0, 0, GameDifficulty.MEDIUM);
+        Enemy aeh = new AusEnemy(0, 0, GameDifficulty.HARD);
+        assertNotEquals(aee.getDamage(), aem.getDamage());
+        assertNotEquals(aee.getDamage(), aeh.getDamage());
+        assertNotEquals(aem.getDamage(), aeh.getDamage());
     }
 }
