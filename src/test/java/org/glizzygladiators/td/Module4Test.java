@@ -155,4 +155,14 @@ public class Module4Test {
         assertNotEquals(aee.getDamage(), aeh.getDamage());
         assertNotEquals(aem.getDamage(), aeh.getDamage());
     }
+
+    @Test
+    public void testEnemiesDifferentHealth() {
+        Enemy easy = new MemeEnemy(0,0, GameDifficulty.EASY);
+        Enemy med = new MemeEnemy(0,0, GameDifficulty.MEDIUM);
+        Enemy hard = new MemeEnemy(0,0, GameDifficulty.HARD);
+        assertNotEquals(easy.getEnemyHealth(), hard.getEnemyHealth());
+        assertNotEquals(easy.getEnemyHealth(), med.getEnemyHealth());
+        assertNotEquals(med.getEnemyHealth(),hard.getEnemyHealth());
+    }
 }

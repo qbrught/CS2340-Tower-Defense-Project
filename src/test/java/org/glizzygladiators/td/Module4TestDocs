@@ -25,3 +25,7 @@
 7.) testEnemiesDoDifferentDamageOnDifferentDifficulty
 - Tests whether enemies do different amounts of damage to the monument based on the difficulty level
 - Relevant to the current milestone because it shows us that the risk of allowing enemies to reach the monument varies on different difficulties
+
+8.) testEnemiesDifferentHealth
+- Tests whether each difficulty results in different enemy health
+- Demonstrates relevancy to the current milestone because it shows that with difficulty change, the difficulty of monument defense changes accordingly.
