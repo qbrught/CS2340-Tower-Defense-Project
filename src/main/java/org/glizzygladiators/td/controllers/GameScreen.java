@@ -75,6 +75,7 @@ public class GameScreen implements ParameterController, Initializable {
         moneyLabel.textProperty().bind(game.getGame().getMoneyProperty().asString());
         healthLabel.textProperty().bind(game.getGame().getHealthProperty().asString());
 
+
         PropertyChangeListener towerListener = new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -107,6 +108,24 @@ public class GameScreen implements ParameterController, Initializable {
         return game;
     }
 
+    /**
+     * Checks the monument health continuously using a timer and sets GameOverScreen
+     */
+    public void checkGameOver() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (game.getGame().GameOver()) {
+                    Scene scene = gamePane.getScene();
+                    Parent root = TDApp.getParent("scenes/GameOverScreen.fxml");
+                    TDApp.navigateToRoot(scene,root);
+                    timer.cancel();
+                }
+            }
+        }, 0, 10);
+    }
+
     public Enemy getEnemy(int i, GameDifficulty difficulty) {
         switch (i) {
             case 0:
@@ -125,6 +144,7 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public void spawnEnemies(MouseEvent mouseEvent) {
+        checkGameOver();
         Timer timer = new Timer(false);
         long spacing = 1000;
         int numEnemies = 10;
