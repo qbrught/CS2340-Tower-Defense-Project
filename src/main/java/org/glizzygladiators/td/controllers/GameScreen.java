@@ -75,6 +75,7 @@ public class GameScreen implements ParameterController, Initializable {
         game = GameInstanceDriver.getDriver();
 
         gameObjects.add(game.getMonument());
+        enemySpawnTimer = new Timer(true);
 
         moneyLabel.textProperty().bind(game.getGame().getMoneyProperty().asString());
         healthLabel.textProperty().bind(game.getGame().getHealthProperty().asString());
@@ -142,17 +143,16 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public void spawnEnemies(MouseEvent mouseEvent) {
-        enemySpawnTimer = new Timer(false);
         long spacing = 1000;
         final int[] numEnemies = {10};
         final int defaultSpeed = 50000;
         enemySpawnTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+                if (numEnemies[0] == 0) {
+                    return;
+                }
                 Platform.runLater(() -> {
-                    if (numEnemies[0] == 0) {
-                        enemySpawnTimer.cancel();
-                    }
                     Enemy enemy = getEnemy(numEnemies[0]-- % 5, game.getGame().getDifficulty());
                     EnemyUI enemyUI = new EnemyUI(enemy);
                     GameMap map = game.getGame().getMap();
