@@ -1,6 +1,8 @@
 package org.glizzygladiators.td.controllers;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.animation.PathTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,6 +54,8 @@ public class GameScreen implements ParameterController, Initializable {
     public static final int DEFAULT_DURATION_MS = 20000;
     public static final int DEFAULT_SPACING = 500;
 
+    private Timer enemySpawnTimer;
+
     /**
      * Runs code right after FXML objects are initialized
      *
@@ -74,7 +78,19 @@ public class GameScreen implements ParameterController, Initializable {
 
         moneyLabel.textProperty().bind(game.getGame().getMoneyProperty().asString());
         healthLabel.textProperty().bind(game.getGame().getHealthProperty().asString());
-
+        healthLabel.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue,
+                                String newValue) {
+                if (newValue.equals("0")) {
+                    Scene scene = gamePane.getScene();
+                    Parent root = TDApp.getParent("scenes/GameOverScreen.fxml");
+                    TDApp.navigateToRoot(scene,root);
+                    enemySpawnTimer.cancel();
+                }
+            }
+        });
 
         PropertyChangeListener towerListener = new PropertyChangeListener() {
             @Override
@@ -108,24 +124,6 @@ public class GameScreen implements ParameterController, Initializable {
         return game;
     }
 
-    /**
-     * Checks the monument health continuously using a timer and sets GameOverScreen
-     */
-    public void checkGameOver() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (game.getGame().GameOver()) {
-                    Scene scene = gamePane.getScene();
-                    Parent root = TDApp.getParent("scenes/GameOverScreen.fxml");
-                    TDApp.navigateToRoot(scene,root);
-                    timer.cancel();
-                }
-            }
-        }, 0, 10);
-    }
-
     public Enemy getEnemy(int i, GameDifficulty difficulty) {
         switch (i) {
             case 0:
@@ -144,39 +142,38 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public void spawnEnemies(MouseEvent mouseEvent) {
-        checkGameOver();
-        Timer timer = new Timer(false);
+        enemySpawnTimer = new Timer(false);
         long spacing = 1000;
-        int numEnemies = 10;
-        int defaultSpeed = 50000;
-        for (int i = 0; i < numEnemies; i++) {
-            final int arr[] = {i};
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> {
-                        Enemy enemy = getEnemy(arr[0] % 5, game.getGame().getDifficulty());
-                        EnemyUI enemyUI = new EnemyUI(enemy);
-                        GameMap map = game.getGame().getMap();
-                        gameObjects.add(enemyUI);
-                        PathTransition transition = 
-                            new PathTransition(
-                                Duration.millis(defaultSpeed / enemy.getSpeed()), 
-                                map.getEnemyPath(), 
-                                enemyUI);
-                        transition.setCycleCount(1);
-                        transition.setOnFinished(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                game.getGame().setHealth(game.getGame().getHealth() - enemy.getDamage());
-                                gameObjects.remove(enemyUI);
-                            }
-                        });
-                        transition.play();
+        final int[] numEnemies = {10};
+        final int defaultSpeed = 50000;
+        enemySpawnTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    if (numEnemies[0] == 0) {
+                        enemySpawnTimer.cancel();
+                    }
+                    Enemy enemy = getEnemy(numEnemies[0]-- % 5, game.getGame().getDifficulty());
+                    EnemyUI enemyUI = new EnemyUI(enemy);
+                    GameMap map = game.getGame().getMap();
+                    gameObjects.add(enemyUI);
+                    PathTransition transition = 
+                        new PathTransition(
+                            Duration.millis(defaultSpeed / enemy.getSpeed()), 
+                            map.getEnemyPath(), 
+                            enemyUI);
+                    transition.setCycleCount(1);
+                    transition.setOnFinished(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            game.getGame().setHealth(game.getGame().getHealth() - enemy.getDamage());
+                            gameObjects.remove(enemyUI);
+                        }
                     });
-                }
-            }, i * spacing);
-        }
+                    transition.play();
+                });
+            }
+        }, 0, spacing);
     }
 
     /**

@@ -1,6 +1,5 @@
 package org.glizzygladiators.td.entities.enemies;
 
-import org.glizzygladiators.td.entities.GameMap;
 import org.glizzygladiators.td.entities.SymbolicGameObject;
 
 import javafx.beans.property.IntegerProperty;
