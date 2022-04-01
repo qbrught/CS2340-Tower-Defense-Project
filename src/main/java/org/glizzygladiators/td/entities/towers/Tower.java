@@ -67,11 +67,10 @@ public abstract class Tower extends SymbolicGameObject {
         return this.getY() + Tower.SIZE / 2;
     }
 
-    public Enemy getClosestEnemy(ArrayList<Pair<Enemy, Integer>> tuples) {
+    public Enemy getClosestEnemy(ArrayList<Enemy> enemies) {
         int minDist = 1000;
         Enemy result = null;
-        for (var tuple : tuples) {
-            Enemy e = tuple.getKey();
+        for (var e : enemies) {
             int xDelt = e.getX() - this.getX();
             int yDelt = e.getY() - this.getY();
             double dist = Math.sqrt(xDelt * xDelt + yDelt * yDelt);

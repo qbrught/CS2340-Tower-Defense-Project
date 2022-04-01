@@ -14,6 +14,7 @@ public class Enemy extends MoveableGameObject {
     private final int speed;
     private final int damage;
     private DestroyedCallback callback;
+    public int index = 1;
     public Enemy(int x, int y, String resourceLocation, int speed, int health, int damage) {
         super(SIZE, SIZE, resourceLocation);
         this.speed = speed;

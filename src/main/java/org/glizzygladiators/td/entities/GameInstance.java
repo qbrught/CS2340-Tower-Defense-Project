@@ -21,7 +21,7 @@ public class GameInstance {
     private IntegerProperty money;
     private IntegerProperty health;
     private ArrayList<Tower> towers;
-    private ArrayList<Pair<Enemy, Integer>> enemies;
+    private ArrayList<Enemy> enemies;
     private ArrayList<Projectile> projectiles;
     private Monument monument;
     private GameMap map;
@@ -46,7 +46,7 @@ public class GameInstance {
 
     public void addEnemy(Enemy enemy) {
         synchronized(enemies) {
-            enemies.add(new Pair<>(enemy, 1));
+            enemies.add(enemy);
             MoveTo objStart = (MoveTo) map.getEnemyPath().getElements().get(0);
             enemy.setX((int) objStart.getX() - Enemy.SIZE / 2);
             enemy.setY((int) objStart.getY() - Enemy.SIZE / 2);
@@ -62,25 +62,25 @@ public class GameInstance {
     public void moveEnemies() {
         synchronized (enemies) {
             for (int i = 0, increment = 1; i < enemies.size(); i += increment, increment = 1) {
-                Pair<Enemy, Integer> enemy = enemies.get(i);
-                if (enemy.getValue() == map.getEnemyPath().getElements().size()) {
-                    enemy.getKey().fireCallback(true);
+                Enemy enemy = enemies.get(i);
+                if (enemy.index == map.getEnemyPath().getElements().size()) {
+                    enemy.fireCallback(true);
                     increment = 0;
                     enemies.remove(i);
                     continue;
                 }
                 LineTo lineTo = (LineTo) map.getEnemyPath()
-                    .getElements().get(enemy.getValue());
-                int xDelta = ((int) lineTo.getX()) - enemy.getKey().getX();
-                int yDelta = ((int) lineTo.getY()) - enemy.getKey().getY(); 
+                    .getElements().get(enemy.index);
+                int xDelta = ((int) lineTo.getX()) - enemy.getX();
+                int yDelta = ((int) lineTo.getY()) - enemy.getY(); 
                 int mag = (int) Math.sqrt(Math.pow(xDelta, 2) + Math.pow(yDelta, 2));
-                if (mag > enemy.getKey().getSpeed()) {
-                    mag = enemy.getKey().getSpeed();
+                if (mag > enemy.getSpeed()) {
+                    mag = enemy.getSpeed();
                 }
-                enemy.getKey().translate(xDelta, yDelta, mag);
-                if (enemy.getKey().getX() == ((int) lineTo.getX()) &&
-                    enemy.getKey().getY() == ((int) lineTo.getY())) {
-                    enemies.set(i, new Pair<>(enemy.getKey(), enemy.getValue() + 1));
+                enemy.translate(xDelta, yDelta, mag);
+                if (enemy.getX() == ((int) lineTo.getX()) &&
+                    enemy.getY() == ((int) lineTo.getY())) {
+                    enemies.get(i).index += 1;
                 }
             }
         }

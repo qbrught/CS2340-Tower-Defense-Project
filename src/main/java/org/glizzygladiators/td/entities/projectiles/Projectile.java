@@ -31,10 +31,10 @@ public abstract class Projectile extends MoveableGameObject {
         this.damage = damage;
     }
 
-    public Enemy collides(ArrayList<Pair<Enemy, Integer>> enemies) {
-        for (Pair<Enemy, Integer> tuple : enemies) {
-            if (this.hasCollision(tuple.getKey())) {
-                return tuple.getKey();
+    public Enemy collides(ArrayList<Enemy> enemies) {
+        for (var enemy : enemies) {
+            if (this.hasCollision(enemy)) {
+                return enemy;
             }
         }
         return null;
