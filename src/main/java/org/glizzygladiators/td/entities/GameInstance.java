@@ -2,21 +2,27 @@ package org.glizzygladiators.td.entities;
 
 import java.util.*;
 
+import java.lang.Math;
+
+import javafx.util.Pair;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+
 import org.glizzygladiators.td.entities.towers.Tower;
 import org.glizzygladiators.td.entities.enemies.*;
+import org.glizzygladiators.td.entities.projectiles.BasicProjectile;
+import org.glizzygladiators.td.entities.projectiles.Projectile;
 
 public class GameInstance {
-
-    private static int enemyCounter = 0;
-
     private String name;
     private GameDifficulty difficulty;
     private IntegerProperty money;
     private IntegerProperty health;
     private ArrayList<Tower> towers;
-    private Map<Integer, Enemy> enemies;
+    private ArrayList<Pair<Enemy, Integer>> enemies;
+    private ArrayList<Projectile> projectiles;
     private Monument monument;
     private GameMap map;
 
@@ -32,12 +38,101 @@ public class GameInstance {
         money = new SimpleIntegerProperty(getStartingMoney());
         health = new SimpleIntegerProperty(getStartingHealth());
         towers = new ArrayList<Tower>();
-        enemies = new HashMap<Integer, Enemy>();
+        enemies = new ArrayList<>();
+        projectiles = new ArrayList<>();
         monument = new Monument(700, 475);
         map = new GameMap();
     }
 
-    /**
+    public void addEnemy(Enemy enemy) {
+        synchronized(enemies) {
+            enemies.add(new Pair<>(enemy, 1));
+            MoveTo objStart = (MoveTo) map.getEnemyPath().getElements().get(0);
+            enemy.setX((int) objStart.getX() - Enemy.SIZE / 2);
+            enemy.setY((int) objStart.getY() - Enemy.SIZE / 2);
+        }
+    }
+    
+    public void moveEnemies() {
+        synchronized (enemies) {
+            for (int i = 0, increment = 1; i < enemies.size(); i += increment, increment = 1) {
+                Pair<Enemy, Integer> enemy = enemies.get(i);
+                if (enemy.getValue() == map.getEnemyPath().getElements().size()) {
+                    enemy.getKey().fireCallback(true);
+                    increment = 0;
+                    enemies.remove(i);
+                    continue;
+                }
+                LineTo lineTo = (LineTo) map.getEnemyPath()
+                    .getElements().get(enemy.getValue());
+                int xDelta = ((int) lineTo.getX()) - enemy.getKey().getX();
+                int yDelta = ((int) lineTo.getY()) - enemy.getKey().getY(); 
+                int mag = (int) Math.sqrt(Math.pow(xDelta, 2) + Math.pow(yDelta, 2));
+                if (mag > enemy.getKey().getSpeed()) {
+                    mag = enemy.getKey().getSpeed();
+                }
+                enemy.getKey().translate(xDelta, yDelta, mag);
+                if (enemy.getKey().getX() == ((int) lineTo.getX()) &&
+                    enemy.getKey().getY() == ((int) lineTo.getY())) {
+                    enemies.set(i, new Pair<>(enemy.getKey(), enemy.getValue() + 1));
+                }
+            }
+        }
+    }
+
+    public ArrayList<Projectile> fireProjectiles(long now) {
+        ArrayList<Projectile> newProjectiles = new ArrayList<>();
+        synchronized(towers) {
+            for (Tower tower : towers) {
+                if (now - tower.getLastFired() >= Tower.RELOAD_TIME_MS) {
+                    Enemy enemy = null;
+                    synchronized(enemies) {
+                        enemy = tower.getClosestEnemy(enemies);
+                    }
+                    if (enemy != null) {
+                        tower.fire(now);
+                        int xDelt = (enemy.getX() + Enemy.SIZE) - tower.getCenterX();
+                        int yDelt = (enemy.getY() + Enemy.SIZE) - tower.getCenterY();
+                        Projectile projectile = new BasicProjectile(
+                            tower.getCenterX(), tower.getCenterY(), xDelt, yDelt);
+                        newProjectiles.add(projectile);
+                    }
+                }
+            }
+        }
+        return newProjectiles;
+    }
+
+    public void addProjectile(Projectile p) {
+        synchronized(projectiles) {
+            this.projectiles.add(p);
+        }
+    }
+
+    public void moveProjectiles() {
+        synchronized(projectiles) {
+            for (int i = 0, increment = 1; i < projectiles.size(); i += increment, increment = 1) {
+                Projectile p = projectiles.get(i);
+                p.move();
+                boolean remove = false;
+                if (p.isOutOfBounds()) {
+                    p.fireDestroyedEvent(null);
+                    remove = true;
+                }
+                Enemy enemy = p.collides(enemies);
+                if (enemy != null) {
+                    p.fireDestroyedEvent(enemy);
+                    remove = true;
+                }
+                if (remove) {
+                    increment = 0;
+                    projectiles.remove(i);
+                }
+            }
+        }
+    }
+
+    /** 
      * Gets the name of the player.
      * @return the name of the player.
      */
@@ -66,9 +161,7 @@ public class GameInstance {
      * @param newMoney the player's money
      */
     public void setMoney(int newMoney) {
-        System.out.println("newMoney: " + newMoney);
         money.set(newMoney);
-        System.out.println("Updated: " + this.money.get());
     }
 
     /**
@@ -114,7 +207,6 @@ public class GameInstance {
     public ArrayList<Tower> getTowers() {
         return towers;
     }
-
 
     public boolean isInvalidTowerLocation(Tower tower) {
         return tower.isOutOfBounds()

@@ -33,7 +33,7 @@ public class SymbolicGameObject {
     }
 
     public void setX(int x) {
-        this.x.setValue(x);
+        this.x.set(x);
     }
 
     public DoubleProperty getYProperty() {
@@ -45,7 +45,7 @@ public class SymbolicGameObject {
     }
 
     public void setY(int y) {
-        this.y.setValue(y);
+        this.y.set(y);
     }
 
     public int getWidth() {

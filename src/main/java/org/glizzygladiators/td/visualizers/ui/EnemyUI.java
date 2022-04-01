@@ -17,8 +17,6 @@ public class EnemyUI extends Rectangle {
               enemy.getHeight());
         setFill(new ImagePattern(new Image(TDApp.getResourcePath(enemy.getImgPath()))));
         this.enemy = enemy;
-        enemy.getXProperty().bind(super.xProperty());
-        enemy.getYProperty().bind(super.yProperty());
     }
 
     public Enemy getEnemy() {
