@@ -197,13 +197,12 @@ public class GameScreen implements ParameterController, Initializable {
 
     public void spawnEnemies(MouseEvent mouseEvent) {
         long spacing = 1000;
-        final int[] numEnemies = {10};
         for (int i = 0; i < 10; i++) {
             enemySpawnTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     Platform.runLater(() -> {
-                        Enemy enemy = getEnemy(numEnemies[0]-- % 5, game.getGame().getDifficulty());
+                        Enemy enemy = getEnemy(4, game.getGame().getDifficulty());
                         EnemyUI enemyUI = new EnemyUI(enemy);
                         enemyUI.xProperty().bind(enemy.getXProperty());
                         enemyUI.yProperty().bind(enemy.getYProperty());

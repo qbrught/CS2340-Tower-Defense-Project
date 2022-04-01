@@ -6,11 +6,9 @@ import org.glizzygladiators.td.entities.DestroyedCallback;
 import org.glizzygladiators.td.entities.MoveableGameObject;
 import org.glizzygladiators.td.entities.enemies.Enemy;
 
-import javafx.util.Pair;
-
 public abstract class Projectile extends MoveableGameObject {
     
-    public static final int DEFAULT_PROJECTILE_SIZE = 10;
+    public static final int DEFAULT_PROJECTILE_SIZE = 20;
 
     public final int xVelocity;
     public final int yVelocity;

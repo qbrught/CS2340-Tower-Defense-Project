@@ -1,8 +1,5 @@
 package org.glizzygladiators.td.entities;
 
-import javafx.scene.shape.Rectangle;
-import org.glizzygladiators.td.entities.towers.Tower;
-
 public class Monument extends SymbolicGameObject {
 
     public static final String imgPath = "images/monument.jpg";
