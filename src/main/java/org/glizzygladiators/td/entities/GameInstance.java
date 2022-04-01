@@ -53,6 +53,12 @@ public class GameInstance {
         }
     }
     
+    public void removeEnemy(Enemy enemy) {
+        synchronized(enemies) {
+            enemies.remove(enemy);
+        }
+    }
+
     public void moveEnemies() {
         synchronized (enemies) {
             for (int i = 0, increment = 1; i < enemies.size(); i += increment, increment = 1) {

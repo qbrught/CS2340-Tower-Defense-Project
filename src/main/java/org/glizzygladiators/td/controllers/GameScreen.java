@@ -205,6 +205,19 @@ public class GameScreen implements ParameterController, Initializable {
                         EnemyUI enemyUI = new EnemyUI(enemy);
                         enemyUI.xProperty().bind(enemy.getXProperty());
                         enemyUI.yProperty().bind(enemy.getYProperty());
+                        enemy.getHealthProperty().addListener(new ChangeListener<Number>() {
+                            @Override
+                            public void changed(ObservableValue<? extends Number> observable,
+                                                Number oldValue,
+                                                Number newValue) {
+                                Integer currentHealth = (Integer) newValue;
+                                if (currentHealth <= 0) {
+                                    gameObjects.remove(enemyUI);
+                                    game.getGame().removeEnemy(enemy);
+                                    game.getGame().setMoney(game.getGame().getMoney() + 10);
+                                }
+                            }
+                        });
                         gameObjects.add(enemyUI);
                         game.getGame().addEnemy(enemy);
                         enemy.setCallback(new DestroyedCallback() {
