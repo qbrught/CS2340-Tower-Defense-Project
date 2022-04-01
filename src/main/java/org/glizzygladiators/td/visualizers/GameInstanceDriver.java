@@ -1,7 +1,7 @@
 package org.glizzygladiators.td.visualizers;
 
 import org.glizzygladiators.td.entities.GameInstance;
-import org.glizzygladiators.td.entities.enemies.Enemy;
+//import org.glizzygladiators.td.entities.enemies.Enemy;
 import org.glizzygladiators.td.entities.towers.Tower;
 import org.glizzygladiators.td.visualizers.ui.MonumentUI;
 import org.glizzygladiators.td.visualizers.ui.TowerUI;
@@ -74,16 +74,16 @@ public class GameInstanceDriver {
     }
 
     public void setHealth(int health) {
-//        int oldHealth = gameInstance.getHealth();
-//        gameInstance.setHealth(health);
-//        support.firePropertyChange(HEALTH_ACTION, oldHealth, health);
+        //int oldHealth = gameInstance.getHealth();
+        //gameInstance.setHealth(health);
+        //support.firePropertyChange(HEALTH_ACTION, oldHealth, health);
         gameInstance.setHealth(health);
     }
 
     public void setMoney(int money) {
-//        int oldMoney = gameInstance.getMoney();
-//        gameInstance.setMoney(money);
-//        support.firePropertyChange(MONEY_ACTION, oldMoney, money);
+        //int oldMoney = gameInstance.getMoney();
+        //gameInstance.setMoney(money);
+        //support.firePropertyChange(MONEY_ACTION, oldMoney, money);
         gameInstance.setMoney(money);
     }
 
@@ -97,7 +97,9 @@ public class GameInstanceDriver {
 
     /**
      * Do NOT modify anything within the object without using a PropertyChangeListener.
+     * @return Game Instance
      */
+
     public GameInstance getGame() {
         return gameInstance;
     }

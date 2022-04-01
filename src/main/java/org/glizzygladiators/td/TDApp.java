@@ -8,7 +8,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Rectangle;
+//import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.glizzygladiators.td.controllers.ParameterController;
 

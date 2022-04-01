@@ -12,6 +12,6 @@ public class MonumentUI extends Rectangle {
               monument.getY(), 
               monument.getWidth(), 
               monument.getHeight());
-        setFill(new ImagePattern(new Image(TDApp.getResourcePath(monument.imgPath))));
+        setFill(new ImagePattern(new Image(TDApp.getResourcePath(monument.IMG_PATH))));
     }
 }
