@@ -61,6 +61,7 @@ public class GameScreen implements ParameterController, Initializable {
     private AnimationTimer enemyMoveTimer;
     private AnimationTimer projectileTimer;
     private AnimationTimer projectileSpawnTimer;
+    private int cycleCount = 0;
 
     /**
      * Runs code right after FXML objects are initialized
@@ -101,8 +102,9 @@ public class GameScreen implements ParameterController, Initializable {
         projectileSpawnTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                cycleCount++;
                 ArrayList<Projectile> projectiles = 
-                    game.getGame().fireProjectiles((long) (now / Math.pow(10, 6)));
+                    game.getGame().fireProjectiles(cycleCount);
                 for (Projectile p : projectiles) {
                     ProjectileUI pUI = new ProjectileUI(p);
                     pUI.xProperty().bind(p.getXProperty());
@@ -212,9 +214,7 @@ public class GameScreen implements ParameterController, Initializable {
                                                 Number newValue) {
                                 Integer currentHealth = (Integer) newValue;
                                 if (currentHealth <= 0) {
-                                    gameObjects.remove(enemyUI);
-                                    game.getGame().removeEnemy(enemy);
-                                    game.getGame().setMoney(game.getGame().getMoney() + 10);
+                                    enemy.fireCallback(false);
                                 }
                             }
                         });
@@ -224,9 +224,12 @@ public class GameScreen implements ParameterController, Initializable {
                             @Override
                             public void onDestroyed(Object doDamage) {
                                 gameObjects.remove(enemyUI);
+                                game.getGame().removeEnemy(enemy);
                                 if ((Boolean) doDamage) {
                                     game.getGame().setHealth(game.getGame().getHealth() - 
                                                              enemy.getDamage());              
+                                } else {
+                                    game.getGame().setMoney(game.getGame().getMoney() + 10);  
                                 }
                             }
                         });

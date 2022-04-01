@@ -61,12 +61,10 @@ public class GameInstance {
 
     public void moveEnemies() {
         synchronized (enemies) {
-            for (int i = 0, increment = 1; i < enemies.size(); i += increment, increment = 1) {
+            for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy = enemies.get(i);
                 if (enemy.index == map.getEnemyPath().getElements().size()) {
                     enemy.fireCallback(true);
-                    increment = 0;
-                    enemies.remove(i);
                     continue;
                 }
                 LineTo lineTo = (LineTo) map.getEnemyPath()
@@ -86,17 +84,17 @@ public class GameInstance {
         }
     }
 
-    public ArrayList<Projectile> fireProjectiles(long now) {
+    public ArrayList<Projectile> fireProjectiles(int cycleCount) {
         ArrayList<Projectile> newProjectiles = new ArrayList<>();
         synchronized(towers) {
             for (Tower tower : towers) {
-                if (now - tower.getLastFired() >= Tower.RELOAD_TIME_MS) {
+                if (cycleCount - tower.getLastFired() >= Tower.CYCLE_COUNT) {
                     Enemy enemy = null;
                     synchronized(enemies) {
                         enemy = tower.getClosestEnemy(enemies);
                     }
                     if (enemy != null) {
-                        tower.fire(now);
+                        tower.fire(cycleCount);
                         int xDelt = (enemy.getX() + Enemy.SIZE) - tower.getCenterX();
                         int yDelt = (enemy.getY() + Enemy.SIZE) - tower.getCenterY();
                         Projectile projectile = new BasicProjectile(

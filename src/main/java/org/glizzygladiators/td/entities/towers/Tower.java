@@ -15,7 +15,7 @@ import org.glizzygladiators.td.entities.GameDifficulty;
 public abstract class Tower extends SymbolicGameObject {
 
     public static final int SIZE = 50;
-    public static final long RELOAD_TIME_MS = 500;
+    public static final long CYCLE_COUNT = 50;
     public static final int RANGE = 80;
     protected int attackSpeed;
     protected int attackDamage;
