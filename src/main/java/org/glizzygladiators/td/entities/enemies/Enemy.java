@@ -1,22 +1,34 @@
 package org.glizzygladiators.td.entities.enemies;
 
-import org.glizzygladiators.td.entities.SymbolicGameObject;
+import org.glizzygladiators.td.entities.DestroyedCallback;
+import org.glizzygladiators.td.entities.MoveableGameObject;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class Enemy extends SymbolicGameObject {
+public class Enemy extends MoveableGameObject {
     public static final int SIZE = 40;
 
     private int enemyId;
     private IntegerProperty enemyHealth;
     private final int speed;
     private final int damage;
+    private DestroyedCallback callback;
+    public int index = 1;
     public Enemy(int x, int y, String resourceLocation, int speed, int health, int damage) {
-        super(x, y, SIZE, SIZE, resourceLocation);
+        super(SIZE, SIZE, resourceLocation);
         this.speed = speed;
         this.enemyHealth = new SimpleIntegerProperty(health);
         this.damage = damage;
+        this.callback = null;
+    }
+
+    public void setCallback(DestroyedCallback callback) {
+        this.callback = callback;
+    }
+
+    public void fireCallback(boolean doDamage) {
+        if (callback != null) callback.onDestroyed(doDamage);
     }
 
     public void setEnemyId(int id) {

@@ -1,18 +1,27 @@
 package org.glizzygladiators.td.entities.towers;
 
+import java.lang.Math;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.glizzygladiators.td.entities.SymbolicGameObject;
+import org.glizzygladiators.td.entities.enemies.Enemy;
+
+import javafx.util.Pair;
+
 import org.glizzygladiators.td.entities.GameDifficulty;
 
 public abstract class Tower extends SymbolicGameObject {
 
     public static final int SIZE = 50;
+    public static final long CYCLE_COUNT = 50;
+    public static final int RANGE = 200;
     protected int attackSpeed;
     protected int attackDamage;
     protected Map<GameDifficulty, Integer> statsPerDifficulty;
     protected String imgPath;
+    private long lastFired;
 
     /**
      * Constructor for a tower
@@ -30,6 +39,7 @@ public abstract class Tower extends SymbolicGameObject {
         this.attackSpeed = attackSpeed;
         this.attackDamage = attackDamage;
         this.statsPerDifficulty = new HashMap<>();
+        this.lastFired = 0;
     }
 
     /**
@@ -39,6 +49,38 @@ public abstract class Tower extends SymbolicGameObject {
      */
     public int getPrice(GameDifficulty difficulty) {
         return statsPerDifficulty.get(difficulty);
+    }
+
+    public void fire(long now) {
+        this.lastFired = now;
+    } 
+
+    public long getLastFired() {
+        return this.lastFired;
+    }
+
+    public int getCenterX() {
+        return this.getX() + Tower.SIZE / 2;
+    }
+
+    public int getCenterY() {
+        return this.getY() + Tower.SIZE / 2;
+    }
+
+    public Enemy getClosestEnemy(ArrayList<Enemy> enemies) {
+        int minDist = 1000;
+        Enemy result = null;
+        for (var e : enemies) {
+            int xDelt = e.getX() - this.getX();
+            int yDelt = e.getY() - this.getY();
+            double dist = Math.sqrt(xDelt * xDelt + yDelt * yDelt);
+            if (dist > RANGE) continue;
+            if (dist < minDist) {
+                minDist = (int) dist;
+                result = e;
+            }
+        }
+        return result;
     }
 
     /**

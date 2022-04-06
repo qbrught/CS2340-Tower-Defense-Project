@@ -1,11 +1,12 @@
 package org.glizzygladiators.td.controllers;
 
+import java.lang.Math;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.animation.PathTransition;
+import javafx.animation.AnimationTimer;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,21 +16,23 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.entities.GameInstance;
-import org.glizzygladiators.td.entities.GameMap;
 import org.glizzygladiators.td.entities.towers.*;
+import org.glizzygladiators.td.entities.DestroyedCallback;
 import org.glizzygladiators.td.entities.GameDifficulty;
 import org.glizzygladiators.td.entities.enemies.*;
+import org.glizzygladiators.td.entities.projectiles.Projectile;
 import org.glizzygladiators.td.visualizers.GameInstanceDriver;
 import org.glizzygladiators.td.visualizers.ui.TowerUI;
 import org.glizzygladiators.td.visualizers.ui.EnemyUI;
+import org.glizzygladiators.td.visualizers.ui.ProjectileUI;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,6 +58,10 @@ public class GameScreen implements ParameterController, Initializable {
     public static final int DEFAULT_SPACING = 500;
 
     private Timer enemySpawnTimer;
+    private AnimationTimer enemyMoveTimer;
+    private AnimationTimer projectileTimer;
+    private AnimationTimer projectileSpawnTimer;
+    private int cycleCount = 0;
 
     /**
      * Runs code right after FXML objects are initialized
@@ -76,6 +83,49 @@ public class GameScreen implements ParameterController, Initializable {
 
         gameObjects.add(game.getMonument());
         enemySpawnTimer = new Timer(true);
+        enemyMoveTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                game.getGame().moveEnemies();
+            }
+        };
+        enemyMoveTimer.start();
+
+        projectileTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                game.getGame().moveProjectiles();
+            }
+        };
+        projectileTimer.start();
+
+        projectileSpawnTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                cycleCount++;
+                ArrayList<Projectile> projectiles = 
+                    game.getGame().fireProjectiles(cycleCount);
+                for (Projectile p : projectiles) {
+                    ProjectileUI pUI = new ProjectileUI(p);
+                    pUI.xProperty().bind(p.getXProperty());
+                    pUI.yProperty().bind(p.getYProperty());
+                    p.addListener(new DestroyedCallback() {
+                        @Override
+                        public void onDestroyed(Object obj) {
+                            gameObjects.remove(pUI);
+                            if(obj != null) {
+                                Enemy e = (Enemy) obj;
+                                e.setEnemyHealth(e.getEnemyHealth() - p.damage);
+                                p.detonate(); // this might change
+                            }
+                        }
+                    });
+                    gameObjects.add(pUI);
+                    game.getGame().addProjectile(p);
+                }
+            }
+        };
+        projectileSpawnTimer.start();
 
         moneyLabel.textProperty().bind(game.getGame().getMoneyProperty().asString());
         healthLabel.textProperty().bind(game.getGame().getHealthProperty().asString());
@@ -89,6 +139,9 @@ public class GameScreen implements ParameterController, Initializable {
                     Parent root = TDApp.getParent("scenes/GameOverScreen.fxml");
                     TDApp.navigateToRoot(scene, root);
                     enemySpawnTimer.cancel();
+                    enemyMoveTimer.stop();
+                    projectileTimer.stop();
+                    projectileSpawnTimer.stop();
                 }
             }
         });
@@ -144,37 +197,45 @@ public class GameScreen implements ParameterController, Initializable {
 
     public void spawnEnemies(MouseEvent mouseEvent) {
         long spacing = 1000;
-        final int[] numEnemies = {10};
-        final int defaultSpeed = 50000;
-        enemySpawnTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (numEnemies[0] == 0) {
-                    return;
-                }
-                Platform.runLater(() -> {
-                    Enemy enemy = getEnemy(numEnemies[0]-- % 5, game.getGame().getDifficulty());
-                    EnemyUI enemyUI = new EnemyUI(enemy);
-                    GameMap map = game.getGame().getMap();
-                    gameObjects.add(enemyUI);
-                    PathTransition transition = 
-                        new PathTransition(
-                            Duration.millis(defaultSpeed / enemy.getSpeed()), 
-                            map.getEnemyPath(), 
-                            enemyUI);
-                    transition.setCycleCount(1);
-                    transition.setOnFinished(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            game.getGame().setHealth(game.getGame().getHealth()
-                                    - enemy.getDamage());
-                            gameObjects.remove(enemyUI);
-                        }
+        for (int i = 0; i < 10; i++) {
+            enemySpawnTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> {
+                        Enemy enemy = getEnemy(4, game.getGame().getDifficulty());
+                        EnemyUI enemyUI = new EnemyUI(enemy);
+                        enemyUI.xProperty().bind(enemy.getXProperty());
+                        enemyUI.yProperty().bind(enemy.getYProperty());
+                        enemy.getHealthProperty().addListener(new ChangeListener<Number>() {
+                            @Override
+                            public void changed(ObservableValue<? extends Number> observable,
+                                                Number oldValue,
+                                                Number newValue) {
+                                Integer currentHealth = (Integer) newValue;
+                                if (currentHealth <= 0) {
+                                    enemy.fireCallback(false);
+                                }
+                            }
+                        });
+                        gameObjects.add(enemyUI);
+                        game.getGame().addEnemy(enemy);
+                        enemy.setCallback(new DestroyedCallback() {
+                            @Override
+                            public void onDestroyed(Object doDamage) {
+                                gameObjects.remove(enemyUI);
+                                game.getGame().removeEnemy(enemy);
+                                if ((Boolean) doDamage) {
+                                    game.getGame().setHealth(game.getGame().getHealth() - 
+                                                             enemy.getDamage());              
+                                } else {
+                                    game.getGame().setMoney(game.getGame().getMoney() + 10);  
+                                }
+                            }
+                        });
                     });
-                    transition.play();
-                });
-            }
-        }, 0, spacing);
+                }
+            }, i * spacing);
+        }
     }
 
     /**
