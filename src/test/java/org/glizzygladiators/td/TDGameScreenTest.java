@@ -98,7 +98,7 @@ public class TDGameScreenTest {
     public void testTowerPrice() {
         Tower[] towers = {new BasicTower(0, 0), new CannonTower(0, 0), new SpikeTower(0, 0)};
         for (int i = 0; i < 3; i++) {
-            for (int j = i+1; j < 3; j++) {
+            for (int j = i + 1; j < 3; j++) {
                 for (GameDifficulty difficulty : GameDifficulty.values()) {
                     assertNotEquals(towers[i].getPrice(difficulty), towers[j].getPrice(difficulty));
                 }

@@ -1,14 +1,11 @@
 package org.glizzygladiators.td.entities;
 
-import javafx.scene.Node;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Pair;
 import org.glizzygladiators.td.entities.enemies.Enemy;
 import org.glizzygladiators.td.entities.towers.Tower;
-
-import java.util.ArrayList;
 
 public class GameMap {
 
@@ -20,8 +17,8 @@ public class GameMap {
         new SymbolicGameObject(170, 552, 747 - 170, 602 - 552, null)
     };;
 
-    public int startX;
-    public int startY;
+    private int startX;
+    private int startY;
     private Path enemyPath;
 
     public GameMap() {
@@ -45,7 +42,9 @@ public class GameMap {
                                ((Integer) ps[i].getValue()) - Enemy.SIZE / 2);
         }
         stuff.add(new MoveTo(p1.getKey(), p1.getValue()));
-        for (var p : ps) stuff.add(new LineTo((Integer)p.getKey(), (Integer)p.getValue()));
+        for (var p : ps) {
+            stuff.add(new LineTo((Integer) p.getKey(), (Integer) p.getValue()));
+        }
     }
 
     /**

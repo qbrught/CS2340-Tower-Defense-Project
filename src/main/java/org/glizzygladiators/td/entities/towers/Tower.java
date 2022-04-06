@@ -118,7 +118,9 @@ public abstract class Tower extends SymbolicGameObject {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Tower)) return false;
+        if (!(obj instanceof Tower)) {
+            return false;
+        }
         Tower t = (Tower) obj;
         return getX() == t.getX() && getY() == t.getY()
                && getWidth() == t.getWidth() && getWidth() == t.getHeight();

@@ -137,7 +137,7 @@ public class GameScreen implements ParameterController, Initializable {
                 if (newValue.equals("0")) {
                     Scene scene = gamePane.getScene();
                     Parent root = TDApp.getParent("scenes/GameOverScreen.fxml");
-                    TDApp.navigateToRoot(scene,root);
+                    TDApp.navigateToRoot(scene, root);
                     enemySpawnTimer.cancel();
                     enemyMoveTimer.stop();
                     projectileTimer.stop();
@@ -180,18 +180,18 @@ public class GameScreen implements ParameterController, Initializable {
 
     public Enemy getEnemy(int i, GameDifficulty difficulty) {
         switch (i) {
-            case 0:
-                return new BasicEnemy(0, 0, difficulty);
-            case 1:
-                return new JosephEnemy(0, 0, difficulty);
-            case 2:
-                return new JooperEnemy(0, 0, difficulty);
-            case 3:
-                return new MemeEnemy(0, 0, difficulty);
-            case 4:
-                return new AusEnemy(0, 0, difficulty);
-            default: 
-                return new JosephEnemy(0, 0, difficulty);
+        case 0:
+            return new BasicEnemy(0, 0, difficulty);
+        case 1:
+            return new JosephEnemy(0, 0, difficulty);
+        case 2:
+            return new JooperEnemy(0, 0, difficulty);
+        case 3:
+            return new MemeEnemy(0, 0, difficulty);
+        case 4:
+            return new AusEnemy(0, 0, difficulty);
+        default:
+            return new JosephEnemy(0, 0, difficulty);
         }
     }
 

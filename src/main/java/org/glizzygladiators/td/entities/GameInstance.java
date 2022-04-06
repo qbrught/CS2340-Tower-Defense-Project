@@ -190,8 +190,8 @@ public class GameInstance {
      */
     public void setHealth(int newHealth) {
         if (newHealth >= 0) {
-            this.health.set(newHealth);}
-        else {
+            this.health.set(newHealth);
+        } else {
             this.health.set(0);
         }
     }
@@ -230,13 +230,12 @@ public class GameInstance {
 
     /**
      * Returns false if the monument/health is gone
-     * @return
+     * @return GameOver
      */
-    public boolean GameOver() {
+    public boolean gameOver() {
         if (health.get() > 0) {
             return false;
-        }
-        else {
+        } else {
             towers = null;
             return true;
         }
