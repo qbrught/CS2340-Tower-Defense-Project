@@ -9,7 +9,6 @@ import org.glizzygladiators.td.entities.enemies.Enemy;
 
 public class EnemyUI extends Rectangle {
     private final Enemy enemy;
-
     public EnemyUI(Enemy enemy) {
         super(enemy.getX(),
               enemy.getY(),

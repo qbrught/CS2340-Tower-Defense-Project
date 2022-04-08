@@ -27,4 +27,6 @@ module org.glizzygladiators.td {
 
     exports org.glizzygladiators.td.entities;
     opens org.glizzygladiators.td.entities to javafx.fxml;
+    exports org.glizzygladiators.td.entities.health;
+    opens org.glizzygladiators.td.entities.health to javafx.fxml;
 }
