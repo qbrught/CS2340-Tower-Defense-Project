@@ -1,5 +1,6 @@
 package org.glizzygladiators.td.entities.enemies;
 
+import javafx.beans.binding.NumberBinding;
 import org.glizzygladiators.td.entities.DestroyedCallback;
 import org.glizzygladiators.td.entities.MoveableGameObject;
 
@@ -8,7 +9,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Enemy extends MoveableGameObject {
     public static final int SIZE = 40;
-
     private int enemyId;
     private IntegerProperty enemyHealth;
     private final int speed;

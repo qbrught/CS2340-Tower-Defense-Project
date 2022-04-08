@@ -1,0 +1,7 @@
+1.) HealthBarFollowsEnemyTest():
+- Tests that the health bar correctly follows the enemy on the gamescreen
+- Relevant to the current milestone because in order to visualize combat, the health bar must follow the correct enemy.
+
+2.) HealthTextChangesValue():
+-Tests that the health text correctly changes value as the enemy health changes
+-Relevant to the current milestone because the health bar/text has to accurately reflect the enemies health to properly show combat system and projectile effect.

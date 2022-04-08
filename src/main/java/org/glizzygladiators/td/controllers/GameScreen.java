@@ -1,7 +1,5 @@
 package org.glizzygladiators.td.controllers;
 
-import java.lang.Math;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,12 +14,11 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import org.glizzygladiators.td.TDApp;
-import org.glizzygladiators.td.entities.GameInstance;
+import org.glizzygladiators.td.entities.*;
+import org.glizzygladiators.td.entities.health.HealthBar;
+import org.glizzygladiators.td.entities.health.HealthText;
 import org.glizzygladiators.td.entities.towers.*;
-import org.glizzygladiators.td.entities.DestroyedCallback;
-import org.glizzygladiators.td.entities.GameDifficulty;
 import org.glizzygladiators.td.entities.enemies.*;
 import org.glizzygladiators.td.entities.projectiles.Projectile;
 import org.glizzygladiators.td.visualizers.GameInstanceDriver;
@@ -29,6 +26,8 @@ import org.glizzygladiators.td.visualizers.ui.TowerUI;
 import org.glizzygladiators.td.visualizers.ui.EnemyUI;
 import org.glizzygladiators.td.visualizers.ui.ProjectileUI;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
@@ -36,6 +35,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class GameScreen implements ParameterController, Initializable {
 
@@ -204,6 +204,10 @@ public class GameScreen implements ParameterController, Initializable {
                     Platform.runLater(() -> {
                         Enemy enemy = getEnemy(4, game.getGame().getDifficulty());
                         EnemyUI enemyUI = new EnemyUI(enemy);
+                        HealthBar healthBar = new HealthBar(enemy.getX(),enemy.getY(),enemy.getEnemyHealth(),10);
+                        HealthText healthText = new HealthText(enemy.getX(),enemy.getY(),String.valueOf(enemy.getEnemyHealth()));
+                        healthBar.update(enemy);
+                        healthText.update(enemy);
                         enemyUI.xProperty().bind(enemy.getXProperty());
                         enemyUI.yProperty().bind(enemy.getYProperty());
                         enemy.getHealthProperty().addListener(new ChangeListener<Number>() {
@@ -218,11 +222,15 @@ public class GameScreen implements ParameterController, Initializable {
                             }
                         });
                         gameObjects.add(enemyUI);
+                        gameObjects.add(healthBar);
+                        gameObjects.add(healthText);
                         game.getGame().addEnemy(enemy);
                         enemy.setCallback(new DestroyedCallback() {
                             @Override
                             public void onDestroyed(Object doDamage) {
                                 gameObjects.remove(enemyUI);
+                                gameObjects.remove(healthBar);
+                                gameObjects.remove(healthText);
                                 game.getGame().removeEnemy(enemy);
                                 if ((Boolean) doDamage) {
                                     game.getGame().setHealth(game.getGame().getHealth() - 
