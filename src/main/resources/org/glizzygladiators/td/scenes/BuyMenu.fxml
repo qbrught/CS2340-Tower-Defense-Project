@@ -36,11 +36,11 @@
 
         <VBox style="-fx-padding: 12px" spacing="12" GridPane.rowIndex="0" GridPane.columnIndex="2">
             <ImageView fitWidth="100" fitHeight="100">
-                <Image url="/org/glizzygladiators/td/images/obamaSpike.png" />
+                <Image url="/org/glizzygladiators/td/images/obamaBoost.png" />
             </ImageView>
-            <Label text="Spike Tower" maxWidth="Infinity" alignment="CENTER" textAlignment="CENTER"
+            <Label text="Boost Tower" maxWidth="Infinity" alignment="CENTER" textAlignment="CENTER"
                    style="-fx-font-size: 14"/>
-            <Button text="Buy" maxWidth="Infinity" onMouseClicked="#buySpikeTower"/>
+            <Button text="Buy" maxWidth="Infinity" onMouseClicked="#buyBoostTower"/>
         </VBox>
 
     </GridPane>
