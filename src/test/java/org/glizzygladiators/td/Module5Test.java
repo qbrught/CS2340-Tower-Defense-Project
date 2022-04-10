@@ -75,9 +75,9 @@ public class Module5Test {
         int ox = mgo.getX();
         int oy = mgo.getY();
         int nx = 100;
-        int ny = 100;
+        int ny = 0;
 
-        mgo.translate(nx, ny, Math.pow(nx*nx+ny*ny, 0.5));
+        mgo.translate(nx, ny, (int) Math.pow(nx*nx+ny*ny, 0.5));
         assertEquals(ox + nx, mgo.getX());
         assertEquals(oy + ny, mgo.getY());
     }

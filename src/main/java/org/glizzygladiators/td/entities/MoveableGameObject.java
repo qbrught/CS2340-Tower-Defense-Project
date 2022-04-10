@@ -7,7 +7,7 @@ public class MoveableGameObject extends SymbolicGameObject {
         super(0, 0, width, height, imgPath);
     }
 
-    public void translate(int x, int y, double speed) {
+    public void translate(int x, int y, int speed) {
         double mag = Math.pow(x * x + y * y, 0.5);
         if (mag == 0) return;
         double normalizedX = x * speed / mag;
