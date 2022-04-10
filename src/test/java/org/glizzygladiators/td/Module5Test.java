@@ -35,4 +35,43 @@ public class Module5Test {
             assertTrue(healthText.getText().equals(String.valueOf(enemy.getEnemyHealth())));
         }
     }
+
+    @Test
+    public void MoveableGameObjectTranslationTest() {
+        var mgo = new MoveableGameObject(1, 1, "");
+
+        int ox = mgo.getX();
+        int oy = mgo.getY();
+        int nx = 100;
+        int ny = 100;
+
+        mgo.translate(nx, ny, Math.pow(nx*nx+ny*ny, 0.5));
+        assertEquals(ox + nx, mgo.getX());
+        assertEquals(oy + ny, mgo.getY());
+    }
+
+    @Test
+    public void MoveableGameObjectTranslationSpeedTest() {
+        int nx = 100;
+        int ny = 0;
+        var mgo = new MoveableGameObject(1, 1, "");
+
+        mgo.setX(0);
+        mgo.setY(0);
+        mgo.translate(nx, ny, 1);
+        assertEquals(1, mgo.getX());
+        assertEquals(0, mgo.getY());
+
+        mgo.setX(0);
+        mgo.setY(0);
+        mgo.translate(nx, ny, 17);
+        assertEquals(17, mgo.getX());
+        assertEquals(0, mgo.getY());
+
+        mgo.setX(0);
+        mgo.setY(0);
+        mgo.translate(nx, ny, 100);
+        assertEquals(100, mgo.getX());
+        assertEquals(0, mgo.getY());
+    }
 }
