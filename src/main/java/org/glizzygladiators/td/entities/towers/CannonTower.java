@@ -7,8 +7,6 @@ public class CannonTower extends Tower {
     public static final int CANNON_EASY_PRICE = 75;
     public static final int CANNON_MEDIUM_PRICE = 125;
     public static final int CANNON_HARD_PRICE = 160;
-    private static final int INIT_ATTACK_SPEED = 0;
-    private static final int INIT_ATTACK_DAMAGE = 0;
 
     /**
      * Creates a basic tower instance.
@@ -17,7 +15,9 @@ public class CannonTower extends Tower {
      * @param locationY Y coordinate of the instantiated tower
      */
     public CannonTower(int locationX, int locationY) {
-        super(locationX, locationY, INIT_ATTACK_SPEED, INIT_ATTACK_DAMAGE, CANNON_TOWER_IMAGE);
+        super(locationX, locationY, CANNON_TOWER_IMAGE);
+        this.attackSpeed = 80;
+        this.attackDamage = 50;
         statsPerDifficulty.put(GameDifficulty.EASY, CANNON_EASY_PRICE);
         statsPerDifficulty.put(GameDifficulty.MEDIUM, CANNON_MEDIUM_PRICE);
         statsPerDifficulty.put(GameDifficulty.HARD, CANNON_HARD_PRICE);

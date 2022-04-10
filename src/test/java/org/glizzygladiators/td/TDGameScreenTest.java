@@ -4,7 +4,7 @@ import org.glizzygladiators.td.controllers.InitialConfig;
 import org.glizzygladiators.td.entities.SymbolicGameObject;
 import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.CannonTower;
-import org.glizzygladiators.td.entities.towers.SpikeTower;
+import org.glizzygladiators.td.entities.towers.BoostTower;
 import org.glizzygladiators.td.entities.GameDifficulty;
 import org.junit.jupiter.api.Test;
 
@@ -96,7 +96,7 @@ public class TDGameScreenTest {
 
     @Test
     public void testTowerPrice() {
-        Tower[] towers = {new BasicTower(0, 0), new CannonTower(0, 0), new SpikeTower(0, 0)};
+        Tower[] towers = {new BasicTower(0, 0), new CannonTower(0, 0), new BoostTower(0, 0)};
         for (int i = 0; i < 3; i++) {
             for (int j = i + 1; j < 3; j++) {
                 for (GameDifficulty difficulty : GameDifficulty.values()) {

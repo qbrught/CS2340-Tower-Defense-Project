@@ -8,36 +8,28 @@ import java.util.Map;
 import org.glizzygladiators.td.entities.SymbolicGameObject;
 import org.glizzygladiators.td.entities.enemies.Enemy;
 
-import javafx.util.Pair;
-
 import org.glizzygladiators.td.entities.GameDifficulty;
 
 public abstract class Tower extends SymbolicGameObject {
 
     public static final int SIZE = 50;
-    public static final long CYCLE_COUNT = 50;
     public static final int RANGE = 200;
-    protected int attackSpeed;
-    protected int attackDamage;
     protected Map<GameDifficulty, Integer> statsPerDifficulty;
     protected String imgPath;
     private long lastFired;
+    protected long attackSpeed; // Lower is faster. This is the number of cycle counts before it attacks again.
+    protected int attackDamage;
 
     /**
      * Constructor for a tower
      *
      * @param locationX X coordinate of the tower
      * @param locationY Y coordinate of the tower
-     * @param attackSpeed Attack speed of the tower
-     * @param attackDamage Attack damage of the tower
      * @param imageLocation Path towards the tower's image
      */
-    public Tower(int locationX, int locationY, int attackSpeed, int attackDamage, 
-                 String imageLocation) {
+    public Tower(int locationX, int locationY, String imageLocation) {
         super(locationX, locationY, SIZE, SIZE, imageLocation);
         this.imgPath = imageLocation;
-        this.attackSpeed = attackSpeed;
-        this.attackDamage = attackDamage;
         this.statsPerDifficulty = new HashMap<>();
         this.lastFired = 0;
     }
@@ -83,20 +75,20 @@ public abstract class Tower extends SymbolicGameObject {
         return result;
     }
 
-    /**
-     * Gets the attack speed of the tower in (insert unit here based on the Javafx Timer hahahahaha)
-     * @return The attack speed of tower in (insert unit here based on the Javafx Timer hahahahahah)
-     */
-    public int getAttackSpeed() {
+    public long getAttackSpeed() {
         return attackSpeed;
     }
 
-    /**
-     * Gets the attack damage of the tower
-     * @return The attack damage of the tower
-     */
+    public void setAttackSpeed(long attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
     public int getAttackDamage() {
         return attackDamage;
+    }
+
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
     }
 
     /**
