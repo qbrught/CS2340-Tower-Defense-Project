@@ -6,6 +6,14 @@
 -Tests that the health text correctly changes value as the enemy health changes
 -Relevant to the current milestone because the health bar/text has to accurately reflect the enemies health to properly show combat system and projectile effect.
 
+3.) boostTowerSuccess():
+- Tests that the boost tower boosts other towers within its radius.
+- Relevant to the current milestone because it tests the implementation of a distinction of a tower behavior.
+
+4.) boostTowerFail():
+- Tests that the boost tower does not boost towers outside of its radius.
+- Relevant to the current milestone because it tests the implementation of a distinction of a tower behavior.
+
 5.) MoveableGameObjectTranslationTest():
 -Tests that the translate method in MoveableGameObject causes objects to move
 -Relevant to the current milestone because this method is responsible for movement of GameObjects

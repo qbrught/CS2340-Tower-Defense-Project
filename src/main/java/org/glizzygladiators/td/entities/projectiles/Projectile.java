@@ -14,7 +14,8 @@ public abstract class Projectile extends MoveableGameObject {
     public final int yVelocity;
     public final int speed;
     private DestroyedCallback listener;
-    public final int damage;
+
+    protected int damage;
 
     public Projectile(int x, int y, 
                       int width, int height, String imgLocation,
@@ -53,4 +54,9 @@ public abstract class Projectile extends MoveableGameObject {
     }
 
     public abstract void detonate();
+
+    public int getDamage() {
+        return damage;
+    }
+
 }

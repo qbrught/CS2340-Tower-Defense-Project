@@ -26,8 +26,6 @@ import org.glizzygladiators.td.visualizers.ui.TowerUI;
 import org.glizzygladiators.td.visualizers.ui.EnemyUI;
 import org.glizzygladiators.td.visualizers.ui.ProjectileUI;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
@@ -115,7 +113,7 @@ public class GameScreen implements ParameterController, Initializable {
                             gameObjects.remove(pUI);
                             if(obj != null) {
                                 Enemy e = (Enemy) obj;
-                                e.setEnemyHealth(e.getEnemyHealth() - p.damage);
+                                e.setEnemyHealth(e.getEnemyHealth() - p.getDamage());
                                 p.detonate(); // this might change
                             }
                         }
@@ -287,6 +285,7 @@ public class GameScreen implements ParameterController, Initializable {
                 game.addTower(tower);
                 game.setMoney(game.getGame().getMoney() 
                               - tower.getPrice(game.getGame().getDifficulty()));
+                if (tower instanceof BoostTower) ((BoostTower) tower).boostOthers(game.getGame().getTowers());
                 scene.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
                 buyModeHandler = null;
                 exitTowerPlacementMode();

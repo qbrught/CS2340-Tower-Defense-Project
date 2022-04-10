@@ -6,8 +6,6 @@ import javafx.scene.shape.Rectangle;
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.entities.towers.Tower;
 
-import java.awt.*;
-
 public class TowerUI extends Rectangle {
 
     private final Tower tower;

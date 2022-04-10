@@ -4,16 +4,19 @@ import java.util.*;
 
 import java.lang.Math;
 
-import javafx.util.Pair;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 
+import org.glizzygladiators.td.entities.projectiles.TankProjectile;
+import org.glizzygladiators.td.entities.towers.BoostTower;
 import org.glizzygladiators.td.entities.towers.Tower;
 import org.glizzygladiators.td.entities.enemies.*;
 import org.glizzygladiators.td.entities.projectiles.BasicProjectile;
 import org.glizzygladiators.td.entities.projectiles.Projectile;
+import org.glizzygladiators.td.entities.towers.BasicTower;
+import org.glizzygladiators.td.entities.towers.CannonTower;
 
 public class GameInstance {
     private String name;
@@ -88,7 +91,8 @@ public class GameInstance {
         ArrayList<Projectile> newProjectiles = new ArrayList<>();
         synchronized(towers) {
             for (Tower tower : towers) {
-                if (cycleCount - tower.getLastFired() >= Tower.CYCLE_COUNT) {
+                if (tower instanceof BoostTower) continue; // TODO: May change later. Temporary solution.
+                if (cycleCount - tower.getLastFired() >= tower.getAttackSpeed()) {
                     Enemy enemy = null;
                     synchronized(enemies) {
                         enemy = tower.getClosestEnemy(enemies);
@@ -97,8 +101,14 @@ public class GameInstance {
                         tower.fire(cycleCount);
                         int xDelt = (enemy.getX() + Enemy.SIZE) - tower.getCenterX();
                         int yDelt = (enemy.getY() + Enemy.SIZE) - tower.getCenterY();
-                        Projectile projectile = new BasicProjectile(
-                            tower.getCenterX(), tower.getCenterY(), xDelt, yDelt);
+                        Projectile projectile = null;
+                        if (tower instanceof BasicTower) {
+                            projectile = new BasicProjectile(
+                                    tower.getCenterX(), tower.getCenterY(), xDelt, yDelt, tower.getAttackDamage());
+                        } else if (tower instanceof CannonTower) {
+                            projectile = new TankProjectile(
+                                    tower.getCenterX(), tower.getCenterY(), xDelt, yDelt, tower.getAttackDamage());
+                        }
                         newProjectiles.add(projectile);
                     }
                 }

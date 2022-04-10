@@ -4,7 +4,13 @@ import org.glizzygladiators.td.entities.*;
 import org.glizzygladiators.td.entities.health.HealthBar;
 import org.glizzygladiators.td.entities.health.HealthText;
 import org.glizzygladiators.td.entities.enemies.*;
+import org.glizzygladiators.td.entities.towers.BasicTower;
+import org.glizzygladiators.td.entities.towers.BoostTower;
+import org.glizzygladiators.td.entities.towers.CannonTower;
+import org.glizzygladiators.td.entities.towers.Tower;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +40,32 @@ public class Module5Test {
             enemy.setEnemyHealth(i);
             assertTrue(healthText.getText().equals(String.valueOf(enemy.getEnemyHealth())));
         }
+    }
+
+    @Test
+    public void boostTowerSuccess() {
+        BoostTower boost = new BoostTower(400, 400);
+        ArrayList<Tower> towers = new ArrayList<>();
+        towers.add(new BasicTower(300, 400));
+        towers.add(new CannonTower(400, 300));
+        boost.boostOthers(towers);
+        assertEquals(40, towers.get(0).getAttackDamage());
+        assertEquals(30, towers.get(0).getAttackSpeed());
+        assertEquals(60, towers.get(1).getAttackDamage());
+        assertEquals(70, towers.get(1).getAttackSpeed());
+    }
+
+    @Test
+    public void boostTowerFail() {
+        BoostTower boost = new BoostTower(400, 400);
+        ArrayList<Tower> towers = new ArrayList<>();
+        towers.add(new BasicTower(299, 400));
+        towers.add(new CannonTower(399, 300));
+        boost.boostOthers(towers);
+        assertEquals(30, towers.get(0).getAttackDamage());
+        assertEquals(40, towers.get(0).getAttackSpeed());
+        assertEquals(50, towers.get(1).getAttackDamage());
+        assertEquals(80, towers.get(1).getAttackSpeed());
     }
 
     @Test

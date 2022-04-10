@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import org.glizzygladiators.td.TDApp;
 import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.CannonTower;
-import org.glizzygladiators.td.entities.towers.SpikeTower;
+import org.glizzygladiators.td.entities.towers.BoostTower;
 import org.glizzygladiators.td.entities.towers.Tower;
 
 public class BuyMenu implements ParameterController {
@@ -46,7 +46,7 @@ public class BuyMenu implements ParameterController {
         buyTower(new CannonTower(0, 0));
     }
 
-    public void buySpikeTower(MouseEvent mouseEvent) {
-        buyTower(new SpikeTower(0, 0));
+    public void buyBoostTower(MouseEvent mouseEvent) {
+        buyTower(new BoostTower(0, 0));
     }
 }
