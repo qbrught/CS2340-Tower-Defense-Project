@@ -1,4 +1,5 @@
 package org.glizzygladiators.td;
+
 import org.glizzygladiators.td.entities.*;
 import org.glizzygladiators.td.entities.health.HealthBar;
 import org.glizzygladiators.td.entities.health.HealthText;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Module5Test {
 
-    @org.junit.Test
+    @Test
    public void HealthBarFollowsEnemyTest() {
         Enemy enemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
         HealthBar healthBar = new HealthBar(enemy.getX(),enemy.getY(), enemy.getEnemyHealth(), 10);
@@ -65,5 +66,44 @@ public class Module5Test {
         assertEquals(40, towers.get(0).getAttackSpeed());
         assertEquals(50, towers.get(1).getAttackDamage());
         assertEquals(80, towers.get(1).getAttackSpeed());
+    }
+
+    @Test
+    public void MoveableGameObjectTranslationTest() {
+        var mgo = new MoveableGameObject(1, 1, "");
+
+        int ox = mgo.getX();
+        int oy = mgo.getY();
+        int nx = 100;
+        int ny = 0;
+
+        mgo.translate(nx, ny, (int) Math.pow(nx*nx+ny*ny, 0.5));
+        assertEquals(ox + nx, mgo.getX());
+        assertEquals(oy + ny, mgo.getY());
+    }
+
+    @Test
+    public void MoveableGameObjectTranslationSpeedTest() {
+        int nx = 100;
+        int ny = 0;
+        var mgo = new MoveableGameObject(1, 1, "");
+
+        mgo.setX(0);
+        mgo.setY(0);
+        mgo.translate(nx, ny, 1);
+        assertEquals(1, mgo.getX());
+        assertEquals(0, mgo.getY());
+
+        mgo.setX(0);
+        mgo.setY(0);
+        mgo.translate(nx, ny, 17);
+        assertEquals(17, mgo.getX());
+        assertEquals(0, mgo.getY());
+
+        mgo.setX(0);
+        mgo.setY(0);
+        mgo.translate(nx, ny, 100);
+        assertEquals(100, mgo.getX());
+        assertEquals(0, mgo.getY());
     }
 }

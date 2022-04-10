@@ -13,3 +13,11 @@
 4.) boostTowerFail():
 - Tests that the boost tower does not boost towers outside of its radius.
 - Relevant to the current milestone because it tests the implementation of a distinction of a tower behavior.
+
+5.) MoveableGameObjectTranslationTest():
+-Tests that the translate method in MoveableGameObject causes objects to move
+-Relevant to the current milestone because this method is responsible for movement of GameObjects
+
+6.) MoveableGameObjectTranslationSpeedTest():
+-Tests that the speed parameter of the translate method causes the movement of gameobjects by that distance
+-Relevant to the current milestone because this allows us to offload more calculations to this method instead of calculating the exact destination location of a translation
