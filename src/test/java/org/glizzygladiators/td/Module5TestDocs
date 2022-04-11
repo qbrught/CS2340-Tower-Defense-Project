@@ -21,3 +21,11 @@
 6.) MoveableGameObjectTranslationSpeedTest():
 -Tests that the speed parameter of the translate method causes the movement of gameobjects by that distance
 -Relevant to the current milestone because this allows us to offload more calculations to this method instead of calculating the exact destination location of a translation
+
+7.) TestProjectileDestroyedWhenOutOfBounds():
+- Tests that the projectile is destroyed when it hits the boundary
+- Ensures that the set of objects which are stored in projectiles is not overpopulated
+
+8.) TestProjectileCollisionWithEnemy():
+- Tests that the bullet would trigger upon impact with enemy
+- Ensure that the destroyed callback is called
