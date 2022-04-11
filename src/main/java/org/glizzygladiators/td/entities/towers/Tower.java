@@ -1,6 +1,5 @@
 package org.glizzygladiators.td.entities.towers;
 
-import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,8 @@ public abstract class Tower extends SymbolicGameObject {
     protected Map<GameDifficulty, Integer> statsPerDifficulty;
     protected String imgPath;
     private long lastFired;
-    protected long attackSpeed; // Lower is faster. This is the number of cycle counts before it attacks again.
+    protected long attackSpeed; // Lower is faster.
+    // This is the number of cycle counts before it attacks again.
     protected int attackDamage;
 
     /**
@@ -66,7 +66,9 @@ public abstract class Tower extends SymbolicGameObject {
             int xDelt = e.getX() - this.getX();
             int yDelt = e.getY() - this.getY();
             double dist = Math.sqrt(xDelt * xDelt + yDelt * yDelt);
-            if (dist > RANGE) continue;
+            if (dist > RANGE) {
+                continue;
+            }
             if (dist < minDist) {
                 minDist = (int) dist;
                 result = e;

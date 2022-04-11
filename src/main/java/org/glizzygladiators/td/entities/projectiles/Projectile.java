@@ -10,9 +10,9 @@ public abstract class Projectile extends MoveableGameObject {
     
     public static final int DEFAULT_PROJECTILE_SIZE = 20;
 
-    public final int xVelocity;
-    public final int yVelocity;
-    public final int speed;
+    private final int xVelocity;
+    private final int yVelocity;
+    private final int speed;
     private DestroyedCallback listener;
 
     protected int damage;

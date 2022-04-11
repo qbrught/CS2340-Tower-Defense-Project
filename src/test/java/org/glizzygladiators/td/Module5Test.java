@@ -10,7 +10,6 @@ import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.BoostTower;
 import org.glizzygladiators.td.entities.towers.CannonTower;
 import org.glizzygladiators.td.entities.towers.Tower;
-import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Module5Test {
 
     @Test
-   public void HealthBarFollowsEnemyTest() {
+   public void healthBarFollowsEnemyTest() {
         Enemy enemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
-        HealthBar healthBar = new HealthBar(enemy.getX(),enemy.getY(), enemy.getEnemyHealth(), 10);
+        HealthBar healthBar = new HealthBar(enemy.getX(), enemy.getY(), enemy.getEnemyHealth(), 10);
         healthBar.update(enemy);
         Random rand = new Random();
         for (int i = 0; i < 8; i++) {
@@ -35,9 +34,10 @@ public class Module5Test {
     }
 
     @Test
-    public void HealthTextChangesValue() {
-        Enemy enemy = new BasicEnemy(0,0, GameDifficulty.EASY);
-        HealthText healthText = new HealthText(enemy.getX(), enemy.getY(), String.valueOf(enemy.getEnemyHealth()));
+    public void healthTextChangesValue() {
+        Enemy enemy = new BasicEnemy(0, 0, GameDifficulty.EASY);
+        HealthText healthText = new HealthText(enemy.getX(), enemy.getY(),
+                String.valueOf(enemy.getEnemyHealth()));
         healthText.update(enemy);
         for (int i = 0; i < 50; i++) {
             enemy.setEnemyHealth(i);
@@ -72,7 +72,7 @@ public class Module5Test {
     }
 
     @Test
-    public void MoveableGameObjectTranslationTest() {
+    public void moveableGameObjectTranslationTest() {
         var mgo = new MoveableGameObject(1, 1, "");
 
         int ox = mgo.getX();
@@ -80,13 +80,13 @@ public class Module5Test {
         int nx = 100;
         int ny = 0;
 
-        mgo.translate(nx, ny, (int) Math.pow(nx*nx+ny*ny, 0.5));
+        mgo.translate(nx, ny, (int) Math.pow(nx * nx + ny * ny, 0.5));
         assertEquals(ox + nx, mgo.getX());
         assertEquals(oy + ny, mgo.getY());
     }
 
     @Test
-    public void MoveableGameObjectTranslationSpeedTest() {
+    public void moveableGameObjectTranslationSpeedTest() {
         int nx = 100;
         int ny = 0;
         var mgo = new MoveableGameObject(1, 1, "");
@@ -111,7 +111,7 @@ public class Module5Test {
     }
 
     @Test
-    public void TestProjectileDestroyedWhenOutOfBounds() {
+    public void testProjectileDestroyedWhenOutOfBounds() {
         Projectile p = new BasicProjectile(0, 0, 1, 1, 20);
         int[] invoked = {0};
         p.addListener(new DestroyedCallback() {
@@ -124,13 +124,15 @@ public class Module5Test {
         GameInstance instance = new GameInstance("bob", GameDifficulty.EASY);
         instance.addProjectile(p);
         assertEquals(instance.getProjectilesSize(), 1);
-        for (int i = 0; i < 1000; i++) instance.moveProjectiles();
+        for (int i = 0; i < 1000; i++) {
+            instance.moveProjectiles();
+        }
         assertEquals(instance.getProjectilesSize(), 0);
         assertEquals(invoked[0], 1);
     }
 
     @Test
-    public void TestProjectileCollisionWithEnemy() {
+    public void testProjectileCollisionWithEnemy() {
         Projectile p = new BasicProjectile(0, 0, 1, 1, 10);
         Enemy e = new BasicEnemy(50, 50, GameDifficulty.EASY);
 
@@ -146,7 +148,9 @@ public class Module5Test {
         instance.addEnemyUnaltered(e);
         instance.addProjectile(p);
         assertEquals(instance.getProjectilesSize(), 1);
-        for (int i = 0; i < 50; i++) instance.moveProjectiles();
+        for (int i = 0; i < 50; i++) {
+            instance.moveProjectiles();
+        }
         assertEquals(invoked[0], 1);
         assertEquals(instance.getProjectilesSize(), 0);
     }

@@ -1,6 +1,5 @@
 package org.glizzygladiators.td.entities.enemies;
 
-import javafx.beans.binding.NumberBinding;
 import org.glizzygladiators.td.entities.DestroyedCallback;
 import org.glizzygladiators.td.entities.MoveableGameObject;
 
@@ -14,7 +13,16 @@ public class Enemy extends MoveableGameObject {
     private final int speed;
     private final int damage;
     private DestroyedCallback callback;
-    public int index = 1;
+    private int index = 1;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public Enemy(int x, int y, String resourceLocation, int speed, int health, int damage) {
         super(SIZE, SIZE, resourceLocation);
         this.speed = speed;
@@ -28,7 +36,9 @@ public class Enemy extends MoveableGameObject {
     }
 
     public void fireCallback(boolean doDamage) {
-        if (callback != null) callback.onDestroyed(doDamage);
+        if (callback != null) {
+            callback.onDestroyed(doDamage);
+        }
     }
 
     public void setEnemyId(int id) {
