@@ -56,6 +56,12 @@ public class GameInstance {
         }
     }
     
+    public void addEnemyUnaltered(Enemy enemy) {
+        synchronized(enemies) {
+            enemies.add(enemy);
+        }
+    }
+
     public void removeEnemy(Enemy enemy) {
         synchronized(enemies) {
             enemies.remove(enemy);
@@ -265,6 +271,10 @@ public class GameInstance {
      */
     public GameMap getMap() {
         return map;
+    }
+
+    public int getProjectilesSize() {
+        return projectiles.size();
     }
 
     /**

@@ -77,7 +77,8 @@ public class Module4Test {
 
         stuff.add(new MoveTo(p1.getKey(), p1.getValue()));
         for (var p : ps) {
-            stuff.add(new LineTo((Integer) p.getKey(), (Integer) p.getValue()));
+            stuff.add(new LineTo((Integer) p.getKey() - Enemy.SIZE / 2, 
+                                 (Integer) p.getValue() - Enemy.SIZE / 2));
         }
     
         var enemyPath = map.getEnemyPath().getElements();

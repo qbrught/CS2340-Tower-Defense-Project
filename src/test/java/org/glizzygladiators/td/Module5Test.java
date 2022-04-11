@@ -3,11 +3,14 @@ package org.glizzygladiators.td;
 import org.glizzygladiators.td.entities.*;
 import org.glizzygladiators.td.entities.health.HealthBar;
 import org.glizzygladiators.td.entities.health.HealthText;
+import org.glizzygladiators.td.entities.projectiles.BasicProjectile;
+import org.glizzygladiators.td.entities.projectiles.Projectile;
 import org.glizzygladiators.td.entities.enemies.*;
 import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.BoostTower;
 import org.glizzygladiators.td.entities.towers.CannonTower;
 import org.glizzygladiators.td.entities.towers.Tower;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -105,5 +108,46 @@ public class Module5Test {
         mgo.translate(nx, ny, 100);
         assertEquals(100, mgo.getX());
         assertEquals(0, mgo.getY());
+    }
+
+    @Test
+    public void TestProjectileDestroyedWhenOutOfBounds() {
+        Projectile p = new BasicProjectile(0, 0, 1, 1, 20);
+        int[] invoked = {0};
+        p.addListener(new DestroyedCallback() {
+            @Override
+            public void onDestroyed(Object obj) {
+                assertTrue(obj == null);
+                invoked[0]++;
+            }
+        });
+        GameInstance instance = new GameInstance("bob", GameDifficulty.EASY);
+        instance.addProjectile(p);
+        assertEquals(instance.getProjectilesSize(), 1);
+        for (int i = 0; i < 1000; i++) instance.moveProjectiles();
+        assertEquals(instance.getProjectilesSize(), 0);
+        assertEquals(invoked[0], 1);
+    }
+
+    @Test
+    public void TestProjectileCollisionWithEnemy() {
+        Projectile p = new BasicProjectile(0, 0, 1, 1, 10);
+        Enemy e = new BasicEnemy(50, 50, GameDifficulty.EASY);
+
+        int[] invoked = {0};
+        p.addListener(new DestroyedCallback() {
+            @Override
+            public void onDestroyed(Object obj) {
+                assertEquals(e, (Enemy) obj);
+                invoked[0]++;
+            }
+        });
+        GameInstance instance = new GameInstance("bob", GameDifficulty.EASY);
+        instance.addEnemyUnaltered(e);
+        instance.addProjectile(p);
+        assertEquals(instance.getProjectilesSize(), 1);
+        for (int i = 0; i < 50; i++) instance.moveProjectiles();
+        assertEquals(invoked[0], 1);
+        assertEquals(instance.getProjectilesSize(), 0);
     }
 }
