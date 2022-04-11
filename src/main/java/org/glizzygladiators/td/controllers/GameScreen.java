@@ -111,7 +111,7 @@ public class GameScreen implements ParameterController, Initializable {
                         @Override
                         public void onDestroyed(Object obj) {
                             gameObjects.remove(pUI);
-                            if(obj != null) {
+                            if (obj != null) {
                                 Enemy e = (Enemy) obj;
                                 e.setEnemyHealth(e.getEnemyHealth() - p.getDamage());
                                 p.detonate(); // this might change
@@ -202,8 +202,10 @@ public class GameScreen implements ParameterController, Initializable {
                     Platform.runLater(() -> {
                         Enemy enemy = getEnemy(4, game.getGame().getDifficulty());
                         EnemyUI enemyUI = new EnemyUI(enemy);
-                        HealthBar healthBar = new HealthBar(enemy.getX(),enemy.getY(),enemy.getEnemyHealth(),10);
-                        HealthText healthText = new HealthText(enemy.getX(),enemy.getY(),String.valueOf(enemy.getEnemyHealth()));
+                        HealthBar healthBar = new HealthBar(enemy.getX(), enemy.getY(),
+                                enemy.getEnemyHealth(), 10);
+                        HealthText healthText = new HealthText(enemy.getX(), enemy.getY(),
+                                String.valueOf(enemy.getEnemyHealth()));
                         healthBar.update(enemy);
                         healthText.update(enemy);
                         enemyUI.xProperty().bind(enemy.getXProperty());
@@ -231,8 +233,8 @@ public class GameScreen implements ParameterController, Initializable {
                                 gameObjects.remove(healthText);
                                 game.getGame().removeEnemy(enemy);
                                 if ((Boolean) doDamage) {
-                                    game.getGame().setHealth(game.getGame().getHealth() - 
-                                                             enemy.getDamage());              
+                                    game.getGame().setHealth(game.getGame().getHealth()
+                                            - enemy.getDamage());
                                 } else {
                                     game.getGame().setMoney(game.getGame().getMoney() + 10);  
                                 }
@@ -285,7 +287,9 @@ public class GameScreen implements ParameterController, Initializable {
                 game.addTower(tower);
                 game.setMoney(game.getGame().getMoney() 
                               - tower.getPrice(game.getGame().getDifficulty()));
-                if (tower instanceof BoostTower) ((BoostTower) tower).boostOthers(game.getGame().getTowers());
+                if (tower instanceof BoostTower) {
+                    ((BoostTower) tower).boostOthers(game.getGame().getTowers());
+                }
                 scene.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
                 buyModeHandler = null;
                 exitTowerPlacementMode();

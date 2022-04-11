@@ -8,7 +8,7 @@ import org.glizzygladiators.td.entities.enemies.Enemy;
 
 
 
-public class HealthBar extends Rectangle{
+public class HealthBar extends Rectangle {
 
     public HealthBar(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -20,7 +20,8 @@ public class HealthBar extends Rectangle{
     public void update(Enemy enemy) {
         this.xProperty().bind(enemy.getXProperty());
         this.yProperty().bind(enemy.getYProperty());
-        this.widthProperty().bind(enemy.getHealthProperty().multiply((double) enemy.SIZE / enemy.getEnemyHealth()));
+        this.widthProperty().bind(enemy.getHealthProperty().multiply(
+                (double) enemy.SIZE / enemy.getEnemyHealth()));
     }
 
 }

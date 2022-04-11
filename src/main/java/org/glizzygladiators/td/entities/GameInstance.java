@@ -1,9 +1,6 @@
 package org.glizzygladiators.td.entities;
 
 import java.util.*;
-
-import java.lang.Math;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.shape.LineTo;
@@ -48,7 +45,7 @@ public class GameInstance {
     }
 
     public void addEnemy(Enemy enemy) {
-        synchronized(enemies) {
+        synchronized (enemies) {
             enemies.add(enemy);
             MoveTo objStart = (MoveTo) map.getEnemyPath().getElements().get(0);
             enemy.setX((int) objStart.getX() - Enemy.SIZE / 2);
@@ -57,13 +54,13 @@ public class GameInstance {
     }
     
     public void addEnemyUnaltered(Enemy enemy) {
-        synchronized(enemies) {
+        synchronized (enemies) {
             enemies.add(enemy);
         }
     }
 
     public void removeEnemy(Enemy enemy) {
-        synchronized(enemies) {
+        synchronized (enemies) {
             enemies.remove(enemy);
         }
     }
@@ -72,12 +69,12 @@ public class GameInstance {
         synchronized (enemies) {
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy = enemies.get(i);
-                if (enemy.index == map.getEnemyPath().getElements().size()) {
+                if (enemy.getIndex() == map.getEnemyPath().getElements().size()) {
                     enemy.fireCallback(true);
                     continue;
                 }
                 LineTo lineTo = (LineTo) map.getEnemyPath()
-                    .getElements().get(enemy.index);
+                    .getElements().get(enemy.getIndex());
                 int xDelta = ((int) lineTo.getX()) - enemy.getX();
                 int yDelta = ((int) lineTo.getY()) - enemy.getY(); 
                 int mag = (int) Math.sqrt(Math.pow(xDelta, 2) + Math.pow(yDelta, 2));
@@ -85,9 +82,9 @@ public class GameInstance {
                     mag = enemy.getSpeed();
                 }
                 enemy.translate(xDelta, yDelta, mag);
-                if (enemy.getX() == ((int) lineTo.getX()) &&
-                    enemy.getY() == ((int) lineTo.getY())) {
-                    enemies.get(i).index += 1;
+                if (enemy.getX() == ((int) lineTo.getX())
+                        && enemy.getY() == ((int) lineTo.getY())) {
+                    enemies.get(i).setIndex(enemies.get(i).getIndex() + 1);
                 }
             }
         }
@@ -95,12 +92,14 @@ public class GameInstance {
 
     public ArrayList<Projectile> fireProjectiles(int cycleCount) {
         ArrayList<Projectile> newProjectiles = new ArrayList<>();
-        synchronized(towers) {
+        synchronized (towers) {
             for (Tower tower : towers) {
-                if (tower instanceof BoostTower) continue; // TODO: May change later. Temporary solution.
+                if (tower instanceof BoostTower) {
+                    continue; // May change later. Temporary solution.
+                }
                 if (cycleCount - tower.getLastFired() >= tower.getAttackSpeed()) {
                     Enemy enemy = null;
-                    synchronized(enemies) {
+                    synchronized (enemies) {
                         enemy = tower.getClosestEnemy(enemies);
                     }
                     if (enemy != null) {
@@ -109,11 +108,11 @@ public class GameInstance {
                         int yDelt = (enemy.getY() + Enemy.SIZE) - tower.getCenterY();
                         Projectile projectile = null;
                         if (tower instanceof BasicTower) {
-                            projectile = new BasicProjectile(
-                                    tower.getCenterX(), tower.getCenterY(), xDelt, yDelt, tower.getAttackDamage());
+                            projectile = new BasicProjectile(tower.getCenterX(), tower.getCenterY(),
+                                    xDelt, yDelt, tower.getAttackDamage());
                         } else if (tower instanceof CannonTower) {
-                            projectile = new TankProjectile(
-                                    tower.getCenterX(), tower.getCenterY(), xDelt, yDelt, tower.getAttackDamage());
+                            projectile = new TankProjectile(tower.getCenterX(), tower.getCenterY(),
+                                    xDelt, yDelt, tower.getAttackDamage());
                         }
                         newProjectiles.add(projectile);
                     }
@@ -124,13 +123,13 @@ public class GameInstance {
     }
 
     public void addProjectile(Projectile p) {
-        synchronized(projectiles) {
+        synchronized (projectiles) {
             this.projectiles.add(p);
         }
     }
 
     public void moveProjectiles() {
-        synchronized(projectiles) {
+        synchronized (projectiles) {
             for (int i = 0, increment = 1; i < projectiles.size(); i += increment, increment = 1) {
                 Projectile p = projectiles.get(i);
                 p.move();
