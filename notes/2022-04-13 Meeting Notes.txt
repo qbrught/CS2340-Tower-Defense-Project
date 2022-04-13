@@ -1,20 +1,23 @@
 SOLID/GRASP WRITEUP
-• [name]
+• Richard + Joseph
 
 UPDATED DCD
-• [name]
+• Christopher
 
 UPGRADES
-• [name]
+• Christopher
 
 FINAL BOSS
-•
+• Joseph
+
+CHANGE SPAWN WAVE LOGIC
+• Richard
 
 VICTORY SCREEN AND UPGRADED GAME OVER SCREEN
-• [name]
+• Quincy
 
 VIDEO DEMO
-• [name]
+• Christopher
 
 TESTING
 8 Tests, 2 per member:
@@ -23,5 +26,5 @@ TESTING
 • Quincy
 • Joseph
 
-EXTRA CREDIT
-• [name]
+EXTRA CREDIT: Online Supermarket Website
+• Quincy
