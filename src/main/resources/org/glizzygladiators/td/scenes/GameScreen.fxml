@@ -38,7 +38,7 @@
                             onMouseClicked="#buyTower"/>
                     <Button text="Buy Towers" maxWidth="Infinity" GridPane.rowIndex="1" />
                     <Button text="Start Wave" maxWidth="Infinity" GridPane.rowIndex="2" 
-                            onMouseClicked="#spawnEnemies"/>
+                            onMouseClicked="#spawnEnemies" id="StartWaveButton"/>
                 </GridPane>
 
 
