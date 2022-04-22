@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -30,6 +31,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -60,6 +62,8 @@ public class GameScreen implements ParameterController, Initializable {
     private AnimationTimer projectileTimer;
     private AnimationTimer projectileSpawnTimer;
     private int cycleCount = 0;
+    private int enemiesSpawned = 0;
+    private int wave = 0;
 
     /**
      * Runs code right after FXML objects are initialized
@@ -194,13 +198,19 @@ public class GameScreen implements ParameterController, Initializable {
     }
 
     public void spawnEnemies(MouseEvent mouseEvent) {
+        Button button = (Button) gamePane.getScene().lookup("#StartWaveButton");
+        button.setDisable(true);
+        wave++;
+        Random random = new Random();
+        random.setSeed(wave);
         long spacing = 1000;
         for (int i = 0; i < 10; i++) {
             enemySpawnTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
+                    enemiesSpawned++;
                     Platform.runLater(() -> {
-                        Enemy enemy = getEnemy(4, game.getGame().getDifficulty());
+                        Enemy enemy = getEnemy(random.nextInt(5), game.getGame().getDifficulty());
                         EnemyUI enemyUI = new EnemyUI(enemy);
                         HealthBar healthBar = new HealthBar(enemy.getX(), enemy.getY(),
                                 enemy.getEnemyHealth(), 10);
@@ -240,6 +250,10 @@ public class GameScreen implements ParameterController, Initializable {
                                 }
                             }
                         });
+                        if (enemiesSpawned == 10) {
+                            enemiesSpawned = 0;
+                            button.setDisable(false);
+                        }
                     });
                 }
             }, i * spacing);
