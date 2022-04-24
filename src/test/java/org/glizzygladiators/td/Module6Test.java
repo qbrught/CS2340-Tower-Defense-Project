@@ -7,6 +7,8 @@ import javafx.scene.shape.Path;
 import javafx.util.Pair;
 import org.glizzygladiators.td.entities.SymbolicGameObject;
 import org.glizzygladiators.td.entities.enemies.*;
+import org.glizzygladiators.td.entities.projectiles.Projectile;
+import org.glizzygladiators.td.entities.DestroyedCallback;
 import org.glizzygladiators.td.entities.GameDifficulty;
 import org.glizzygladiators.td.entities.towers.BasicTower;
 import org.glizzygladiators.td.entities.towers.Tower;
@@ -41,4 +43,29 @@ public class Module6Test {
         assertEquals(30, tower.getAttackSpeed());
     }
 
+    @Test
+    public void testEnemyDamageMonument() {
+        GameInstance instance = new GameInstance("bob", GameDifficulty.EASY);
+        Enemy e = new BasicEnemy(0, 0, GameDifficulty.EASY);
+        e.setCallback(new DestroyedCallback() {
+            @Override
+            public void onDestroyed(Object obj) {
+                instance.setHealth(instance.getHealth() - e.getDamage());
+                instance.removeEnemy(e);
+            }
+        });
+        instance.addEnemy(e);
+        for (int i = 0; i < 5000; i++) instance.moveEnemies();
+        assertEquals(190, instance.getHealth());
+    }
+
+    @Test
+    public void testProjectileCreation() {
+        GameInstance instance = new GameInstance("bob", GameDifficulty.EASY);
+        Enemy e = new BasicEnemy(0, 0, GameDifficulty.EASY);
+        instance.addEnemy(e);
+        Tower t = new BasicTower(e.getX(), e.getY());
+        instance.getTowers().add(t);
+        assertEquals(1, instance.fireProjectiles(1000).size());
+    }
 }
