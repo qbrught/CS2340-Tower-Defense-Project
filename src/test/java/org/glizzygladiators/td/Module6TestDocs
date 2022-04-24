@@ -5,3 +5,11 @@
 2.) testUpgrade():
 - Test that the tower is able to be upgraded and changes the level of that upgrade stat.
 - Relevant to the current milestone because there is now upgrade abilities.
+
+3.) testEnemyDamageMonument():
+- Tests that the enemy will follow along the path and will collide with tower
+- Will ensure that newly added enemies this milestone work accordingly
+
+4.) testProjectileCreation():
+- Test that a projectile will be spawned accordingly if enemy within range
+- Will ensure that projectile would spawn regardless type of enemy
