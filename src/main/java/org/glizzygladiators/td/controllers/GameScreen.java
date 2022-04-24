@@ -322,4 +322,30 @@ public class GameScreen implements ParameterController, Initializable {
         }
         gamePane.getScene().setCursor(Cursor.DEFAULT);
     }
+
+    public void upgradeMenu(MouseEvent mouseEvent) {
+        ArrayList<Tower> towers = game.getGame().getTowers();
+        Tower tower = null;
+        for (Tower t : towers) {
+            if (t.hasCollision(new SymbolicGameObject((int) mouseEvent.getX(), (int) mouseEvent.getY(), 1, 1))) {
+                tower = t;
+                break;
+            }
+        }
+
+        if (tower == null) {
+            return;
+        } else if (tower instanceof BoostTower) {
+            TDApp.showErrorMsg("Boost Tower Error", "You cannot upgrade a boost tower.");
+            return;
+        }
+
+        UpgradeMenu.setWorkingTower(tower);
+        var scene = new Scene(TDApp.getParentPassParams("scenes/UpgradeMenu.fxml", this));
+        scene.getStylesheets().add(TDApp.class.getResource("styles/style.css")
+                .toExternalForm());
+        var stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+    }
 }

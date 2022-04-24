@@ -1,0 +1,7 @@
+1.) testUgradeCostChange():
+- Tests that the cost of upgrades goes up as the level increases.
+- Relevant to the current milestone because there is now upgrade abilities.
+
+2.) testUpgrade():
+- Test that the tower is able to be upgraded and changes the level of that upgrade stat.
+- Relevant to the current milestone because there is now upgrade abilities.
