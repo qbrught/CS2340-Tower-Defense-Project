@@ -8,12 +8,12 @@ Iterations:
 that users can click in order to either log in or create an account, and users can create that account.
 
 
-2.) For this milestone, the students will enable users with an account to place items onto the main catalog to put up for sale. These items will be able to be
-purchases by other users in future milestones.
+2.) For this milestone, the students will enable users with an account to place items onto the main catalog to put up for sale. The user should be able to view the catalog
+and sort through items by price or by name of item. The user should also be able to search items. These items will be able to be purchases by other users in future milestones.
 
 
 3.) For this milestone, the students will implement a screen where users can check items added to their cart. The student can view the number of items on the main
-page and then click on an icon to be taken to a different screen.
+page and then click on an icon to be taken to a different screen. These items will need to be added via the main catalog page by the user.
 
 
 4.) For this milestone, the students will allow users to update their profiles and accounts with their addresses, payment options, view past purchases for possible repurchase,
@@ -21,3 +21,4 @@ etc. The address and payment option will be used in a future milestone.
 
 
 5.) For this milestone, the students will allow users to complete transactions and process payments to be able to complete purchases of items that are in the cart.
+The user will not be able to complete purchases without a valid address and card associated with their account. 
