@@ -17,7 +17,7 @@ public class BasicTower extends Tower {
     public BasicTower(int locationX, int locationY) {
         super(locationX, locationY, BASIC_TOWER_IMAGE);
         this.attackSpeed = 40;
-        this.attackDamage = 30;
+        this.attackDamage = 10;
         statsPerDifficulty.put(GameDifficulty.EASY, BASIC_EASY_PRICE);
         statsPerDifficulty.put(GameDifficulty.MEDIUM, BASIC_MEDIUM_PRICE);
         statsPerDifficulty.put(GameDifficulty.HARD, BASIC_HARD_PRICE);

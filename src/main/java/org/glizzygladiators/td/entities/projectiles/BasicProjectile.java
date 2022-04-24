@@ -1,7 +1,7 @@
 package org.glizzygladiators.td.entities.projectiles;
 
 public class BasicProjectile extends Projectile {
-    public static final int PROJECTILE_SPEED = 3;
+    public static final int PROJECTILE_SPEED = 7;
     public static final String IMG_LOCATION = "images/dart.png";
 
     public BasicProjectile(int x, int y, int xDir, int yDir, int damage) {

@@ -8,14 +8,14 @@ import org.glizzygladiators.td.entities.GameDifficulty;
 
 public class MemeEnemy extends Enemy {
     private static final String RESOURCE_LOCATION = "images/meme.png";
-    public static final int SPEED = 5;
+    public static final int SPEED = 3;
 
     private static final Map<GameDifficulty, int[]> DIFFICULTIES;
     static {
         DIFFICULTIES = new HashMap<>();
-        DIFFICULTIES.put(GameDifficulty.EASY, new int[]{50, 69});
-        DIFFICULTIES.put(GameDifficulty.MEDIUM, new int[]{60, 3621});
-        DIFFICULTIES.put(GameDifficulty.HARD, new int[]{70, 400});
+        DIFFICULTIES.put(GameDifficulty.EASY, new int[]{50, 5});
+        DIFFICULTIES.put(GameDifficulty.MEDIUM, new int[]{60, 7});
+        DIFFICULTIES.put(GameDifficulty.HARD, new int[]{70, 10});
     }
     public MemeEnemy(int x, int y, GameDifficulty difficulty) {
         super(x, y, RESOURCE_LOCATION, SPEED, 

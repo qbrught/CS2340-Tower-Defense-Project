@@ -22,8 +22,10 @@
             <GridPane alignment="CENTER" hgap="12" style="-fx-padding: 15px;" vgap="12">
                 <Label text="Player Money: " GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <Label text="Monument Health: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Label text="Current Wave: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
                 <Label fx:id="moneyLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" id="MoneyAmountLabel"/>
                 <Label fx:id="healthLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" id="MonumentHealthLAbel"/>
+                <Label fx:id="waveLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" id="CurrentWaveLabel"/>
             </GridPane>
 
             <StackPane fx:id="sideBarPane" alignment="CENTER" style="-fx-padding: 15px">

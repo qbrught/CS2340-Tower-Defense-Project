@@ -1,6 +1,8 @@
 package org.glizzygladiators.td.controllers;
 
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.animation.AnimationTimer;
@@ -39,6 +41,8 @@ import java.util.TimerTask;
 
 public class GameScreen implements ParameterController, Initializable {
 
+    private static final int FINAL_WAVE = 6;
+
     @FXML
     private StackPane sideBarPane;
     @FXML
@@ -48,6 +52,8 @@ public class GameScreen implements ParameterController, Initializable {
     private Label moneyLabel;
     @FXML
     private Label healthLabel;
+    @FXML
+    private Label waveLabel;
 
     private ObservableList<Node> gameObjects;
     private GameInstanceDriver game;
@@ -63,7 +69,7 @@ public class GameScreen implements ParameterController, Initializable {
     private AnimationTimer projectileSpawnTimer;
     private int cycleCount = 0;
     private int enemiesSpawned = 0;
-    private int wave = 0;
+    private IntegerProperty wave = new SimpleIntegerProperty(0);
 
     /**
      * Runs code right after FXML objects are initialized
@@ -76,6 +82,7 @@ public class GameScreen implements ParameterController, Initializable {
         gameObjects = gamePane.getChildren();
         gamePane.prefWidth(1000);
         gamePane.prefHeight(750);
+        waveLabel.textProperty().bind(wave.asString());
     }
 
     @Override
@@ -200,17 +207,19 @@ public class GameScreen implements ParameterController, Initializable {
     public void spawnEnemies(MouseEvent mouseEvent) {
         Button button = (Button) gamePane.getScene().lookup("#StartWaveButton");
         button.setDisable(true);
-        wave++;
+        wave.set(wave.get() + 1);
         Random random = new Random();
-        random.setSeed(wave);
+        random.setSeed(wave.get());
         long spacing = 1000;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < (wave.get() == FINAL_WAVE ? 1 : 10); i++) {
             enemySpawnTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     enemiesSpawned++;
                     Platform.runLater(() -> {
-                        Enemy enemy = getEnemy(random.nextInt(5), game.getGame().getDifficulty());
+                        Enemy enemy = wave.get() == FINAL_WAVE ?
+                                new FinalBoss(0, 0, game.getGame().getDifficulty()) :
+                                getEnemy(random.nextInt(5), game.getGame().getDifficulty());
                         EnemyUI enemyUI = new EnemyUI(enemy);
                         HealthBar healthBar = new HealthBar(enemy.getX(), enemy.getY(),
                                 enemy.getEnemyHealth(), 10);
@@ -252,7 +261,7 @@ public class GameScreen implements ParameterController, Initializable {
                         });
                         if (enemiesSpawned == 10) {
                             enemiesSpawned = 0;
-                            button.setDisable(false);
+                            if (wave.get() != FINAL_WAVE) button.setDisable(false);
                         }
                     });
                 }

@@ -30,6 +30,13 @@ public class Enemy extends MoveableGameObject {
         this.damage = damage;
         this.callback = null;
     }
+    public Enemy(int x, int y, int overrideSize, String resourceLocation, int speed, int health, int damage) {
+        super(overrideSize, overrideSize, resourceLocation);
+        this.speed = speed;
+        this.enemyHealth = new SimpleIntegerProperty(health);
+        this.damage = damage;
+        this.callback = null;
+    }
 
     public void setCallback(DestroyedCallback callback) {
         this.callback = callback;
