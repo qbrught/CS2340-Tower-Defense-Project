@@ -12,13 +12,18 @@ import org.glizzygladiators.td.entities.GameDifficulty;
 public abstract class Tower extends SymbolicGameObject {
 
     public static final int SIZE = 50;
-    public static final int RANGE = 200;
+    public static final int STARTING_RANGE = 200;
+    public static final int UPGRADE_COST_MULTIPLIER = 25;
     protected Map<GameDifficulty, Integer> statsPerDifficulty;
     protected String imgPath;
     private long lastFired;
-    protected long attackSpeed; // Lower is faster.
-    // This is the number of cycle counts before it attacks again.
+    protected long attackSpeed; // Lower is faster. This is the number of cycle counts before it attacks again.
     protected int attackDamage;
+    int range;
+    protected int attackSpeedLevel;
+    protected int attackDamageLevel;
+    protected int rangeLevel;
+    protected int upgradeCost;
 
     /**
      * Constructor for a tower
@@ -32,6 +37,10 @@ public abstract class Tower extends SymbolicGameObject {
         this.imgPath = imageLocation;
         this.statsPerDifficulty = new HashMap<>();
         this.lastFired = 0;
+        this.attackSpeedLevel = 1;
+        this.attackDamageLevel = 1;
+        this.rangeLevel = 1;
+        this.upgradeCost = (this.attackSpeedLevel + this.attackDamageLevel + this.rangeLevel) * 25;
     }
 
     /**
@@ -66,7 +75,7 @@ public abstract class Tower extends SymbolicGameObject {
             int xDelt = e.getX() - this.getX();
             int yDelt = e.getY() - this.getY();
             double dist = Math.sqrt(xDelt * xDelt + yDelt * yDelt);
-            if (dist > RANGE) {
+            if (dist > STARTING_RANGE) {
                 continue;
             }
             if (dist < minDist) {
@@ -91,6 +100,46 @@ public abstract class Tower extends SymbolicGameObject {
 
     public void setAttackDamage(int attackDamage) {
         this.attackDamage = attackDamage;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+    public int getAttackSpeedLevel() {
+        return attackSpeedLevel;
+    }
+
+    public void setAttackSpeedLevel(int attackSpeedLevel) {
+        this.attackSpeedLevel = attackSpeedLevel;
+    }
+
+    public int getAttackDamageLevel() {
+        return attackDamageLevel;
+    }
+
+    public void setAttackDamageLevel(int attackDamageLevel) {
+        this.attackDamageLevel = attackDamageLevel;
+    }
+
+    public int getRangeLevel() {
+        return rangeLevel;
+    }
+
+    public void setRangeLevel(int rangeLevel) {
+        this.rangeLevel = rangeLevel;
+    }
+
+    public int getUpgradeCost() {
+        return this.upgradeCost;
+    }
+
+    public void setUpgradeCost(int upgradeCost) {
+        this.upgradeCost = upgradeCost;
     }
 
     /**
@@ -118,5 +167,29 @@ public abstract class Tower extends SymbolicGameObject {
         Tower t = (Tower) obj;
         return getX() == t.getX() && getY() == t.getY()
                && getWidth() == t.getWidth() && getWidth() == t.getHeight();
+    }
+
+    public int calculateUpgradeCost() {
+        return ((this.getAttackSpeedLevel()) + (this.getAttackDamageLevel()) + (this.getRangeLevel())) * UPGRADE_COST_MULTIPLIER;
+    }
+
+    public void upgrade(String s) {
+        switch (s) {
+            case "Speed":
+                this.setAttackSpeedLevel(this.getAttackSpeedLevel() + 1);
+                this.setAttackSpeed((this.getAttackSpeed() * 3) / 4);
+                this.setUpgradeCost(this.calculateUpgradeCost());
+                break;
+            case "Damage":
+                this.setAttackDamageLevel(this.getAttackDamageLevel() + 1);
+                this.setAttackDamage((this.getAttackDamage() * 4) / 3);
+                this.setUpgradeCost(this.calculateUpgradeCost());
+                break;
+            case "Range":
+                this.setRangeLevel(this.getRangeLevel() + 1);
+                this.setRange((this.getRange() * 4) / 3);
+                this.setUpgradeCost(this.calculateUpgradeCost());
+                break;
+        }
     }
 }

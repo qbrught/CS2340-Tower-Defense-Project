@@ -9,7 +9,7 @@
 
     <HBox>
 
-        <Group fx:id="gamePane" GridPane.columnIndex="0">
+        <Group fx:id="gamePane" GridPane.columnIndex="0" onMouseClicked="#upgradeMenu">
 
             <ImageView fitHeight="750" fitWidth="1000">
                 <Image url="@/org/glizzygladiators/td/images/map.png" />
@@ -36,8 +36,7 @@
 
                     <Button text="Buy Towers" maxWidth="Infinity" GridPane.rowIndex="0"
                             onMouseClicked="#buyTower"/>
-                    <Button text="Buy Towers" maxWidth="Infinity" GridPane.rowIndex="1" />
-                    <Button text="Start Wave" maxWidth="Infinity" GridPane.rowIndex="2" 
+                    <Button text="Start Wave" maxWidth="Infinity" GridPane.rowIndex="2"
                             onMouseClicked="#spawnEnemies" id="StartWaveButton"/>
                 </GridPane>
 
