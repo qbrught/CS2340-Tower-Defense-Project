@@ -68,4 +68,21 @@ public class Module6Test {
         instance.getTowers().add(t);
         assertEquals(1, instance.fireProjectiles(1000).size());
     }
+
+    @Test
+    public void testFinalBossHealthDifferentForDifferentGameDifficulties() {
+        var e1 = new FinalBoss(0, 0, GameDifficulty.EASY);
+        var e2 = new FinalBoss(0, 0, GameDifficulty.MEDIUM);
+        var e3 = new FinalBoss(0, 0, GameDifficulty.HARD);
+        assertNotEquals(e1.getEnemyHealth(), e2.getEnemyHealth());
+        assertNotEquals(e3.getEnemyHealth(), e2.getEnemyHealth());
+    }
+
+    @Test
+    public void testFinalBossLargerThanNormalEnemy() {
+        Enemy e = new BasicEnemy(0, 0, GameDifficulty.EASY);
+        FinalBoss f = new FinalBoss(0, 0, GameDifficulty.EASY);
+        assertTrue(e.SIZE < f.BOSS_SIZE);
+    }
+
 }
