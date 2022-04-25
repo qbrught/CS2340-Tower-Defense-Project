@@ -53,6 +53,8 @@ public class GameScreen implements ParameterController, Initializable {
     @FXML
     private Label healthLabel;
     @FXML
+    private Label scoreLabel;
+    @FXML
     private Label waveLabel;
 
     private ObservableList<Node> gameObjects;
@@ -135,7 +137,7 @@ public class GameScreen implements ParameterController, Initializable {
             }
         };
         projectileSpawnTimer.start();
-
+        scoreLabel.textProperty().bind(game.getGame().getScoreProperty().asString());
         moneyLabel.textProperty().bind(game.getGame().getMoneyProperty().asString());
         healthLabel.textProperty().bind(game.getGame().getHealthProperty().asString());
         healthLabel.textProperty().addListener(new ChangeListener<String>() {
@@ -251,6 +253,18 @@ public class GameScreen implements ParameterController, Initializable {
                                 gameObjects.remove(healthBar);
                                 gameObjects.remove(healthText);
                                 game.getGame().removeEnemy(enemy);
+                                if(enemy.getEnemyHealth() <= 0) {
+                                    game.getGame().setScore(game.getGame().getScore() + 1);
+                                    if (wave.get() == FINAL_WAVE) {
+                                        Scene scene = gamePane.getScene();
+                                        Parent root = TDApp.getParent("scenes/VictoryScreen.fxml");
+                                        TDApp.navigateToRoot(scene, root);
+                                        enemySpawnTimer.cancel();
+                                        enemyMoveTimer.stop();
+                                        projectileTimer.stop();
+                                        projectileSpawnTimer.stop();
+                                    }
+                                };
                                 if ((Boolean) doDamage) {
                                     game.getGame().setHealth(game.getGame().getHealth()
                                             - enemy.getDamage());
@@ -310,6 +324,7 @@ public class GameScreen implements ParameterController, Initializable {
                 game.addTower(tower);
                 game.setMoney(game.getGame().getMoney() 
                               - tower.getPrice(game.getGame().getDifficulty()));
+                game.setMoneySpent(game.getGame().getMoneySpent() + tower.getPrice(game.getGame().getDifficulty()));
                 if (tower instanceof BoostTower) {
                     ((BoostTower) tower).boostOthers(game.getGame().getTowers());
                 }

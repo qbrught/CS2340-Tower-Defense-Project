@@ -70,6 +70,7 @@ public class UpgradeMenu implements ParameterController {
             return;
         }
         gsController.getGameDriver().getGame().setMoney(gsController.getGameDriver().getGame().getMoney() - workingTower.getUpgradeCost());
+        gsController.getGameDriver().getGame().setMoneySpent(gsController.getGameDriver().getGame().getMoneySpent() + workingTower.getUpgradeCost());
         switch (s) {
             case ("Speed"):
                 if (workingTower.getAttackSpeedLevel() == 3) {

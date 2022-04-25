@@ -12,7 +12,7 @@ import org.glizzygladiators.td.visualizers.GameInstanceDriver;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GameOverScreen implements Initializable {
+public class VictoryScreen implements Initializable{
     @FXML
     private StackPane root;
 
@@ -27,7 +27,7 @@ public class GameOverScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         game = GameInstanceDriver.getDriver();
-        root.setStyle("-fx-background-image: url('" + TDApp.getResourcePath("images/GGobama.jpeg")
+        root.setStyle("-fx-background-image: url('" + TDApp.getResourcePath("images/VictoryObama.jpeg")
                 + "');"
                 + "-fx-background-repeat: stretch; "
                 + "-fx-background-size: cover; "
@@ -54,5 +54,4 @@ public class GameOverScreen implements Initializable {
         // TODO maybe add a dialog to ask if the user is sure they want to quit
         System.exit(0);
     }
-
 }
