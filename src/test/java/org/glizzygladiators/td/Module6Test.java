@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.glizzygladiators.td.entities.GameInstance;
 import org.glizzygladiators.td.entities.GameMap;
 import org.glizzygladiators.td.entities.Monument;
+
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -83,6 +86,37 @@ public class Module6Test {
         Enemy e = new BasicEnemy(0, 0, GameDifficulty.EASY);
         FinalBoss f = new FinalBoss(0, 0, GameDifficulty.EASY);
         assertTrue(e.SIZE < f.BOSS_SIZE);
+    }
+
+    @Test
+    public void testStartingGameStats() {
+        Random random = new Random();
+        GameInstance instance = new GameInstance("balls", GameDifficulty.EASY);
+        for (int i = 0; i < 6; i++) {
+            int num = random.nextInt(10);
+            for (int x = 0; x < num; x++) {
+                Enemy e = new BasicEnemy(0, 0, GameDifficulty.EASY);
+                instance.addEnemy(e);
+            }
+            assertEquals(instance.getMoneySpent(),0);
+            assertEquals(instance.getScore(),0);
+            assertEquals(instance.getTowers().size(),0);
+        }
+    }
+
+    @Test
+    public void testBossMonumentCollision() {
+        Random random = new Random();
+        Monument monument = new Monument(700, 475);
+        FinalBoss boss = new FinalBoss(0,0, GameDifficulty.EASY);
+        for (int i =0; i < 6; i++) {
+            boss.setX(random.nextInt(610));
+            boss.setY(random.nextInt(410));
+            assertFalse(boss.hasCollision(monument));
+        }
+        boss.setX(700);
+        boss.setY(475);
+        assertTrue(boss.hasCollision(monument));
     }
 
 }

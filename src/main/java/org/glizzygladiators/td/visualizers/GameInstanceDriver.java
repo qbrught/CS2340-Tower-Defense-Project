@@ -86,10 +86,18 @@ public class GameInstanceDriver {
         //support.firePropertyChange(MONEY_ACTION, oldMoney, money);
         gameInstance.setMoney(money);
     }
+    public void setScore(int score) {
+        gameInstance.setScore(score);
+    }
+
+    public void setMoneySpent(int spent) {
+        gameInstance.setMoneySpent(spent);
+    }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
     }
+
 
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
         support.removePropertyChangeListener(pcl);

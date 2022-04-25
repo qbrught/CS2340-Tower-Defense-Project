@@ -20,4 +20,12 @@
 
 6.) testFinalBossDamageDifferentForDifferentGameDifficulties():
 - Tests that on different difficulties, the final boss do different amounts of damage to the monument
-- Shows that on different levels of difficulties the final bos
+- Shows that on different levels of difficulties the final boss
+
+7.) testStartingGameStats():
+- Tests that display stats for the victory and game over screen are start at 0 regardless of enemies
+- Relevant to the current milestone because it ensures the end game stats are properly initialized during game start
+
+8.) testBossMonumentCollision():
+- Tests that the final boss collision mechanics work properly and detect a monument collision
+- Relevant to the current milestone because it ensures that the final boss is still an enemy and monument threat

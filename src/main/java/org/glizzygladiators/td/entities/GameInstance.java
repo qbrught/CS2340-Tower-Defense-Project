@@ -19,7 +19,9 @@ public class GameInstance {
     private String name;
     private GameDifficulty difficulty;
     private IntegerProperty money;
+    private IntegerProperty moneySpent;
     private IntegerProperty health;
+    private IntegerProperty score;
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
     private ArrayList<Projectile> projectiles;
@@ -37,6 +39,8 @@ public class GameInstance {
         difficulty = inputDifficulty;
         money = new SimpleIntegerProperty(getStartingMoney());
         health = new SimpleIntegerProperty(getStartingHealth());
+        score = new SimpleIntegerProperty(0);
+        moneySpent = new SimpleIntegerProperty(0);
         towers = new ArrayList<Tower>();
         enemies = new ArrayList<>();
         projectiles = new ArrayList<>();
@@ -200,6 +204,18 @@ public class GameInstance {
     }
 
     /**
+     * Returns the score
+     * @return game score
+     */
+    public int getScore() { return score.get();}
+
+    /**
+     * Returns the money spent
+     * @return moeny spent
+     */
+    public int getMoneySpent() { return moneySpent.get();}
+
+    /**
      * Sets the monument's health
      * @param newHealth the monument's health
      */
@@ -210,7 +226,24 @@ public class GameInstance {
             this.health.set(0);
         }
     }
-
+    /**
+     * Sets the game score
+     * @param newScore the new score
+     */
+    public void setScore(int newScore) {
+        if (newScore >= 0) {
+            this.score.set(newScore);
+        }
+    }
+    /**
+     * Sets the money spent
+     * @param newSpent the new score
+     */
+    public void setMoneySpent(int newSpent) {
+        if (newSpent >= 0) {
+            this.moneySpent.set(newSpent);
+        }
+    }
     /**
      * Returns the IntegerProperty containing the monument's health
      * @return the IntegerProperty containing the monument's health
@@ -218,6 +251,17 @@ public class GameInstance {
     public IntegerProperty getHealthProperty() {
         return health;
     }
+    /**
+     * Returns the Integer property containing the score
+     * @return the Integerproprty contains the game score
+     */
+    public IntegerProperty getScoreProperty() { return score; }
+
+    /**
+     * Returns the Integer property containing the score
+     * @return the Integerproprty contains the game score
+     */
+    public IntegerProperty getMoneySpentProperty() { return moneySpent; }
 
     /**
      * Returns an Observable list of towers
