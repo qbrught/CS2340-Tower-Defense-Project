@@ -210,8 +210,8 @@ public class GameScreen implements ParameterController, Initializable {
         wave.set(wave.get() + 1);
         Random random = new Random();
         random.setSeed(wave.get());
-        long spacing = 1000;
-        for (int i = 0; i < (wave.get() == FINAL_WAVE ? 1 : 10); i++) {
+        long spacing = 600;
+        for (int i = 0; i < (wave.get() == FINAL_WAVE ? 1 : 16); i++) {
             enemySpawnTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {

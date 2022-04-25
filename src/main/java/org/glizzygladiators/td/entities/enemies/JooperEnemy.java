@@ -13,9 +13,9 @@ public class JooperEnemy extends Enemy {
     private static final Map<GameDifficulty, int[]> DIFFICULTIES;
     static {
         DIFFICULTIES = new HashMap<>();
-        DIFFICULTIES.put(GameDifficulty.EASY, new int[]{50, 6});
-        DIFFICULTIES.put(GameDifficulty.MEDIUM, new int[]{60, 16});
-        DIFFICULTIES.put(GameDifficulty.HARD, new int[]{70, 40});
+        DIFFICULTIES.put(GameDifficulty.EASY, new int[]{50, 15});
+        DIFFICULTIES.put(GameDifficulty.MEDIUM, new int[]{60, 30});
+        DIFFICULTIES.put(GameDifficulty.HARD, new int[]{70, 45});
     }
     public JooperEnemy(int x, int y, GameDifficulty difficulty) {
         super(x, y, RESOURCE_LOCATION, SPEED, 

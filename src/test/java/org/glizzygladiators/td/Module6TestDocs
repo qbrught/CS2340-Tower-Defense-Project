@@ -13,3 +13,11 @@
 4.) testProjectileCreation():
 - Test that a projectile will be spawned accordingly if enemy within range
 - Will ensure that projectile would spawn regardless type of enemy
+
+5.) testFinalBossHealthDifferentForDifferentGameDifficulties():
+- Tests that on different difficulties, the final boss will have different amounts of health
+- Ensures that the game becomes more difficult on different difficulty levels
+
+6.) testFinalBossDamageDifferentForDifferentGameDifficulties():
+- Tests that on different difficulties, the final boss do different amounts of damage to the monument
+- Shows that on different levels of difficulties the final bos

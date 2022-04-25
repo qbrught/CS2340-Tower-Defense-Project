@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class FinalBoss extends Enemy{
     private static final String RESOURCE_LOCATION = "images/boss.png";
-    private static final int BOSS_SIZE = 80;
+    public static final int BOSS_SIZE = 80;
     public static final int SPEED = 1;
 
     private static final Map<GameDifficulty, int[]> DIFFICULTIES;

@@ -13,9 +13,9 @@ public class MemeEnemy extends Enemy {
     private static final Map<GameDifficulty, int[]> DIFFICULTIES;
     static {
         DIFFICULTIES = new HashMap<>();
-        DIFFICULTIES.put(GameDifficulty.EASY, new int[]{50, 5});
-        DIFFICULTIES.put(GameDifficulty.MEDIUM, new int[]{60, 7});
-        DIFFICULTIES.put(GameDifficulty.HARD, new int[]{70, 10});
+        DIFFICULTIES.put(GameDifficulty.EASY, new int[]{50, 10});
+        DIFFICULTIES.put(GameDifficulty.MEDIUM, new int[]{60, 20});
+        DIFFICULTIES.put(GameDifficulty.HARD, new int[]{70, 35});
     }
     public MemeEnemy(int x, int y, GameDifficulty difficulty) {
         super(x, y, RESOURCE_LOCATION, SPEED, 
